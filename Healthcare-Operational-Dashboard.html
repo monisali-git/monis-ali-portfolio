@@ -1,0 +1,417 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.db{padding:16px;background:var(--color-background-tertiary);}
+.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 18px;}
+.logo-area{display:flex;align-items:center;gap:14px;}
+.htitle{font-size:20px;font-weight:500;color:var(--color-text-primary);}
+.hsub{font-size:13px;color:var(--color-text-secondary);margin-top:2px;}
+.yr-btns{display:flex;gap:6px;align-items:center;}
+.ybtn{padding:7px 18px;border-radius:var(--border-radius-md);font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid transparent;transition:all 0.2s;}
+.ybtn.sel-23{background:#185FA5;color:#fff;border-color:#185FA5;}
+.ybtn.sel-24{background:#0F6E56;color:#fff;border-color:#0F6E56;}
+.ybtn.sel-both{background:#534AB7;color:#fff;border-color:#534AB7;}
+.ybtn.unsel{background:var(--color-background-secondary);color:var(--color-text-secondary);border-color:var(--color-border-tertiary);}
+.mtabs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px;}
+.mtab{padding:5px 11px;font-size:12px;font-weight:500;border-radius:var(--border-radius-md);cursor:pointer;border:0.5px solid var(--color-border-tertiary);background:transparent;color:var(--color-text-secondary);transition:all 0.18s;}
+.mtab.sel{background:#0F6E56;color:#fff;border-color:#0F6E56;}
+.mtab:hover{background:var(--color-background-secondary);}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px;}
+.kpi{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;border-left:3px solid;transition:transform 0.15s;}
+.kpi:hover{transform:translateY(-2px);}
+.kpi-lbl{font-size:13px;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px;margin-bottom:6px;font-weight:500;}
+.kpi-lbl i{font-size:16px;}
+.kpi-num{font-size:28px;font-weight:500;color:var(--color-text-primary);line-height:1;}
+.kpi-foot{font-size:12px;color:var(--color-text-secondary);margin-top:4px;}
+.kpi-bar{height:4px;border-radius:2px;background:var(--color-border-tertiary);margin-top:10px;}
+.kpi-bar-f{height:100%;border-radius:2px;transition:width 0.4s ease;}
+.row2{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:12px;margin-bottom:14px;}
+.row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;}
+.card-hd{font-size:14px;font-weight:500;color:var(--color-text-primary);display:flex;align-items:center;gap:7px;margin-bottom:10px;}
+.card-hd i{font-size:16px;color:#0F6E56;}
+.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;}
+.li{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-secondary);font-weight:500;}
+.ls{width:12px;height:12px;border-radius:2px;flex-shrink:0;}
+.adm-row{margin-bottom:10px;}
+.adm-hd{display:flex;justify-content:space-between;margin-bottom:5px;}
+.adm-name{font-size:13px;color:var(--color-text-primary);font-weight:500;}
+.adm-nums{font-size:13px;color:var(--color-text-secondary);}
+.adm-bg{height:8px;border-radius:4px;background:var(--color-background-secondary);}
+.adm-f{height:100%;border-radius:4px;transition:width 0.4s ease;}
+.both-note{font-size:12px;color:#534AB7;background:#EEEDFE;padding:5px 10px;border-radius:var(--border-radius-md);margin-bottom:10px;font-weight:500;}
+.donut-wrap{position:relative;height:175px;width:100%;}
+.center-lbl{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;transition:all 0.2s ease;}
+.c-val{font-size:22px;font-weight:500;color:var(--color-text-primary);line-height:1.1;}
+.c-name{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
+</style>
+
+<div class="db">
+<h2 class="sr-only">Hospital Emergency Room Dashboard with dual-year comparison</h2>
+
+<div class="hdr">
+  <div class="logo-area">
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="52" height="52" rx="10" fill="#0F6E56"/>
+      <rect x="10" y="15" width="32" height="25" rx="3" fill="rgba(255,255,255,0.15)" stroke="#fff" stroke-width="1.5"/>
+      <path d="M18 15v-3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+      <rect x="22" y="22" width="8" height="2.5" rx="1.25" fill="#fff"/>
+      <rect x="24.75" y="19.5" width="2.5" height="8" rx="1.25" fill="#fff"/>
+      <line x1="14" y1="32" x2="38" y2="32" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+      <rect x="14" y="34" width="7" height="3" rx="1" fill="rgba(255,255,255,0.6)"/>
+      <rect x="23" y="34" width="7" height="3" rx="1" fill="rgba(255,255,255,0.6)"/>
+      <rect x="32" y="34" width="6" height="3" rx="1" fill="rgba(255,255,255,0.6)"/>
+    </svg>
+    <div>
+      <div class="htitle">Hospital Emergency Room Dashboard</div>
+      <div class="hsub">Monthly Report — Live KPI Overview</div>
+    </div>
+  </div>
+  <div class="yr-btns">
+    <button id="btn23" onclick="toggleYear(2023)">2023</button>
+    <button id="btn24" onclick="toggleYear(2024)">2024</button>
+    <button id="btnBoth" onclick="selectBoth()">Both years</button>
+  </div>
+</div>
+
+<div id="monthRow"><div class="mtabs" id="mtabs"></div></div>
+
+<div class="kpi-grid">
+  <div class="kpi" style="border-left-color:#0F6E56;">
+    <div class="kpi-lbl"><i class="ti ti-users" aria-hidden="true" style="color:#0F6E56;"></i>Total patients</div>
+    <div class="kpi-num" id="kP">—</div>
+    <div class="kpi-foot" id="kPs"></div>
+    <div class="kpi-bar"><div class="kpi-bar-f" id="kPb" style="background:#0F6E56;"></div></div>
+  </div>
+  <div class="kpi" style="border-left-color:#854F0B;">
+    <div class="kpi-lbl"><i class="ti ti-clock" aria-hidden="true" style="color:#854F0B;"></i>Avg wait time</div>
+    <div class="kpi-num" id="kW">—</div>
+    <div class="kpi-foot">minutes average</div>
+    <div class="kpi-bar"><div class="kpi-bar-f" id="kWb" style="background:#854F0B;"></div></div>
+  </div>
+  <div class="kpi" style="border-left-color:#534AB7;">
+    <div class="kpi-lbl"><i class="ti ti-star" aria-hidden="true" style="color:#534AB7;"></i>Satisfaction score</div>
+    <div class="kpi-num" id="kS">—</div>
+    <div class="kpi-foot">out of 10</div>
+    <div class="kpi-bar"><div class="kpi-bar-f" id="kSb" style="background:#534AB7;"></div></div>
+  </div>
+  <div class="kpi" style="border-left-color:#993C1D;">
+    <div class="kpi-lbl"><i class="ti ti-heart-rate-monitor" aria-hidden="true" style="color:#993C1D;"></i>Admission rate</div>
+    <div class="kpi-num" id="kA">—</div>
+    <div class="kpi-foot" id="kAs"></div>
+    <div class="kpi-bar"><div class="kpi-bar-f" id="kAb" style="background:#993C1D;"></div></div>
+  </div>
+</div>
+
+<div class="row2">
+  <div class="card">
+    <div class="card-hd"><i class="ti ti-chart-line" aria-hidden="true"></i>Monthly patient trend</div>
+    <div class="leg" id="trendLeg"></div>
+    <div style="position:relative;height:200px;"><canvas id="cTrend" role="img" aria-label="Monthly patient trend"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-hd"><i class="ti ti-chart-donut" aria-hidden="true"></i>Gender distribution</div>
+    <div class="leg" id="gLeg"></div>
+    <div class="donut-wrap">
+      <canvas id="cGender" role="img" aria-label="Gender donut chart"></canvas>
+      <div class="center-lbl" id="centerLbl">
+        <div class="c-val" id="cVal">—</div>
+        <div class="c-name" id="cName">Total patients</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row3">
+  <div class="card">
+    <div class="card-hd"><i class="ti ti-users-group" aria-hidden="true"></i>Patients by age group</div>
+    <div class="leg" id="ageLeg"></div>
+    <div style="position:relative;height:220px;"><canvas id="cAge" role="img" aria-label="Patients by age group"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-hd"><i class="ti ti-door-enter" aria-hidden="true"></i>Admission status</div>
+    <div id="admDiv"></div>
+    <div style="margin-top:14px;">
+      <div class="card-hd" style="margin-bottom:6px;"><i class="ti ti-trending-up" aria-hidden="true"></i>Satisfaction trend</div>
+      <div class="leg" id="satLeg"></div>
+      <div style="position:relative;height:110px;"><canvas id="cSat" role="img" aria-label="Satisfaction trend"></canvas></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-hd"><i class="ti ti-stethoscope" aria-hidden="true"></i>Department referrals</div>
+    <div class="leg" id="deptLeg"></div>
+    <div style="position:relative;height:260px;"><canvas id="cDept" role="img" aria-label="Department referrals"></canvas></div>
+  </div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const D={
+  2023:{mn:['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    pts:[479,480,506,464,494,469,493,464,489],wt:[34.9,34.4,35.6,34.7,36.4,34.3,34.9,35.2,34.8],
+    sat:[5.30,5.16,5.18,4.99,5.06,4.98,4.74,5.09,4.68],
+    gender:{Male:2254,Female:2084},
+    age:{'0-09':480,'10-19':550,'20-29':560,'30-39':570,'40-49':540,'50-59':540,'60-69':545,'70-79':553},
+    adm:2169,notAdm:2169,
+    dept:{'None':2560,'General Practice':875,'Orthopedics':470,'Physiotherapy':130,'Cardiology':117,'Neurology':92,'Gastroenterology':85,'Renal':40}},
+  2024:{mn:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct'],
+    pts:[513,431,506,469,519,485,488,530,466,471],wt:[36.3,36.7,35.9,35.0,35.8,35.5,35.2,35.1,35.1,34.1],
+    sat:[4.96,4.72,5.33,4.63,5.15,4.71,4.79,5.18,4.91,5.31],
+    gender:{Male:2475,Female:2403},
+    age:{'0-09':576,'10-19':629,'20-29':628,'30-39':630,'40-49':595,'50-59':611,'60-69':609,'70-79':600},
+    adm:2443,notAdm:2435,
+    dept:{'None':2840,'General Practice':965,'Orthopedics':525,'Physiotherapy':146,'Cardiology':131,'Neurology':101,'Gastroenterology':93,'Renal':46}}
+};
+
+const GCOLS=['#185FA5','#0F6E56'];
+const GLBLS=['Male','Female'];
+let selYears=[2024],selMonth=null,isBoth=false;
+let cT,cG,cAge,cSat,cDept,gActiveIdx=-1,gTotal=0;
+
+const animOpts={duration:500,easing:'easeInOutQuart'};
+const tooltipOpts={backgroundColor:'rgba(20,20,20,0.88)',titleFont:{size:13,weight:'bold'},bodyFont:{size:12},padding:10,cornerRadius:8,displayColors:true};
+
+const explodePlugin={
+  id:'explode',
+  beforeDraw(chart){
+    if(chart.config.type!=='doughnut')return;
+    const{ctx,chartArea}=chart;
+    const meta=chart.getDatasetMeta(0);
+    if(!meta||!meta.data)return;
+    const cx=(chartArea.left+chartArea.right)/2;
+    const cy=(chartArea.top+chartArea.bottom)/2;
+    meta.data.forEach(arc=>{
+      const off=arc._explOff||0;
+      if(off>0){
+        const angle=(arc.startAngle+arc.endAngle)/2;
+        arc.x=cx+Math.cos(angle)*off;
+        arc.y=cy+Math.sin(angle)*off;
+      } else {arc.x=cx;arc.y=cy;}
+    });
+  }
+};
+Chart.register(explodePlugin);
+
+function animExplode(chart,toIdx){
+  const meta=chart.getDatasetMeta(0);
+  if(!meta||!meta.data)return;
+  const TARGET=14,STEPS=14;
+  let step=0;
+  if(chart._explAnim)clearInterval(chart._explAnim);
+  chart._explAnim=setInterval(()=>{
+    step++;
+    const t=step/STEPS;
+    const ease=t<0.5?2*t*t:(4-2*t)*t-1;
+    meta.data.forEach((arc,i)=>{
+      const cur=arc._explOff||0;
+      const tgt=i===toIdx?TARGET:0;
+      arc._explOff=cur+(tgt-cur)*ease;
+    });
+    chart.render();
+    if(step>=STEPS){clearInterval(chart._explAnim);chart._explAnim=null;}
+  },16);
+}
+function updateCenter(idx){
+  const valEl=document.getElementById('cVal');
+  const nameEl=document.getElementById('cName');
+  const s=getSlice();
+  const tot=s.gender.Male+s.gender.Female;
+  if(idx===-1){
+    valEl.textContent=tot.toLocaleString();
+    nameEl.textContent='Total patients';
+    valEl.style.color='var(--color-text-primary)';
+  } else {
+    const val=idx===0?s.gender.Male:s.gender.Female;
+    const pct=((val/tot)*100).toFixed(1);
+    valEl.textContent=val.toLocaleString();
+    nameEl.textContent=GLBLS[idx]+' · '+pct+'%';
+    valEl.style.color=GCOLS[idx];
+  }
+}
+
+function toggleYear(y){isBoth=false;selYears=[y];selMonth=null;styleButtons();buildMonthTabs();renderAll();}
+function selectBoth(){
+  isBoth=true;selYears=[2023,2024];selMonth=null;styleButtons();
+  document.getElementById('monthRow').innerHTML='<div class="both-note"><i class="ti ti-layers-intersect" style="vertical-align:-2px;margin-right:4px;" aria-hidden="true"></i>Showing combined 2023 + 2024 — month filter disabled in comparison mode</div>';
+  renderAll();
+}
+function styleButtons(){
+  document.getElementById('btn23').className='ybtn '+(isBoth?'unsel':selYears[0]===2023?'sel-23':'unsel');
+  document.getElementById('btn24').className='ybtn '+(isBoth?'unsel':selYears[0]===2024?'sel-24':'unsel');
+  document.getElementById('btnBoth').className='ybtn '+(isBoth?'sel-both':'unsel');
+}
+function buildMonthTabs(){
+  if(isBoth)return;
+  const mn=D[selYears[0]].mn;
+  document.getElementById('monthRow').innerHTML='<div class="mtabs" id="mtabs">'+mn.map((m,i)=>`<button class="mtab" id="mt${i}" onclick="setMonth(${i})">${m}</button>`).join('')+'</div>';
+}
+function setMonth(idx){
+  selMonth=selMonth===idx?null:idx;
+  D[selYears[0]].mn.forEach((_,i)=>{const el=document.getElementById('mt'+i);if(el)el.className='mtab'+(selMonth===i?' sel':'');});
+  renderAll();
+}
+function getSlice(){
+  if(isBoth){
+    const d3=D[2023],d4=D[2024];
+    const allWt=[...d3.wt,...d4.wt],allSat=[...d3.sat,...d4.sat];
+    const merge=(a,b)=>{const r={};Object.keys(a).forEach(k=>r[k]=(a[k]||0)+(b[k]||0));return r;};
+    return{pts:d3.pts.reduce((a,b)=>a+b,0)+d4.pts.reduce((a,b)=>a+b,0),
+      wt:+(allWt.reduce((a,b)=>a+b,0)/allWt.length).toFixed(1),
+      sat:+(allSat.reduce((a,b)=>a+b,0)/allSat.length).toFixed(2),
+      adm:d3.adm+d4.adm,notAdm:d3.notAdm+d4.notAdm,
+      gender:{Male:d3.gender.Male+d4.gender.Male,Female:d3.gender.Female+d4.gender.Female},
+      age:merge(d3.age,d4.age),dept:merge(d3.dept,d4.dept),
+      mn23:d3.mn,pts23:d3.pts,wt23:d3.wt,sat23:d3.sat,
+      mn24:d4.mn,pts24:d4.pts,wt24:d4.wt,sat24:d4.sat};
+  }
+  const d=D[selYears[0]];
+  if(selMonth!==null){
+    return{pts:d.pts[selMonth],wt:+d.wt[selMonth].toFixed(1),sat:+d.sat[selMonth].toFixed(2),
+      adm:Math.round(d.adm/d.pts.length),notAdm:Math.round(d.notAdm/d.pts.length),
+      gender:d.gender,age:d.age,dept:d.dept,mn:d.mn,pts1:d.pts,wt1:d.wt,sat1:d.sat};
+  }
+  const tot=d.pts.reduce((a,b)=>a+b,0);
+  return{pts:tot,wt:+(d.wt.reduce((a,b)=>a+b,0)/d.wt.length).toFixed(1),
+    sat:+(d.sat.reduce((a,b)=>a+b,0)/d.sat.length).toFixed(2),
+    adm:d.adm,notAdm:d.notAdm,gender:d.gender,age:d.age,dept:d.dept,
+    mn:d.mn,pts1:d.pts,wt1:d.wt,sat1:d.sat};
+}
+function renderKPIs(s){
+  document.getElementById('kP').textContent=s.pts.toLocaleString();
+  document.getElementById('kPs').textContent=isBoth?'2023 + 2024 combined':selMonth!==null?D[selYears[0]].mn[selMonth]+' '+selYears[0]:'Full year '+selYears[0];
+  document.getElementById('kPb').style.width=Math.min(100,(s.pts/(isBoth?10000:600))*100)+'%';
+  document.getElementById('kW').textContent=s.wt.toFixed(1);
+  document.getElementById('kWb').style.width=Math.min(100,(s.wt/60)*100)+'%';
+  document.getElementById('kS').textContent=s.sat.toFixed(2);
+  document.getElementById('kSb').style.width=Math.min(100,s.sat*10)+'%';
+  const tot=s.adm+s.notAdm,pct=((s.adm/tot)*100).toFixed(0);
+  document.getElementById('kA').textContent=pct+'%';
+  document.getElementById('kAs').textContent=s.adm.toLocaleString()+' admitted';
+  document.getElementById('kAb').style.width=pct+'%';
+}
+function renderAdm(s){
+  const tot=s.adm+s.notAdm,ap=((s.adm/tot)*100).toFixed(1),np=((s.notAdm/tot)*100).toFixed(1);
+  document.getElementById('admDiv').innerHTML=`
+    <div class="adm-row"><div class="adm-hd"><span class="adm-name">Not admitted</span><span class="adm-nums">${s.notAdm.toLocaleString()} (${np}%)</span></div>
+    <div class="adm-bg"><div class="adm-f" style="width:${np}%;background:#0F6E56;"></div></div></div>
+    <div class="adm-row"><div class="adm-hd"><span class="adm-name">Admitted</span><span class="adm-nums">${s.adm.toLocaleString()} (${ap}%)</span></div>
+    <div class="adm-bg"><div class="adm-f" style="width:${ap}%;background:#993C1D;"></div></div></div>`;
+}
+function renderGLeg(s){
+  const tot=s.gender.Male+s.gender.Female;
+  document.getElementById('gLeg').innerHTML=GLBLS.map((l,i)=>{
+    const val=i===0?s.gender.Male:s.gender.Female;
+    return`<span class="li"><span class="ls" style="background:${GCOLS[i]};"></span>${l}: ${val.toLocaleString()} (${((val/tot)*100).toFixed(1)}%)</span>`;
+  }).join('');
+}
+
+function initCharts(){
+  const s=getSlice();
+
+  const trendDS=isBoth?[
+    {type:'bar',label:'Patients 2023',data:s.pts23,backgroundColor:'rgba(24,95,165,0.7)',yAxisID:'y',borderRadius:4},
+    {type:'bar',label:'Patients 2024',data:s.pts24,backgroundColor:'rgba(15,110,86,0.7)',yAxisID:'y',borderRadius:4},
+    {type:'line',label:'Wait 2023',data:s.wt23,borderColor:'#854F0B',backgroundColor:'transparent',yAxisID:'y2',tension:0.4,pointRadius:4,pointHoverRadius:8,borderDash:[5,3],borderWidth:2},
+    {type:'line',label:'Wait 2024',data:s.wt24,borderColor:'#993C1D',backgroundColor:'transparent',yAxisID:'y2',tension:0.4,pointRadius:4,pointHoverRadius:8,borderWidth:2}
+  ]:[
+    {type:'bar',label:'Patients',data:s.pts1,backgroundColor:'rgba(15,110,86,0.75)',yAxisID:'y',borderRadius:4,hoverBackgroundColor:'#0F6E56'},
+    {type:'line',label:'Avg wait (min)',data:s.wt1,borderColor:'#854F0B',backgroundColor:'rgba(133,79,11,0.08)',yAxisID:'y2',tension:0.4,pointRadius:4,pointHoverRadius:8,fill:true,borderWidth:2}
+  ];
+  document.getElementById('trendLeg').innerHTML=trendDS.map(ds=>`<span class="li"><span class="ls" style="background:${ds.borderColor||ds.backgroundColor};border-radius:${ds.borderColor?'50%':'2px'};"></span>${ds.label}</span>`).join('');
+  if(cT)cT.destroy();
+  cT=new Chart(document.getElementById('cTrend'),{
+    data:{labels:isBoth?s.mn24:s.mn,datasets:trendDS},
+    options:{responsive:true,maintainAspectRatio:false,animation:animOpts,
+      plugins:{legend:{display:false},tooltip:{...tooltipOpts,mode:'index',intersect:false}},
+      interaction:{mode:'index',intersect:false},
+      scales:{y:{position:'left',grid:{color:'rgba(128,128,128,0.08)'},ticks:{font:{size:11}},title:{display:true,text:'Patients',font:{size:11}}},
+        y2:{position:'right',grid:{drawOnChartArea:false},ticks:{font:{size:11},callback:v=>v+'m'},title:{display:true,text:'Wait (min)',font:{size:11}}},
+        x:{ticks:{font:{size:11},autoSkip:false,maxRotation:45}}}}
+  });
+
+  const gtot=s.gender.Male+s.gender.Female;
+  renderGLeg(s);
+  document.getElementById('cVal').textContent=gtot.toLocaleString();
+  document.getElementById('cName').textContent='Total patients';
+  document.getElementById('cVal').style.color='var(--color-text-primary)';
+  if(cG)cG.destroy();
+  gActiveIdx=-1;
+  cG=new Chart(document.getElementById('cGender'),{
+    type:'doughnut',
+    data:{labels:GLBLS,datasets:[{
+      data:[s.gender.Male,s.gender.Female],
+      backgroundColor:GCOLS,
+      hoverBackgroundColor:GCOLS,
+      borderWidth:4,
+      borderColor:['#185FA5','#0F6E56'],
+      hoverBorderColor:['#185FA5','#0F6E56'],
+      hoverOffset:0
+    }]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'60%',animation:animOpts,
+      plugins:{legend:{display:false},tooltip:{enabled:false}},
+      onHover:(evt,elements)=>{
+        const idx=elements.length>0?elements[0].index:-1;
+        if(idx!==gActiveIdx){gActiveIdx=idx;animExplode(cG,idx);updateCenter(idx);}
+      }
+    }
+  });
+  document.getElementById('cGender').onmouseleave=()=>{
+    if(gActiveIdx!==-1){gActiveIdx=-1;animExplode(cG,-1);updateCenter(-1);}
+  };
+
+  const ageLbls=Object.keys(s.age),ageVals=Object.values(s.age);
+  const ageDS=isBoth?[
+    {label:'2023',data:Object.values(D[2023].age),backgroundColor:'rgba(24,95,165,0.75)',borderRadius:4,hoverBackgroundColor:'#185FA5'},
+    {label:'2024',data:Object.values(D[2024].age),backgroundColor:'rgba(15,110,86,0.75)',borderRadius:4,hoverBackgroundColor:'#0F6E56'}
+  ]:[{label:'Patients',data:ageVals,backgroundColor:['#0F6E56','#1D9E75','#5DCAA5','#085041','#0F6E56','#1D9E75','#5DCAA5','#085041'],borderRadius:4}];
+  document.getElementById('ageLeg').innerHTML=ageDS.map(ds=>`<span class="li"><span class="ls" style="background:${Array.isArray(ds.backgroundColor)?ds.backgroundColor[0]:ds.backgroundColor};"></span>${ds.label}</span>`).join('');
+  if(cAge)cAge.destroy();
+  cAge=new Chart(document.getElementById('cAge'),{
+    type:'bar',
+    data:{labels:ageLbls,datasets:ageDS},
+    options:{responsive:true,maintainAspectRatio:false,animation:animOpts,
+      plugins:{legend:{display:false},tooltip:{...tooltipOpts,mode:'index',intersect:false}},
+      interaction:{mode:'index',intersect:false},
+      scales:{x:{ticks:{font:{size:11},autoSkip:false}},y:{ticks:{font:{size:11}},grid:{color:'rgba(128,128,128,0.08)'},title:{display:true,text:'No. of patients',font:{size:11}}}}}
+  });
+
+  const satDS=isBoth?[
+    {label:'Satisfaction 2023',data:D[2023].sat,borderColor:'#534AB7',backgroundColor:'transparent',tension:0.4,pointRadius:3,pointHoverRadius:7,borderDash:[4,3],borderWidth:2},
+    {label:'Satisfaction 2024',data:D[2024].sat,borderColor:'#D4537E',backgroundColor:'rgba(212,83,126,0.07)',tension:0.4,pointRadius:3,pointHoverRadius:7,fill:true,borderWidth:2}
+  ]:[{label:'Score',data:s.sat1,borderColor:'#534AB7',backgroundColor:'rgba(83,74,183,0.08)',tension:0.4,pointRadius:3,pointHoverRadius:7,fill:true,borderWidth:2}];
+  document.getElementById('satLeg').innerHTML=satDS.map(ds=>`<span class="li"><span class="ls" style="background:${ds.borderColor};border-radius:50%;"></span>${ds.label}</span>`).join('');
+  if(cSat)cSat.destroy();
+  cSat=new Chart(document.getElementById('cSat'),{
+    type:'line',
+    data:{labels:isBoth?D[2024].mn:s.mn,datasets:satDS},
+    options:{responsive:true,maintainAspectRatio:false,animation:animOpts,
+      plugins:{legend:{display:false},tooltip:{...tooltipOpts,mode:'index',intersect:false,callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toFixed(2)}}},
+      interaction:{mode:'index',intersect:false},
+      scales:{y:{min:4,max:6,ticks:{font:{size:11},callback:v=>v.toFixed(1)}},x:{ticks:{font:{size:11},autoSkip:true,maxTicksLimit:6}}}}
+  });
+
+  const deptKeys=Object.keys(s.dept),deptVals=Object.values(s.dept);
+  const dCols=['#0C447C','#185FA5','#378ADD','#85B7EB','#0F6E56','#1D9E75','#5DCAA5','#9FE1CB'];
+  document.getElementById('deptLeg').innerHTML=deptKeys.slice(0,4).map((k,i)=>`<span class="li"><span class="ls" style="background:${dCols[i]};"></span>${k}: ${deptVals[i].toLocaleString()}</span>`).join('');
+  if(cDept)cDept.destroy();
+  cDept=new Chart(document.getElementById('cDept'),{
+    type:'bar',
+    data:{labels:deptKeys,datasets:[{label:'Patients',data:deptVals,backgroundColor:dCols,borderRadius:4}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,animation:animOpts,
+      plugins:{legend:{display:false},tooltip:{...tooltipOpts,callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.x.toLocaleString()}}},
+      scales:{x:{ticks:{font:{size:11}},grid:{color:'rgba(128,128,128,0.08)'},title:{display:true,text:'No. of patients',font:{size:11}}},
+        y:{ticks:{font:{size:12,weight:'500'}}}}}
+  });
+}
+
+function renderAll(){
+  const s=getSlice();
+  renderKPIs(s);renderAdm(s);renderGLeg(s);updateCenter(-1);initCharts();
+}
+
+styleButtons();buildMonthTabs();
+renderKPIs(getSlice());renderAdm(getSlice());renderGLeg(getSlice());
+window.addEventListener('load',initCharts);
+setTimeout(initCharts,150);
+</script>

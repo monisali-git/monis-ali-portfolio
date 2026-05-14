@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile Sales Dashboard 2023</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+:root {
+  --bg: #030712;
+  --card: #111827;
+  --accent: #00e5ff;
+  --accent2: #ff6b6b;
+  --accent3: #ffd166;
+  --accent4: #06d6a0;
+  --purple: #a78bfa;
+  --amz: #FF9900;
+  --text: #f3f4f6;
+  --muted: #ffffff;
+  --border: rgba(0,229,255,0.18);
+  --trans: all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background: var(--bg); color: var(--text); padding: 22px; font-family: 'DM Sans', sans-serif; }
+
+.dash { padding: 10px; border-radius: 16px; }
+
+/* HEADER */
+.header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 22px; border-bottom: 1px solid var(--border); padding-bottom: 18px;
+}
+.brand { font-family: 'Bebas Neue', sans-serif; font-size: 38px; letter-spacing: 1px; }
+.brand span { color: var(--accent); }
+.live-tag {
+  background: rgba(6,214,160,0.1); color: var(--accent4);
+  padding: 6px 16px; border-radius: 20px; font-size: 15px; font-weight: 700;
+  border: 1px solid var(--accent4); text-transform: uppercase;
+}
+.header-right { text-align: right; }
+.header-right p:first-child { font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+.header-right p:last-child { font-family: 'Bebas Neue', sans-serif; font-size: 30px; color: var(--accent); line-height: 1; margin-top: 4px; }
+
+/* FILTERS */
+.filters {
+  display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; align-items: center;
+}
+.fl { font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+.fb {
+  padding: 7px 18px; border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent; color: var(--muted);
+  font-size: 14px; font-weight: 700; cursor: pointer;
+  transition: var(--trans); letter-spacing: 0.5px; font-family: 'DM Sans', sans-serif;
+}
+.fb:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+.fb.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+.filter-select {
+  margin-left: auto; font-size: 14px; padding: 7px 14px; border-radius: 20px;
+  border: 1px solid var(--border); background: var(--card); color: var(--muted);
+  cursor: pointer; font-weight: 700; letter-spacing: 0.5px; font-family: 'DM Sans', sans-serif;
+  transition: var(--trans);
+}
+.filter-select:hover { border-color: var(--accent); color: var(--accent); }
+
+/* KPI ROW */
+.kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 22px; }
+.kpi-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 20px 18px; position: relative;
+  transition: var(--trans); cursor: pointer; overflow: hidden; text-align: center;
+}
+.kpi-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(0,229,255,0.15); border-color: var(--accent); }
+.kpi-label { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 8px; display: block; font-weight: 600; }
+.kpi-val { font-family: 'Bebas Neue', sans-serif; font-size: 36px; line-height: 1; margin-bottom: 4px; }
+.kpi-sub { font-size: 13px; font-weight: 700; text-transform: uppercase; }
+
+/* MAIN GRID */
+.main-grid { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+.panel {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 22px; display: flex; flex-direction: column;
+  transition: border-color 0.3s;
+}
+.panel:hover { border-color: rgba(0,229,255,0.35); }
+.panel-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: 22px;
+  color: var(--accent); margin-bottom: 18px; display: flex; align-items: center; gap: 10px;
+  letter-spacing: 0.8px;
+}
+.panel-title i { font-size: 20px; color: var(--muted); }
+
+/* BAR DATA ROWS */
+.data-row { position: relative; margin-bottom: 18px; cursor: pointer; }
+.label-group {
+  display: flex; justify-content: space-between;
+  font-size: 16px; margin-bottom: 8px; transition: var(--trans);
+}
+.label-group b { font-weight: 700; }
+.bar-bg { height: 11px; background: rgba(255,255,255,0.06); border-radius: 12px; overflow: visible; position: relative; }
+.bar-fill { height: 100%; border-radius: 12px; transition: width 1s ease, filter 0.3s; }
+.hover-bubble {
+  position: absolute; top: -38px; left: 50%;
+  transform: translateX(-50%) scale(0);
+  background: var(--accent); color: #000;
+  padding: 5px 14px; border-radius: 8px;
+  font-size: 13px; font-weight: 800;
+  transition: var(--trans); pointer-events: none; white-space: nowrap;
+  z-index: 10;
+}
+.data-row:hover .hover-bubble { transform: translateX(-50%) scale(1); }
+.data-row:hover .label-group { color: var(--accent); }
+.data-row:hover .bar-fill { filter: brightness(1.35) drop-shadow(0 0 6px currentColor); }
+
+/* PIE CHART */
+.pie-wrap { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; min-height: 210px; }
+.pie-center {
+  position: absolute; text-align: center; pointer-events: none; transition: var(--trans);
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+}
+.pie-center h2 { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--text); transition: var(--trans); line-height: 1.1; }
+.pie-center p { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-top: 3px; }
+#pieSvg path { transition: all 0.25s ease; cursor: pointer; }
+
+.pie-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 14px; margin-top: 14px; font-size: 14px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+.pie-legend span { cursor: pointer; transition: var(--trans); padding: 2px 4px; border-radius: 4px; }
+.pie-legend span:hover { color: var(--text); }
+.pie-legend i { font-style: normal; margin-right: 4px; }
+
+/* SCROLL BOX */
+.scroll-box { overflow-y: auto; flex: 1; padding-right: 8px; max-height: 340px; }
+.scroll-box::-webkit-scrollbar { width: 5px; }
+.scroll-box::-webkit-scrollbar-thumb { background: rgba(0,229,255,0.15); border-radius: 10px; }
+.scroll-box::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+.list-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 11px 4px; border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: var(--trans); cursor: pointer; border-radius: 6px;
+}
+.list-item:hover { background: rgba(0,229,255,0.07); padding-left: 12px; padding-right: 8px; border-bottom-color: var(--accent); }
+.list-item:hover .list-val { color: var(--accent); }
+.list-item span { font-size: 16px; font-weight: 500; }
+.list-val { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--muted); transition: var(--trans); }
+
+/* BOTTOM GRID */
+.bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+/* SIZE / BRAND BAR */
+.bar-grid { display: grid; gap: 8px; margin-top: 8px; }
+.brand-bar-wrap { display: flex; align-items: center; gap: 12px; cursor: default; }
+.brand-bar-track { flex: 1; background: rgba(255,255,255,0.06); border-radius: 8px; height: 28px; position: relative; overflow: visible; }
+.brand-bar-fill { height: 100%; border-radius: 8px; display: flex; align-items: center; padding-left: 10px; transition: width 1s ease, filter 0.3s; position: relative; }
+.brand-bar-label { font-size: 14px; font-weight: 800; color: #000; white-space: nowrap; z-index:1; }
+.brand-val-label { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--muted); min-width: 65px; text-align: right; }
+.brand-name-label { font-size: 15px; font-weight: 700; min-width: 70px; }
+.brand-bar-wrap:hover .brand-bar-fill { filter: brightness(1.3) drop-shadow(0 0 6px currentColor); }
+.brand-bar-wrap:hover .brand-val-label { color: var(--accent); }
+.brand-bar-wrap:hover .brand-name-label { color: var(--accent); }
+
+/* MONTHLY CHART */
+#monthlyChartCont { position: relative; height: 220px; margin-top: 10px; }
+
+/* PAYMENT PIE */
+#paymentPieCont { position: relative; height: 200px; display: flex; align-items: center; justify-content: center; margin-top: 8px; }
+
+/* RATING STARS */
+.rating-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; cursor: default; }
+.rating-star { font-size: 15px; font-weight: 800; min-width: 20px; color: var(--accent3); }
+.rating-bar-bg { flex: 1; background: rgba(255,255,255,0.06); border-radius: 8px; height: 16px; overflow: hidden; }
+.rating-bar-fill { height: 100%; border-radius: 8px; background: var(--accent3); transition: width 1s ease, filter 0.3s; }
+.rating-count { font-size: 14px; font-weight: 700; min-width: 40px; text-align: right; color: var(--muted); }
+.rating-row:hover .rating-bar-fill { filter: brightness(1.3); }
+.rating-row:hover .rating-count { color: var(--accent3); }
+</style>
+</head>
+<body>
+<div class="dash">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="brand">MOBILE SALES <span>DASHBOARD</span></div>
+    <div class="live-tag">● 2023 FULL YEAR DATA</div>
+    <div class="header-right">
+      <p>Total Transactions</p>
+      <p>3,835</p>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters">
+    <span class="fl">Brand:</span>
+    <button class="fb active" data-brand="all">All Brands</button>
+    <button class="fb" data-brand="Apple">Apple</button>
+    <button class="fb" data-brand="Samsung">Samsung</button>
+    <button class="fb" data-brand="OnePlus">OnePlus</button>
+    <button class="fb" data-brand="Vivo">Vivo</button>
+    <button class="fb" data-brand="Xiaomi">Xiaomi</button>
+    <select class="filter-select" id="cityFilter">
+      <option value="all">All Cities</option>
+      <option value="Delhi">Delhi</option>
+      <option value="Mumbai">Mumbai</option>
+      <option value="Bangalore">Bangalore</option>
+      <option value="Hyderabad">Hyderabad</option>
+      <option value="Kolkata">Kolkata</option>
+    </select>
+  </div>
+
+  <!-- KPI ROW -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <span class="kpi-label">Total Revenue</span>
+      <div class="kpi-val" style="color:var(--accent)">₹76.9Cr</div>
+      <div class="kpi-sub" style="color:var(--accent)">Full Year 2023</div>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-label">Units Sold</span>
+      <div class="kpi-val" style="color:var(--accent4)">19,150</div>
+      <div class="kpi-sub" style="color:var(--accent4)">Total Handsets</div>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-label">Avg Order Value</span>
+      <div class="kpi-val" style="color:var(--amz)">₹40,168</div>
+      <div class="kpi-sub" style="color:var(--amz)">Per Transaction</div>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-label">Avg Rating</span>
+      <div class="kpi-val" style="color:var(--accent3)">3.69 ★</div>
+      <div class="kpi-sub" style="color:var(--accent3)">Customer Satisfaction</div>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-label">Cities Covered</span>
+      <div class="kpi-val" style="color:var(--accent2)">20+</div>
+      <div class="kpi-sub" style="color:var(--accent2)">PAN India Sales</div>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="main-grid">
+
+    <!-- Panel 1: Brand Revenue + Payment Mode -->
+    <div class="panel">
+      <div class="panel-title"><i class="ti ti-device-mobile"></i> Brand-wise Revenue Share</div>
+      <div id="brandBars" class="bar-grid"></div>
+
+      <div class="panel-title" style="margin-top:20px; font-size:18px;"><i class="ti ti-credit-card"></i> Payment Mode Split</div>
+      <div id="paymentBars"></div>
+    </div>
+
+    <!-- Panel 2: Pie Chart — Order Status -->
+    <div class="panel">
+      <div class="panel-title"><i class="ti ti-chart-pie"></i> Brand Revenue Distribution</div>
+      <div class="pie-wrap">
+        <div class="pie-center" id="pie-center">
+          <h2 id="pie-val">₹76.9Cr</h2>
+          <p id="pie-txt">Total Revenue</p>
+        </div>
+        <svg id="pieSvg" width="220" height="220" viewBox="0 0 220 220" style="overflow:visible;"></svg>
+      </div>
+      <div class="pie-legend" id="pieLegend"></div>
+
+      <div class="panel-title" style="margin-top:18px; font-size:18px;"><i class="ti ti-star"></i> Customer Ratings</div>
+      <div id="ratingsGrid"></div>
+    </div>
+
+    <!-- Panel 3: Top Cities -->
+    <div class="panel">
+      <div class="panel-title"><i class="ti ti-map-2"></i> Revenue by Top Cities</div>
+      <div class="scroll-box" id="cityList"></div>
+
+      <div class="panel-title" style="margin-top:18px; font-size:18px;"><i class="ti ti-users"></i> Revenue by Age Group</div>
+      <div id="ageBars"></div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM GRID -->
+  <div class="bottom-grid">
+    <!-- Monthly Trend -->
+    <div class="panel">
+      <div class="panel-title"><i class="ti ti-chart-bar"></i> Monthly Sales Trend 2023</div>
+      <div id="monthlyChartCont">
+        <canvas id="monthlyChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Top Models -->
+    <div class="panel">
+      <div class="panel-title"><i class="ti ti-trophy"></i> Top Selling Models</div>
+      <div id="modelList" class="scroll-box"></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+// ============================
+//  DATA
+// ============================
+const BRAND_COLORS = { Apple: '#00e5ff', Samsung: '#FF9900', OnePlus: '#ff6b6b', Vivo: '#06d6a0', Xiaomi: '#a78bfa' };
+const BRANDS = ['Apple','Samsung','OnePlus','Vivo','Xiaomi'];
+const BRAND_REV = { Apple: 161617642, Samsung: 160039954, OnePlus: 153721308, Vivo: 150080287, Xiaomi: 143755221 };
+const BRAND_UNITS = { Apple: 783, Samsung: 775, OnePlus: 768, Vivo: 766, Xiaomi: 743 };
+const PAYMENT = { UPI: 1011, 'Debit Card': 948, 'Credit Card': 947, Cash: 929 };
+const PAY_COLORS = ['#00e5ff','#ffd166','#06d6a0','#ff6b6b'];
+const CITIES = [
+  { name:'Delhi', val:203885981 },
+  { name:'Mumbai', val:127192840 },
+  { name:'Ranchi', val:31019129 },
+  { name:'Chennai', val:30759874 },
+  { name:'Rajkot', val:27327020 },
+  { name:'Jodhpur', val:27173316 },
+  { name:'Bangalore', val:26995267 },
+  { name:'Lucknow', val:26844143 }
+];
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONTHLY_UNITS = { Apple:[361,308,307,309,345,362,316,328,311,318,306,361], Samsung:[327,304,372,312,370,407,276,304,291,327,335,298], OnePlus:[354,288,279,289,316,260,370,335,328,303,401,307], Vivo:[332,260,409,285,341,309,346,354,310,285,245,325], Xiaomi:[298,291,329,333,253,259,392,271,281,344,295,318] };
+const MODELS = [
+  { name:'Vivo Y51', val:283 }, { name:'iPhone SE', val:280 }, { name:'OnePlus Nord', val:273 },
+  { name:'Galaxy Note 20', val:266 }, { name:'iPhone 11', val:265 }, { name:'Mi 11', val:263 },
+  { name:'Galaxy S21', val:260 }, { name:'Redmi Note 10', val:251 }
+];
+const AGE_GROUPS = [
+  { label:'18–25', val:148357790, color:'#00e5ff' },
+  { label:'26–35', val:189202963, color:'#a78bfa' },
+  { label:'36–45', val:182139634, color:'#06d6a0' },
+  { label:'46–59', val:249514025, color:'#FF9900' }
+];
+const RATINGS = { 1:309, 2:543, 3:652, 4:843, 5:1488 };
+
+let activeBrand = 'all';
+let monthlyChart;
+
+// ============================
+//  HELPERS
+// ============================
+function fmt(v) {
+  if (v >= 1e7) return '₹' + (v/1e7).toFixed(1) + 'Cr';
+  if (v >= 1e5) return '₹' + (v/1e5).toFixed(1) + 'L';
+  return '₹' + v.toLocaleString('en-IN');
+}
+
+// ============================
+//  PIE CHART (DONUT)
+// ============================
+function buildPie() {
+  const cx = 110, cy = 110, R = 82, r = 54;
+  const total = Object.values(BRAND_REV).reduce((a,b)=>a+b,0);
+  const segments = BRANDS.map(b => ({ label:b, val:BRAND_REV[b], pct:BRAND_REV[b]/total*100, color:BRAND_COLORS[b] }));
+  const svg = document.getElementById('pieSvg');
+  svg.innerHTML = '';
+  let startAngle = -Math.PI / 2;
+  const TAU = 2 * Math.PI;
+
+  segments.forEach(seg => {
+    const angle = (seg.pct / 100) * TAU;
+    const endAngle = startAngle + angle;
+    const x1 = cx + R * Math.cos(startAngle), y1 = cy + R * Math.sin(startAngle);
+    const x2 = cx + R * Math.cos(endAngle),   y2 = cy + R * Math.sin(endAngle);
+    const x3 = cx + r * Math.cos(endAngle),   y3 = cy + r * Math.sin(endAngle);
+    const x4 = cx + r * Math.cos(startAngle), y4 = cy + r * Math.sin(startAngle);
+    const large = angle > Math.PI ? 1 : 0;
+    // Midpoint for label
+    const midAngle = startAngle + angle / 2;
+    const labelR = (R + r) / 2;
+    const lx = cx + labelR * Math.cos(midAngle);
+    const ly = cy + labelR * Math.sin(midAngle);
+
+    const d = `M ${x1} ${y1} A ${R} ${R} 0 ${large} 1 ${x2} ${y2} L ${x3} ${y3} A ${r} ${r} 0 ${large} 0 ${x4} ${y4} Z`;
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d', d);
+    path.setAttribute('fill', seg.color);
+    path.style.transition = 'all 0.25s ease';
+    path.style.cursor = 'pointer';
+    path.style.transformOrigin = `${cx}px ${cy}px`;
+
+    // % text inside slice
+    const text = document.createElementNS('http://www.w3.org/2000/svg','text');
+    text.setAttribute('x', lx);
+    text.setAttribute('y', ly + 5);
+    text.setAttribute('text-anchor','middle');
+    text.setAttribute('font-size','12');
+    text.setAttribute('font-weight','800');
+    text.setAttribute('fill','#000');
+    text.setAttribute('pointer-events','none');
+    text.textContent = seg.pct.toFixed(1) + '%';
+
+    path.addEventListener('mouseover', () => {
+      path.style.filter = `brightness(1.3) drop-shadow(0 0 10px ${seg.color})`;
+      path.style.transform = 'scale(1.05)';
+      document.getElementById('pie-val').innerText = fmt(seg.val);
+      document.getElementById('pie-val').style.color = seg.color;
+      document.getElementById('pie-txt').innerText = seg.label;
+    });
+    path.addEventListener('mouseout', () => {
+      path.style.filter = '';
+      path.style.transform = '';
+      document.getElementById('pie-val').innerText = '₹76.9Cr';
+      document.getElementById('pie-val').style.color = 'var(--text)';
+      document.getElementById('pie-txt').innerText = 'Total Revenue';
+    });
+
+    svg.appendChild(path);
+    svg.appendChild(text);
+    startAngle = endAngle;
+  });
+
+  // Legend
+  const legend = document.getElementById('pieLegend');
+  legend.innerHTML = BRANDS.map(b =>
+    `<span onmouseover="highlightPieBrand('${b}')" onmouseout="resetPie()">
+      <i style="color:${BRAND_COLORS[b]}">●</i> ${b}
+    </span>`
+  ).join('');
+}
+
+function highlightPieBrand(brand) {
+  const color = BRAND_COLORS[brand];
+  document.getElementById('pie-val').innerText = fmt(BRAND_REV[brand]);
+  document.getElementById('pie-val').style.color = color;
+  document.getElementById('pie-txt').innerText = brand;
+}
+function resetPie() {
+  document.getElementById('pie-val').innerText = '₹76.9Cr';
+  document.getElementById('pie-val').style.color = 'var(--text)';
+  document.getElementById('pie-txt').innerText = 'Total Revenue';
+}
+
+// ============================
+//  BRAND BARS
+// ============================
+function buildBrandBars() {
+  const maxRev = Math.max(...Object.values(BRAND_REV));
+  document.getElementById('brandBars').innerHTML = BRANDS.map(b =>
+    `<div class="brand-bar-wrap">
+      <span class="brand-name-label" style="color:${BRAND_COLORS[b]}">${b}</span>
+      <div class="brand-bar-track">
+        <div class="brand-bar-fill" style="width:${BRAND_REV[b]/maxRev*100}%; background:${BRAND_COLORS[b]};">
+          <span class="brand-bar-label">${(BRAND_REV[b]/1e7).toFixed(1)}Cr</span>
+        </div>
+      </div>
+      <span class="brand-val-label">${BRAND_UNITS[b]} txn</span>
+    </div>`
+  ).join('');
+}
+
+// ============================
+//  PAYMENT BARS
+// ============================
+function buildPaymentBars() {
+  const methods = Object.keys(PAYMENT);
+  const maxVal = Math.max(...Object.values(PAYMENT));
+  document.getElementById('paymentBars').innerHTML = methods.map((m, i) =>
+    `<div class="data-row" style="margin-bottom:14px;">
+      <div class="hover-bubble">${PAYMENT[m].toLocaleString()} ORDERS</div>
+      <div class="label-group">
+        <span>${m}</span>
+        <b style="color:${PAY_COLORS[i]}">${(PAYMENT[m]/3835*100).toFixed(1)}%</b>
+      </div>
+      <div class="bar-bg">
+        <div class="bar-fill" style="width:${PAYMENT[m]/maxVal*100}%; background:${PAY_COLORS[i]};"></div>
+      </div>
+    </div>`
+  ).join('');
+}
+
+// ============================
+//  CITIES
+// ============================
+function buildCities() {
+  const max = CITIES[0].val;
+  document.getElementById('cityList').innerHTML = CITIES.map((c, i) => {
+    const cityColors = ['#00e5ff','#FF9900','#06d6a0','#ffd166','#ff6b6b','#a78bfa','#00e5ff','#06d6a0'];
+    return `<div class="list-item">
+      <span style="min-width:100px;">${c.name}</span>
+      <div style="flex:1; background:rgba(255,255,255,0.06); border-radius:4px; height:10px; overflow:hidden; margin:0 12px;">
+        <div style="width:${Math.round(c.val/max*100)}%; height:100%; border-radius:4px; background:${cityColors[i]}; transition:width 1s ease;"></div>
+      </div>
+      <span class="list-val">${(c.val/1e7).toFixed(1)}Cr</span>
+    </div>`;
+  }).join('');
+}
+
+// ============================
+//  AGE GROUP BARS
+// ============================
+function buildAgeBars() {
+  const maxVal = Math.max(...AGE_GROUPS.map(a=>a.val));
+  document.getElementById('ageBars').innerHTML = AGE_GROUPS.map(a =>
+    `<div class="data-row" style="margin-bottom:12px;">
+      <div class="hover-bubble">${fmt(a.val)}</div>
+      <div class="label-group">
+        <span>${a.label} yrs</span>
+        <b style="color:${a.color}">${(a.val/769214412*100).toFixed(1)}%</b>
+      </div>
+      <div class="bar-bg">
+        <div class="bar-fill" style="width:${a.val/maxVal*100}%; background:${a.color};"></div>
+      </div>
+    </div>`
+  ).join('');
+}
+
+// ============================
+//  RATINGS
+// ============================
+function buildRatings() {
+  const maxR = Math.max(...Object.values(RATINGS));
+  document.getElementById('ratingsGrid').innerHTML = [5,4,3,2,1].map(r =>
+    `<div class="rating-row">
+      <span class="rating-star">${r}★</span>
+      <div class="rating-bar-bg">
+        <div class="rating-bar-fill" style="width:${RATINGS[r]/maxR*100}%;"></div>
+      </div>
+      <span class="rating-count">${RATINGS[r]}</span>
+    </div>`
+  ).join('');
+}
+
+// ============================
+//  TOP MODELS
+// ============================
+function buildModels() {
+  const max = MODELS[0].val;
+  const colors = ['#00e5ff','#FF9900','#06d6a0','#ffd166','#ff6b6b','#a78bfa','#00e5ff','#06d6a0'];
+  document.getElementById('modelList').innerHTML = MODELS.map((m,i) =>
+    `<div class="list-item">
+      <span style="flex:1;">${m.name}</span>
+      <div style="width:120px; background:rgba(255,255,255,0.06); border-radius:4px; height:10px; overflow:hidden; margin:0 12px;">
+        <div style="width:${m.val/max*100}%; height:100%; border-radius:4px; background:${colors[i]};"></div>
+      </div>
+      <span class="list-val" style="color:${colors[i]}">${m.val}</span>
+    </div>`
+  ).join('');
+}
+
+// ============================
+//  MONTHLY CHART
+// ============================
+function getMonthlyDatasets(brand) {
+  const colors = { Apple:'#00e5ff', Samsung:'#FF9900', OnePlus:'#ff6b6b', Vivo:'#06d6a0', Xiaomi:'#a78bfa' };
+  return BRANDS.map(b => ({
+    label: b,
+    data: MONTHLY_UNITS[b],
+    backgroundColor: (brand !== 'all' && b !== brand) ? 'rgba(255,255,255,0.05)' : colors[b],
+    borderWidth: 0, borderRadius: 4,
+  }));
+}
+
+function initMonthly() {
+  monthlyChart = new Chart(document.getElementById('monthlyChart'), {
+    type: 'bar',
+    data: { labels: MONTHS, datasets: getMonthlyDatasets('all') },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(17,24,39,0.97)',
+          titleColor: '#00e5ff', bodyColor: '#f3f4f6',
+          borderColor: 'rgba(0,229,255,0.3)', borderWidth: 1,
+          padding: 12, cornerRadius: 8,
+          titleFont: { size: 14, weight: '700' },
+          bodyFont: { size: 13 },
+          callbacks: {
+            label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString('en-IN')} units`
+          }
+        },
+        datalabels: { display: false }
+      },
+      scales: {
+        x: {
+          stacked: true,
+          ticks: { font: { size: 13, weight: '600' }, color: '#9ca3af', padding: 6 },
+          grid: { display: false }, border: { display: false }
+        },
+        y: {
+          stacked: true,
+          ticks: { font: { size: 12 }, color: '#9ca3af', padding: 8, callback: v => v>=1000?(v/1000).toFixed(0)+'k':v },
+          grid: { color: 'rgba(255,255,255,0.05)' }, border: { display: false }
+        }
+      }
+    }
+  });
+}
+
+// ============================
+//  FILTERS
+// ============================
+document.querySelectorAll('.fb[data-brand]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.fb[data-brand]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeBrand = btn.dataset.brand;
+    if (monthlyChart) {
+      monthlyChart.data.datasets = getMonthlyDatasets(activeBrand);
+      monthlyChart.update();
+    }
+  });
+});
+
+// ============================
+//  INIT
+// ============================
+buildPie();
+buildBrandBars();
+buildPaymentBars();
+buildCities();
+buildAgeBars();
+buildRatings();
+buildModels();
+initMonthly();
+</script>
+</body>
+</html>
