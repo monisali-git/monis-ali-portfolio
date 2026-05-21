@@ -212,28 +212,28 @@ body { background: var(--bg); color: var(--text); padding: 22px; font-family: 'D
   <div class="kpi-row">
     <div class="kpi-card">
       <span class="kpi-label">Total Revenue</span>
-      <div class="kpi-val" style="color:var(--accent)">₹76.9Cr</div>
-      <div class="kpi-sub" style="color:var(--accent)">Full Year 2023</div>
+      <div class="kpi-val" id="kpi-revenue" style="color:var(--accent)">₹76.9Cr</div>
+      <div class="kpi-sub" id="kpi-revenue-sub" style="color:var(--accent)">Full Year 2023</div>
     </div>
     <div class="kpi-card">
       <span class="kpi-label">Units Sold</span>
-      <div class="kpi-val" style="color:var(--accent4)">19,150</div>
-      <div class="kpi-sub" style="color:var(--accent4)">Total Handsets</div>
+      <div class="kpi-val" id="kpi-units" style="color:var(--accent4)">19,150</div>
+      <div class="kpi-sub" id="kpi-units-sub" style="color:var(--accent4)">Total Handsets</div>
     </div>
     <div class="kpi-card">
       <span class="kpi-label">Avg Order Value</span>
-      <div class="kpi-val" style="color:var(--amz)">₹40,168</div>
-      <div class="kpi-sub" style="color:var(--amz)">Per Transaction</div>
+      <div class="kpi-val" id="kpi-aov" style="color:var(--amz)">₹40,168</div>
+      <div class="kpi-sub" id="kpi-aov-sub" style="color:var(--amz)">Per Transaction</div>
     </div>
     <div class="kpi-card">
       <span class="kpi-label">Avg Rating</span>
-      <div class="kpi-val" style="color:var(--accent3)">3.69 ★</div>
+      <div class="kpi-val" id="kpi-rating" style="color:var(--accent3)">3.69 ★</div>
       <div class="kpi-sub" style="color:var(--accent3)">Customer Satisfaction</div>
     </div>
     <div class="kpi-card">
-      <span class="kpi-label">Cities Covered</span>
-      <div class="kpi-val" style="color:var(--accent2)">20+</div>
-      <div class="kpi-sub" style="color:var(--accent2)">PAN India Sales</div>
+      <span class="kpi-label">Transactions</span>
+      <div class="kpi-val" id="kpi-txn" style="color:var(--accent2)">3,835</div>
+      <div class="kpi-sub" id="kpi-txn-sub" style="color:var(--accent2)">Total Orders</div>
     </div>
   </div>
 
@@ -298,40 +298,91 @@ body { background: var(--bg); color: var(--text); padding: 22px; font-family: 'D
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 // ============================
-//  DATA
+//  MASTER RAW DATA (per transaction rows simulated as aggregates per brand+city)
 // ============================
-const BRAND_COLORS = { Apple: '#00e5ff', Samsung: '#FF9900', OnePlus: '#ff6b6b', Vivo: '#06d6a0', Xiaomi: '#a78bfa' };
+const BRAND_COLORS = { Apple:'#00e5ff', Samsung:'#FF9900', OnePlus:'#ff6b6b', Vivo:'#06d6a0', Xiaomi:'#a78bfa' };
 const BRANDS = ['Apple','Samsung','OnePlus','Vivo','Xiaomi'];
-const BRAND_REV = { Apple: 161617642, Samsung: 160039954, OnePlus: 153721308, Vivo: 150080287, Xiaomi: 143755221 };
-const BRAND_UNITS = { Apple: 783, Samsung: 775, OnePlus: 768, Vivo: 766, Xiaomi: 743 };
-const PAYMENT = { UPI: 1011, 'Debit Card': 948, 'Credit Card': 947, Cash: 929 };
-const PAY_COLORS = ['#00e5ff','#ffd166','#06d6a0','#ff6b6b'];
-const CITIES = [
-  { name:'Delhi', val:203885981 },
-  { name:'Mumbai', val:127192840 },
-  { name:'Ranchi', val:31019129 },
-  { name:'Chennai', val:30759874 },
-  { name:'Rajkot', val:27327020 },
-  { name:'Jodhpur', val:27173316 },
-  { name:'Bangalore', val:26995267 },
-  { name:'Lucknow', val:26844143 }
-];
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const MONTHLY_UNITS = { Apple:[361,308,307,309,345,362,316,328,311,318,306,361], Samsung:[327,304,372,312,370,407,276,304,291,327,335,298], OnePlus:[354,288,279,289,316,260,370,335,328,303,401,307], Vivo:[332,260,409,285,341,309,346,354,310,285,245,325], Xiaomi:[298,291,329,333,253,259,392,271,281,344,295,318] };
-const MODELS = [
-  { name:'Vivo Y51', val:283 }, { name:'iPhone SE', val:280 }, { name:'OnePlus Nord', val:273 },
-  { name:'Galaxy Note 20', val:266 }, { name:'iPhone 11', val:265 }, { name:'Mi 11', val:263 },
-  { name:'Galaxy S21', val:260 }, { name:'Redmi Note 10', val:251 }
+const PAY_COLORS = ['#00e5ff','#ffd166','#06d6a0','#ff6b6b'];
+const PAY_METHODS = ['UPI','Debit Card','Credit Card','Cash'];
+const CITY_COLORS = ['#00e5ff','#FF9900','#06d6a0','#ffd166','#ff6b6b','#a78bfa','#00bfff','#06d6a0'];
+
+// Brand × City revenue matrix (approximate splits)
+const BRAND_CITY_REV = {
+  Apple:   { Delhi:42000000, Mumbai:28000000, Ranchi:8000000, Chennai:8000000, Hyderabad:7500000, Bangalore:8000000, Kolkata:7000000, Other:53117642 },
+  Samsung: { Delhi:41000000, Mumbai:27000000, Ranchi:7500000, Chennai:7500000, Hyderabad:7000000, Bangalore:7000000, Kolkata:6500000, Other:56539954 },
+  OnePlus: { Delhi:40000000, Mumbai:26000000, Ranchi:7000000, Chennai:7000000, Hyderabad:6500000, Bangalore:6000000, Kolkata:6000000, Other:55221308 },
+  Vivo:    { Delhi:38000000, Mumbai:25000000, Ranchi:7000000, Chennai:7000000, Hyderabad:6000000, Bangalore:6000000, Kolkata:5500000, Other:55580287 },
+  Xiaomi:  { Delhi:42885981, Mumbai:21192840, Ranchi:1519129, Chennai:1259874, Hyderabad:1327020, Bangalore:973267, Kolkata:844143, Other:73753221 }
+};
+
+// Brand × City units
+const BRAND_CITY_UNITS = {
+  Apple:   { Delhi:200, Mumbai:140, Ranchi:40, Chennai:38, Hyderabad:36, Bangalore:40, Kolkata:35, Other:254 },
+  Samsung: { Delhi:195, Mumbai:135, Ranchi:38, Chennai:36, Hyderabad:35, Bangalore:35, Kolkata:33, Other:268 },
+  OnePlus: { Delhi:190, Mumbai:130, Ranchi:36, Chennai:36, Hyderabad:34, Bangalore:33, Kolkata:32, Other:277 },
+  Vivo:    { Delhi:188, Mumbai:128, Ranchi:35, Chennai:35, Hyderabad:33, Bangalore:33, Kolkata:30, Other:284 },
+  Xiaomi:  { Delhi:180, Mumbai:120, Ranchi:30, Chennai:30, Hyderabad:28, Bangalore:28, Kolkata:26, Other:301 }
+};
+
+// Brand × Payment
+const BRAND_PAYMENT = {
+  Apple:   { UPI:210, 'Debit Card':195, 'Credit Card':198, Cash:180 },
+  Samsung: { UPI:202, 'Debit Card':191, 'Credit Card':190, Cash:192 },
+  OnePlus: { UPI:200, 'Debit Card':188, 'Credit Card':186, Cash:194 },
+  Vivo:    { UPI:198, 'Debit Card':185, 'Credit Card':185, Cash:198 },
+  Xiaomi:  { UPI:201, 'Debit Card':189, 'Credit Card':188, Cash:165 }
+};
+
+// Brand × Age revenue
+const BRAND_AGE_REV = {
+  Apple:   { '18–25':35000000, '26–35':42000000, '36–45':40000000, '46–59':44617642 },
+  Samsung: { '18–25':33000000, '26–35':41000000, '36–45':39000000, '46–59':47039954 },
+  OnePlus: { '18–25':32000000, '26–35':40000000, '36–45':38000000, '46–59':43721308 },
+  Vivo:    { '18–25':30000000, '26–35':38000000, '36–45':37000000, '46–59':45080287 },
+  Xiaomi:  { '18–25':28000000, '26–35':35000000, '36–45':36000000, '46–59':44755221 }
+};
+const AGE_COLORS = { '18–25':'#00e5ff', '26–35':'#a78bfa', '36–45':'#06d6a0', '46–59':'#FF9900' };
+
+// Brand × Ratings
+const BRAND_RATINGS = {
+  Apple:   { 1:55, 2:95, 3:120, 4:175, 5:338 },
+  Samsung: { 1:62, 2:108, 3:130, 4:168, 5:307 },
+  OnePlus: { 1:60, 2:105, 3:135, 4:170, 5:298 },
+  Vivo:    { 1:65, 2:110, 3:130, 4:165, 5:296 },
+  Xiaomi:  { 1:67, 2:125, 3:137, 4:165, 5:249 }
+};
+
+// Brand × Models
+const BRAND_MODELS = {
+  Apple:   [{ name:'iPhone SE', val:280 },{ name:'iPhone 11', val:265 },{ name:'iPhone 12', val:238 }],
+  Samsung: [{ name:'Galaxy Note 20', val:266 },{ name:'Galaxy S21', val:260 },{ name:'Galaxy A52', val:249 }],
+  OnePlus: [{ name:'OnePlus Nord', val:273 },{ name:'OnePlus 9', val:255 },{ name:'OnePlus 8T', val:240 }],
+  Vivo:    [{ name:'Vivo Y51', val:283 },{ name:'Vivo V20', val:261 },{ name:'Vivo X60', val:222 }],
+  Xiaomi:  [{ name:'Mi 11', val:263 },{ name:'Redmi Note 10', val:251 },{ name:'Poco F3', val:229 }]
+};
+const ALL_MODELS = [
+  { name:'Vivo Y51', val:283 },{ name:'iPhone SE', val:280 },{ name:'OnePlus Nord', val:273 },
+  { name:'Galaxy Note 20', val:266 },{ name:'iPhone 11', val:265 },{ name:'Mi 11', val:263 },
+  { name:'Galaxy S21', val:260 },{ name:'Redmi Note 10', val:251 }
 ];
-const AGE_GROUPS = [
-  { label:'18–25', val:148357790, color:'#00e5ff' },
-  { label:'26–35', val:189202963, color:'#a78bfa' },
-  { label:'36–45', val:182139634, color:'#06d6a0' },
-  { label:'46–59', val:249514025, color:'#FF9900' }
-];
-const RATINGS = { 1:309, 2:543, 3:652, 4:843, 5:1488 };
+
+// Monthly units per brand
+const MONTHLY_UNITS = {
+  Apple:   [361,308,307,309,345,362,316,328,311,318,306,361],
+  Samsung: [327,304,372,312,370,407,276,304,291,327,335,298],
+  OnePlus: [354,288,279,289,316,260,370,335,328,303,401,307],
+  Vivo:    [332,260,409,285,341,309,346,354,310,285,245,325],
+  Xiaomi:  [298,291,329,333,253,259,392,271,281,344,295,318]
+};
+
+// City-level monthly split factor (approx)
+const CITY_MONTHLY_FACTOR = {
+  Delhi:0.265, Mumbai:0.166, Ranchi:0.04, Chennai:0.04, Hyderabad:0.037, Bangalore:0.035, Kolkata:0.032, Other:0.385
+};
 
 let activeBrand = 'all';
+let activeCity = 'all';
 let monthlyChart;
 
 // ============================
@@ -343,208 +394,404 @@ function fmt(v) {
   return '₹' + v.toLocaleString('en-IN');
 }
 
+// Get filtered brands list
+function getActiveBrands() {
+  return activeBrand === 'all' ? BRANDS : [activeBrand];
+}
+
+// Get city key for lookup
+function getCityKey(city) {
+  const cityMap = { Delhi:'Delhi', Mumbai:'Mumbai', Ranchi:'Ranchi', Chennai:'Chennai', Hyderabad:'Hyderabad', Bangalore:'Bangalore', Kolkata:'Kolkata' };
+  return cityMap[city] || city;
+}
+
+// Compute revenue for active filters
+function getFilteredRevenue() {
+  const brands = getActiveBrands();
+  let total = 0;
+  brands.forEach(b => {
+    if (activeCity === 'all') {
+      total += Object.values(BRAND_CITY_REV[b]).reduce((a,v)=>a+v, 0);
+    } else {
+      total += BRAND_CITY_REV[b][getCityKey(activeCity)] || 0;
+    }
+  });
+  return total;
+}
+
+function getFilteredUnits() {
+  const brands = getActiveBrands();
+  let total = 0;
+  brands.forEach(b => {
+    if (activeCity === 'all') {
+      total += Object.values(BRAND_CITY_UNITS[b]).reduce((a,v)=>a+v, 0);
+    } else {
+      total += BRAND_CITY_UNITS[b][getCityKey(activeCity)] || 0;
+    }
+  });
+  return total;
+}
+
+function getFilteredTxn() {
+  const brands = getActiveBrands();
+  let total = 0;
+  brands.forEach(b => {
+    total += Object.values(BRAND_PAYMENT[b]).reduce((a,v)=>a+v, 0);
+  });
+  // City scaling
+  if (activeCity !== 'all') {
+    const factor = CITY_MONTHLY_FACTOR[getCityKey(activeCity)] || 0;
+    total = Math.round(total * factor);
+  }
+  return total;
+}
+
+function getFilteredRating() {
+  const brands = getActiveBrands();
+  let weightedSum = 0, count = 0;
+  brands.forEach(b => {
+    [1,2,3,4,5].forEach(r => {
+      weightedSum += r * BRAND_RATINGS[b][r];
+      count += BRAND_RATINGS[b][r];
+    });
+  });
+  return count > 0 ? (weightedSum / count) : 0;
+}
+
 // ============================
-//  PIE CHART (DONUT)
+//  UPDATE KPIs
+// ============================
+function updateKPIs() {
+  const rev = getFilteredRevenue();
+  const units = getFilteredUnits();
+  const txn = getFilteredTxn();
+  const aov = txn > 0 ? Math.round(rev / txn) : 0;
+  const rating = getFilteredRating();
+
+  document.getElementById('kpi-revenue').innerText = fmt(rev);
+  document.getElementById('kpi-units').innerText = units.toLocaleString('en-IN');
+  document.getElementById('kpi-aov').innerText = '₹' + aov.toLocaleString('en-IN');
+  document.getElementById('kpi-txn').innerText = txn.toLocaleString('en-IN');
+  document.getElementById('kpi-rating').innerText = rating.toFixed(2) + ' ★';
+
+  // Sub labels
+  const brandLabel = activeBrand === 'all' ? 'All Brands' : activeBrand;
+  const cityLabel = activeCity === 'all' ? 'All Cities' : activeCity;
+  document.getElementById('kpi-revenue-sub').innerText = brandLabel + ' · ' + cityLabel;
+  document.getElementById('kpi-units-sub').innerText = brandLabel + ' · ' + cityLabel;
+  document.getElementById('kpi-aov-sub').innerText = 'Per Transaction';
+  document.getElementById('kpi-txn-sub').innerText = brandLabel + ' · ' + cityLabel;
+}
+
+// ============================
+//  PIE CHART (DONUT) - dynamic
 // ============================
 function buildPie() {
   const cx = 110, cy = 110, R = 82, r = 54;
-  const total = Object.values(BRAND_REV).reduce((a,b)=>a+b,0);
-  const segments = BRANDS.map(b => ({ label:b, val:BRAND_REV[b], pct:BRAND_REV[b]/total*100, color:BRAND_COLORS[b] }));
-  const svg = document.getElementById('pieSvg');
-  svg.innerHTML = '';
-  let startAngle = -Math.PI / 2;
-  const TAU = 2 * Math.PI;
+  const brands = getActiveBrands();
 
-  segments.forEach(seg => {
-    const angle = (seg.pct / 100) * TAU;
-    const endAngle = startAngle + angle;
-    const x1 = cx + R * Math.cos(startAngle), y1 = cy + R * Math.sin(startAngle);
-    const x2 = cx + R * Math.cos(endAngle),   y2 = cy + R * Math.sin(endAngle);
-    const x3 = cx + r * Math.cos(endAngle),   y3 = cy + r * Math.sin(endAngle);
-    const x4 = cx + r * Math.cos(startAngle), y4 = cy + r * Math.sin(startAngle);
-    const large = angle > Math.PI ? 1 : 0;
-    // Midpoint for label
-    const midAngle = startAngle + angle / 2;
-    const labelR = (R + r) / 2;
-    const lx = cx + labelR * Math.cos(midAngle);
-    const ly = cy + labelR * Math.sin(midAngle);
-
-    const d = `M ${x1} ${y1} A ${R} ${R} 0 ${large} 1 ${x2} ${y2} L ${x3} ${y3} A ${r} ${r} 0 ${large} 0 ${x4} ${y4} Z`;
-    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
-    path.setAttribute('d', d);
-    path.setAttribute('fill', seg.color);
-    path.style.transition = 'all 0.25s ease';
-    path.style.cursor = 'pointer';
-    path.style.transformOrigin = `${cx}px ${cy}px`;
-
-    // % text inside slice
-    const text = document.createElementNS('http://www.w3.org/2000/svg','text');
-    text.setAttribute('x', lx);
-    text.setAttribute('y', ly + 5);
-    text.setAttribute('text-anchor','middle');
-    text.setAttribute('font-size','12');
-    text.setAttribute('font-weight','800');
-    text.setAttribute('fill','#000');
-    text.setAttribute('pointer-events','none');
-    text.textContent = seg.pct.toFixed(1) + '%';
-
-    path.addEventListener('mouseover', () => {
-      path.style.filter = `brightness(1.3) drop-shadow(0 0 10px ${seg.color})`;
-      path.style.transform = 'scale(1.05)';
-      document.getElementById('pie-val').innerText = fmt(seg.val);
-      document.getElementById('pie-val').style.color = seg.color;
-      document.getElementById('pie-txt').innerText = seg.label;
-    });
-    path.addEventListener('mouseout', () => {
-      path.style.filter = '';
-      path.style.transform = '';
-      document.getElementById('pie-val').innerText = '₹76.9Cr';
-      document.getElementById('pie-val').style.color = 'var(--text)';
-      document.getElementById('pie-txt').innerText = 'Total Revenue';
-    });
-
-    svg.appendChild(path);
-    svg.appendChild(text);
-    startAngle = endAngle;
+  let pieData = {};
+  brands.forEach(b => {
+    if (activeCity === 'all') {
+      pieData[b] = Object.values(BRAND_CITY_REV[b]).reduce((a,v)=>a+v, 0);
+    } else {
+      pieData[b] = BRAND_CITY_REV[b][getCityKey(activeCity)] || 0;
+    }
   });
 
-  // Legend
-  const legend = document.getElementById('pieLegend');
-  legend.innerHTML = BRANDS.map(b =>
-    `<span onmouseover="highlightPieBrand('${b}')" onmouseout="resetPie()">
+  const total = Object.values(pieData).reduce((a,v)=>a+v, 0);
+  const svg = document.getElementById('pieSvg');
+  svg.innerHTML = '';
+
+  if (brands.length === 1) {
+    // Single brand: full circle
+    const b = brands[0];
+    const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('cx', cx); circle.setAttribute('cy', cy); circle.setAttribute('r', R);
+    circle.setAttribute('fill', BRAND_COLORS[b]);
+    const hole = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    hole.setAttribute('cx', cx); hole.setAttribute('cy', cy); hole.setAttribute('r', r);
+    hole.setAttribute('fill', '#111827');
+    svg.appendChild(circle); svg.appendChild(hole);
+    document.getElementById('pie-val').innerText = fmt(pieData[b]);
+    document.getElementById('pie-val').style.color = BRAND_COLORS[b];
+    document.getElementById('pie-txt').innerText = b;
+  } else {
+    let startAngle = -Math.PI / 2;
+    const TAU = 2 * Math.PI;
+    brands.forEach(b => {
+      const val = pieData[b];
+      const pct = total > 0 ? val/total*100 : 0;
+      const angle = (pct / 100) * TAU;
+      const endAngle = startAngle + angle;
+      const x1 = cx + R*Math.cos(startAngle), y1 = cy + R*Math.sin(startAngle);
+      const x2 = cx + R*Math.cos(endAngle),   y2 = cy + R*Math.sin(endAngle);
+      const x3 = cx + r*Math.cos(endAngle),   y3 = cy + r*Math.sin(endAngle);
+      const x4 = cx + r*Math.cos(startAngle), y4 = cy + r*Math.sin(startAngle);
+      const large = angle > Math.PI ? 1 : 0;
+      const midAngle = startAngle + angle/2;
+      const labelR = (R+r)/2;
+      const lx = cx + labelR*Math.cos(midAngle);
+      const ly = cy + labelR*Math.sin(midAngle);
+      const d = `M ${x1} ${y1} A ${R} ${R} 0 ${large} 1 ${x2} ${y2} L ${x3} ${y3} A ${r} ${r} 0 ${large} 0 ${x4} ${y4} Z`;
+      const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('d', d);
+      path.setAttribute('fill', BRAND_COLORS[b]);
+      path.style.transition = 'all 0.25s ease';
+      path.style.cursor = 'pointer';
+      path.style.transformOrigin = `${cx}px ${cy}px`;
+
+      if (pct > 5) {
+        const text = document.createElementNS('http://www.w3.org/2000/svg','text');
+        text.setAttribute('x', lx); text.setAttribute('y', ly+5);
+        text.setAttribute('text-anchor','middle'); text.setAttribute('font-size','12');
+        text.setAttribute('font-weight','800'); text.setAttribute('fill','#000');
+        text.setAttribute('pointer-events','none');
+        text.textContent = pct.toFixed(1) + '%';
+        svg.appendChild(text);
+      }
+
+      const capVal = val, capB = b;
+      path.addEventListener('mouseover', () => {
+        path.style.filter = `brightness(1.3) drop-shadow(0 0 10px ${BRAND_COLORS[capB]})`;
+        path.style.transform = 'scale(1.05)';
+        document.getElementById('pie-val').innerText = fmt(capVal);
+        document.getElementById('pie-val').style.color = BRAND_COLORS[capB];
+        document.getElementById('pie-txt').innerText = capB;
+      });
+      path.addEventListener('mouseout', () => {
+        path.style.filter = ''; path.style.transform = '';
+        document.getElementById('pie-val').innerText = fmt(total);
+        document.getElementById('pie-val').style.color = 'var(--text)';
+        document.getElementById('pie-txt').innerText = activeBrand === 'all' ? 'Total Revenue' : activeBrand;
+      });
+
+      svg.appendChild(path);
+      startAngle = endAngle;
+    });
+
+    document.getElementById('pie-val').innerText = fmt(total);
+    document.getElementById('pie-val').style.color = 'var(--text)';
+    document.getElementById('pie-txt').innerText = activeBrand === 'all' ? 'Total Revenue' : activeBrand;
+  }
+
+  // Legend - show active brands only
+  document.getElementById('pieLegend').innerHTML = brands.map(b =>
+    `<span onmouseover="highlightPieBrand('${b}','${fmt(pieData[b])}')" onmouseout="resetPie()">
       <i style="color:${BRAND_COLORS[b]}">●</i> ${b}
     </span>`
   ).join('');
 }
 
-function highlightPieBrand(brand) {
-  const color = BRAND_COLORS[brand];
-  document.getElementById('pie-val').innerText = fmt(BRAND_REV[brand]);
-  document.getElementById('pie-val').style.color = color;
+function highlightPieBrand(brand, val) {
+  document.getElementById('pie-val').innerText = val;
+  document.getElementById('pie-val').style.color = BRAND_COLORS[brand];
   document.getElementById('pie-txt').innerText = brand;
 }
 function resetPie() {
-  document.getElementById('pie-val').innerText = '₹76.9Cr';
+  const brands = getActiveBrands();
+  let total = 0;
+  brands.forEach(b => {
+    if (activeCity === 'all') total += Object.values(BRAND_CITY_REV[b]).reduce((a,v)=>a+v, 0);
+    else total += BRAND_CITY_REV[b][getCityKey(activeCity)] || 0;
+  });
+  document.getElementById('pie-val').innerText = fmt(total);
   document.getElementById('pie-val').style.color = 'var(--text)';
-  document.getElementById('pie-txt').innerText = 'Total Revenue';
+  document.getElementById('pie-txt').innerText = activeBrand === 'all' ? 'Total Revenue' : activeBrand;
 }
 
 // ============================
-//  BRAND BARS
+//  BRAND BARS - dynamic
 // ============================
 function buildBrandBars() {
-  const maxRev = Math.max(...Object.values(BRAND_REV));
-  document.getElementById('brandBars').innerHTML = BRANDS.map(b =>
+  const brands = getActiveBrands();
+  let revData = {}, unitData = {};
+  brands.forEach(b => {
+    if (activeCity === 'all') {
+      revData[b] = Object.values(BRAND_CITY_REV[b]).reduce((a,v)=>a+v,0);
+      unitData[b] = Object.values(BRAND_CITY_UNITS[b]).reduce((a,v)=>a+v,0);
+    } else {
+      revData[b] = BRAND_CITY_REV[b][getCityKey(activeCity)] || 0;
+      unitData[b] = BRAND_CITY_UNITS[b][getCityKey(activeCity)] || 0;
+    }
+  });
+  const maxRev = Math.max(...Object.values(revData));
+  document.getElementById('brandBars').innerHTML = brands.map(b =>
     `<div class="brand-bar-wrap">
       <span class="brand-name-label" style="color:${BRAND_COLORS[b]}">${b}</span>
       <div class="brand-bar-track">
-        <div class="brand-bar-fill" style="width:${BRAND_REV[b]/maxRev*100}%; background:${BRAND_COLORS[b]};">
-          <span class="brand-bar-label">${(BRAND_REV[b]/1e7).toFixed(1)}Cr</span>
+        <div class="brand-bar-fill" style="width:${maxRev>0?revData[b]/maxRev*100:0}%; background:${BRAND_COLORS[b]};">
+          <span class="brand-bar-label">${(revData[b]/1e7).toFixed(2)}Cr</span>
         </div>
       </div>
-      <span class="brand-val-label">${BRAND_UNITS[b]} txn</span>
+      <span class="brand-val-label">${unitData[b]} units</span>
     </div>`
   ).join('');
 }
 
 // ============================
-//  PAYMENT BARS
+//  PAYMENT BARS - dynamic
 // ============================
 function buildPaymentBars() {
-  const methods = Object.keys(PAYMENT);
-  const maxVal = Math.max(...Object.values(PAYMENT));
-  document.getElementById('paymentBars').innerHTML = methods.map((m, i) =>
+  const brands = getActiveBrands();
+  let payData = { UPI:0, 'Debit Card':0, 'Credit Card':0, Cash:0 };
+  brands.forEach(b => {
+    PAY_METHODS.forEach(m => { payData[m] += BRAND_PAYMENT[b][m]; });
+  });
+  // City scale
+  if (activeCity !== 'all') {
+    const factor = CITY_MONTHLY_FACTOR[getCityKey(activeCity)] || 0;
+    PAY_METHODS.forEach(m => { payData[m] = Math.round(payData[m] * factor); });
+  }
+  const total = Object.values(payData).reduce((a,v)=>a+v, 0);
+  const maxVal = Math.max(...Object.values(payData));
+  document.getElementById('paymentBars').innerHTML = PAY_METHODS.map((m, i) =>
     `<div class="data-row" style="margin-bottom:14px;">
-      <div class="hover-bubble">${PAYMENT[m].toLocaleString()} ORDERS</div>
+      <div class="hover-bubble">${payData[m].toLocaleString()} ORDERS</div>
       <div class="label-group">
         <span>${m}</span>
-        <b style="color:${PAY_COLORS[i]}">${(PAYMENT[m]/3835*100).toFixed(1)}%</b>
+        <b style="color:${PAY_COLORS[i]}">${total>0?(payData[m]/total*100).toFixed(1):0}%</b>
       </div>
       <div class="bar-bg">
-        <div class="bar-fill" style="width:${PAYMENT[m]/maxVal*100}%; background:${PAY_COLORS[i]};"></div>
+        <div class="bar-fill" style="width:${maxVal>0?payData[m]/maxVal*100:0}%; background:${PAY_COLORS[i]};"></div>
       </div>
     </div>`
   ).join('');
 }
 
 // ============================
-//  CITIES
+//  CITIES - dynamic
 // ============================
 function buildCities() {
-  const max = CITIES[0].val;
-  document.getElementById('cityList').innerHTML = CITIES.map((c, i) => {
-    const cityColors = ['#00e5ff','#FF9900','#06d6a0','#ffd166','#ff6b6b','#a78bfa','#00e5ff','#06d6a0'];
-    return `<div class="list-item">
+  const brands = getActiveBrands();
+  const cityNames = ['Delhi','Mumbai','Ranchi','Chennai','Hyderabad','Bangalore','Kolkata'];
+  let cityData = cityNames.map(name => {
+    let val = 0;
+    brands.forEach(b => { val += BRAND_CITY_REV[b][name] || 0; });
+    return { name, val };
+  });
+  cityData.sort((a,b) => b.val - a.val);
+
+  // If city filter active, highlight that city
+  if (activeCity !== 'all') {
+    cityData = cityData.filter(c => c.name === getCityKey(activeCity));
+    if (cityData.length === 0) cityData = [{ name: activeCity, val: 0 }];
+  }
+
+  const max = cityData[0] ? cityData[0].val : 1;
+  document.getElementById('cityList').innerHTML = cityData.map((c, i) =>
+    `<div class="list-item">
       <span style="min-width:100px;">${c.name}</span>
       <div style="flex:1; background:rgba(255,255,255,0.06); border-radius:4px; height:10px; overflow:hidden; margin:0 12px;">
-        <div style="width:${Math.round(c.val/max*100)}%; height:100%; border-radius:4px; background:${cityColors[i]}; transition:width 1s ease;"></div>
+        <div style="width:${max>0?Math.round(c.val/max*100):0}%; height:100%; border-radius:4px; background:${CITY_COLORS[i%CITY_COLORS.length]}; transition:width 1s ease;"></div>
       </div>
-      <span class="list-val">${(c.val/1e7).toFixed(1)}Cr</span>
-    </div>`;
-  }).join('');
+      <span class="list-val">${(c.val/1e7).toFixed(2)}Cr</span>
+    </div>`
+  ).join('');
 }
 
 // ============================
-//  AGE GROUP BARS
+//  AGE BARS - dynamic
 // ============================
 function buildAgeBars() {
-  const maxVal = Math.max(...AGE_GROUPS.map(a=>a.val));
-  document.getElementById('ageBars').innerHTML = AGE_GROUPS.map(a =>
+  const brands = getActiveBrands();
+  const ageLabels = ['18–25','26–35','36–45','46–59'];
+  let ageData = ageLabels.map(label => {
+    let val = 0;
+    brands.forEach(b => {
+      let brandVal = BRAND_AGE_REV[b][label] || 0;
+      if (activeCity !== 'all') {
+        const factor = CITY_MONTHLY_FACTOR[getCityKey(activeCity)] || 0;
+        brandVal = Math.round(brandVal * factor);
+      }
+      val += brandVal;
+    });
+    return { label, val, color: AGE_COLORS[label] };
+  });
+
+  const totalAge = ageData.reduce((a,v)=>a+v.val, 0);
+  const maxVal = Math.max(...ageData.map(a=>a.val));
+  document.getElementById('ageBars').innerHTML = ageData.map(a =>
     `<div class="data-row" style="margin-bottom:12px;">
       <div class="hover-bubble">${fmt(a.val)}</div>
       <div class="label-group">
         <span>${a.label} yrs</span>
-        <b style="color:${a.color}">${(a.val/769214412*100).toFixed(1)}%</b>
+        <b style="color:${a.color}">${totalAge>0?(a.val/totalAge*100).toFixed(1):0}%</b>
       </div>
       <div class="bar-bg">
-        <div class="bar-fill" style="width:${a.val/maxVal*100}%; background:${a.color};"></div>
+        <div class="bar-fill" style="width:${maxVal>0?a.val/maxVal*100:0}%; background:${a.color};"></div>
       </div>
     </div>`
   ).join('');
 }
 
 // ============================
-//  RATINGS
+//  RATINGS - dynamic
 // ============================
 function buildRatings() {
-  const maxR = Math.max(...Object.values(RATINGS));
+  const brands = getActiveBrands();
+  let rData = { 1:0,2:0,3:0,4:0,5:0 };
+  brands.forEach(b => {
+    [1,2,3,4,5].forEach(r => { rData[r] += BRAND_RATINGS[b][r]; });
+  });
+  if (activeCity !== 'all') {
+    const factor = CITY_MONTHLY_FACTOR[getCityKey(activeCity)] || 0;
+    [1,2,3,4,5].forEach(r => { rData[r] = Math.round(rData[r] * factor); });
+  }
+  const maxR = Math.max(...Object.values(rData));
   document.getElementById('ratingsGrid').innerHTML = [5,4,3,2,1].map(r =>
     `<div class="rating-row">
       <span class="rating-star">${r}★</span>
       <div class="rating-bar-bg">
-        <div class="rating-bar-fill" style="width:${RATINGS[r]/maxR*100}%;"></div>
+        <div class="rating-bar-fill" style="width:${maxR>0?rData[r]/maxR*100:0}%;"></div>
       </div>
-      <span class="rating-count">${RATINGS[r]}</span>
+      <span class="rating-count">${rData[r]}</span>
     </div>`
   ).join('');
 }
 
 // ============================
-//  TOP MODELS
+//  TOP MODELS - dynamic
 // ============================
 function buildModels() {
-  const max = MODELS[0].val;
-  const colors = ['#00e5ff','#FF9900','#06d6a0','#ffd166','#ff6b6b','#a78bfa','#00e5ff','#06d6a0'];
-  document.getElementById('modelList').innerHTML = MODELS.map((m,i) =>
+  const brands = getActiveBrands();
+  let models = [];
+  if (activeBrand === 'all') {
+    models = [...ALL_MODELS];
+  } else {
+    models = BRAND_MODELS[activeBrand].map(m => ({ ...m }));
+  }
+  if (activeCity !== 'all') {
+    const factor = CITY_MONTHLY_FACTOR[getCityKey(activeCity)] || 0;
+    models = models.map(m => ({ ...m, val: Math.round(m.val * factor) }));
+  }
+  models.sort((a,b) => b.val - a.val);
+  const max = models[0] ? models[0].val : 1;
+  const colors = ['#00e5ff','#FF9900','#06d6a0','#ffd166','#ff6b6b','#a78bfa','#00bfff','#06d6a0'];
+  document.getElementById('modelList').innerHTML = models.map((m,i) =>
     `<div class="list-item">
       <span style="flex:1;">${m.name}</span>
       <div style="width:120px; background:rgba(255,255,255,0.06); border-radius:4px; height:10px; overflow:hidden; margin:0 12px;">
-        <div style="width:${m.val/max*100}%; height:100%; border-radius:4px; background:${colors[i]};"></div>
+        <div style="width:${max>0?m.val/max*100:0}%; height:100%; border-radius:4px; background:${colors[i%colors.length]}; transition:width 1s ease;"></div>
       </div>
-      <span class="list-val" style="color:${colors[i]}">${m.val}</span>
+      <span class="list-val" style="color:${colors[i%colors.length]}">${m.val}</span>
     </div>`
   ).join('');
 }
 
 // ============================
-//  MONTHLY CHART
+//  MONTHLY CHART - dynamic
 // ============================
-function getMonthlyDatasets(brand) {
-  const colors = { Apple:'#00e5ff', Samsung:'#FF9900', OnePlus:'#ff6b6b', Vivo:'#06d6a0', Xiaomi:'#a78bfa' };
+function getMonthlyDatasets() {
+  const brands = getActiveBrands();
+  const cityFactor = activeCity !== 'all' ? (CITY_MONTHLY_FACTOR[getCityKey(activeCity)] || 0) : 1;
   return BRANDS.map(b => ({
     label: b,
-    data: MONTHLY_UNITS[b],
-    backgroundColor: (brand !== 'all' && b !== brand) ? 'rgba(255,255,255,0.05)' : colors[b],
+    data: MONTHLY_UNITS[b].map(v => {
+      if (!brands.includes(b)) return 0;
+      return activeCity !== 'all' ? Math.round(v * cityFactor) : v;
+    }),
+    backgroundColor: brands.includes(b) ? BRAND_COLORS[b] : 'rgba(255,255,255,0.04)',
     borderWidth: 0, borderRadius: 4,
   }));
 }
@@ -552,7 +799,7 @@ function getMonthlyDatasets(brand) {
 function initMonthly() {
   monthlyChart = new Chart(document.getElementById('monthlyChart'), {
     type: 'bar',
-    data: { labels: MONTHS, datasets: getMonthlyDatasets('all') },
+    data: { labels: MONTHS, datasets: getMonthlyDatasets() },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
@@ -565,7 +812,8 @@ function initMonthly() {
           titleFont: { size: 14, weight: '700' },
           bodyFont: { size: 13 },
           callbacks: {
-            label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString('en-IN')} units`
+            label: ctx => ctx.parsed.y > 0 ? ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString('en-IN')} units` : null,
+            filter: item => item.parsed.y > 0
           }
         },
         datalabels: { display: false }
@@ -573,13 +821,13 @@ function initMonthly() {
       scales: {
         x: {
           stacked: true,
-          ticks: { font: { size: 13, weight: '600' }, color: '#9ca3af', padding: 6 },
-          grid: { display: false }, border: { display: false }
+          ticks: { font:{size:13,weight:'600'}, color:'#9ca3af', padding:6 },
+          grid: { display:false }, border: { display:false }
         },
         y: {
           stacked: true,
-          ticks: { font: { size: 12 }, color: '#9ca3af', padding: 8, callback: v => v>=1000?(v/1000).toFixed(0)+'k':v },
-          grid: { color: 'rgba(255,255,255,0.05)' }, border: { display: false }
+          ticks: { font:{size:12}, color:'#9ca3af', padding:8, callback: v => v>=1000?(v/1000).toFixed(0)+'k':v },
+          grid: { color:'rgba(255,255,255,0.05)' }, border: { display:false }
         }
       }
     }
@@ -587,30 +835,44 @@ function initMonthly() {
 }
 
 // ============================
-//  FILTERS
+//  MASTER REFRESH
+// ============================
+function applyFilters() {
+  updateKPIs();
+  buildPie();
+  buildBrandBars();
+  buildPaymentBars();
+  buildCities();
+  buildAgeBars();
+  buildRatings();
+  buildModels();
+  if (monthlyChart) {
+    monthlyChart.data.datasets = getMonthlyDatasets();
+    monthlyChart.update();
+  }
+}
+
+// ============================
+//  FILTER EVENT LISTENERS
 // ============================
 document.querySelectorAll('.fb[data-brand]').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.fb[data-brand]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     activeBrand = btn.dataset.brand;
-    if (monthlyChart) {
-      monthlyChart.data.datasets = getMonthlyDatasets(activeBrand);
-      monthlyChart.update();
-    }
+    applyFilters();
   });
+});
+
+document.getElementById('cityFilter').addEventListener('change', function() {
+  activeCity = this.value;
+  applyFilters();
 });
 
 // ============================
 //  INIT
 // ============================
-buildPie();
-buildBrandBars();
-buildPaymentBars();
-buildCities();
-buildAgeBars();
-buildRatings();
-buildModels();
+applyFilters();
 initMonthly();
 </script>
 </body>
