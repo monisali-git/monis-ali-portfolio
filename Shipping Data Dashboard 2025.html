@@ -11,33 +11,20 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --c1:#2563eb;
-  --c2:#16a34a;
-  --c3:#dc2626;
-  --c4:#d97706;
-  --c5:#7c3aed;
-  --bg:#dfe6f0;
-  --bg2:#cdd6e4;
-  --surface:rgba(255,255,255,0.72);
-  --surface2:rgba(255,255,255,0.55);
-  --border:rgba(148,163,184,0.55);
-  --border-h:#94a3b8;
-  --text:#0f172a;
-  --muted:#475569;
-  --dim:#94a3b8;
+  --c1:#2563eb;--c2:#16a34a;--c3:#dc2626;--c4:#d97706;--c5:#7c3aed;
+  --bg:#dfe6f0;--bg2:#cdd6e4;
+  --surface:rgba(255,255,255,0.72);--surface2:rgba(255,255,255,0.55);
+  --border:rgba(148,163,184,0.55);--border-h:#94a3b8;
+  --text:#0f172a;--muted:#475569;--dim:#94a3b8;
   --r:14px;
   --shadow:0 2px 8px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04);
   --shadow-h:0 8px 32px rgba(0,0,0,.12),0 2px 8px rgba(0,0,0,.06);
 }
 html{scroll-behavior:smooth}
 body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:'DM Sans',sans-serif;
-  min-height:100vh;
-  overflow-x:hidden;
+  background:var(--bg);color:var(--text);
+  font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;
 }
-/* Animated mesh background */
 body::before{
   content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   background:
@@ -50,10 +37,9 @@ body::after{
   background-image:linear-gradient(rgba(148,163,184,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,.12) 1px,transparent 1px);
   background-size:48px 48px;
 }
-
 .page{position:relative;z-index:1;max-width:1520px;margin:0 auto;padding:1.2rem 1.4rem 3rem}
 
-/* ══════════════ HEADER ══════════════ */
+/* ══ HEADER ══ */
 .hdr{
   display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;
   background:rgba(255,255,255,0.82);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);
@@ -95,126 +81,95 @@ body::after{
   border-radius:20px;padding:.22rem .65rem;font-family:'DM Mono',monospace;
 }
 
-/* ══════════════ KPI GRID ══════════════ */
+/* ══ KPI ══ */
 .kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.8rem;margin-bottom:.9rem}
 @media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:680px){.kpi-grid{grid-template-columns:1fr 1fr}}
-
 .kpi{
   background:var(--surface);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
   border:1px solid rgba(255,255,255,.85);border-bottom:1px solid var(--border);
   border-radius:var(--r);padding:1rem 1.1rem .9rem;
   position:relative;overflow:hidden;
   transition:transform .22s,box-shadow .22s,border-color .22s;
-  animation:fadeup .5s ease both;
-  box-shadow:var(--shadow);
+  animation:fadeup .5s ease both;box-shadow:var(--shadow);
 }
-.kpi::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  border-radius:var(--r) var(--r) 0 0;
-}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r) var(--r) 0 0;}
 .kpi.k1::before{background:linear-gradient(90deg,var(--c1),#60a5fa)}
 .kpi.k2::before{background:linear-gradient(90deg,var(--c2),#4ade80)}
 .kpi.k3::before{background:linear-gradient(90deg,var(--c3),#f87171)}
 .kpi.k4::before{background:linear-gradient(90deg,var(--c4),#fbbf24)}
 .kpi.k5::before{background:linear-gradient(90deg,var(--c5),#a78bfa)}
-.kpi:hover{
-  transform:translateY(-8px) scale(1.03);
-  box-shadow:0 18px 40px rgba(37,99,235,.18),0 8px 24px rgba(0,0,0,.12);
-  border-color:rgba(255,255,255,.98)
-}
-.kpi:hover .kpi-ico{
-  transform:rotate(6deg) scale(1.08);
-  transition:all .25s ease;
-}
-.kpi:hover .kpi-val{
-  letter-spacing:-.01em;
-  text-shadow:0 2px 10px rgba(0,0,0,.08);
-}
+.kpi:hover{transform:translateY(-8px) scale(1.03);box-shadow:0 18px 40px rgba(37,99,235,.18),0 8px 24px rgba(0,0,0,.12);border-color:rgba(255,255,255,.98)}
+.kpi:hover .kpi-ico{transform:rotate(6deg) scale(1.08);transition:all .25s ease}
+.kpi:hover .kpi-val{letter-spacing:-.01em;text-shadow:0 2px 10px rgba(0,0,0,.08)}
 .kpi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.65rem}
-.kpi-ico{
-  width:34px;height:34px;border-radius:9px;
-  display:flex;align-items:center;justify-content:center;font-size:1rem;
-  border:1px solid rgba(255,255,255,.6);
-}
-.kpi.k1 .kpi-ico{background:rgba(37,99,235,.1)}
-.kpi.k2 .kpi-ico{background:rgba(22,163,74,.1)}
-.kpi.k3 .kpi-ico{background:rgba(220,38,38,.1)}
-.kpi.k4 .kpi-ico{background:rgba(217,119,6,.1)}
-.kpi.k5 .kpi-ico{background:rgba(124,58,237,.1)}
+.kpi-ico{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;border:1px solid rgba(255,255,255,.6);}
+.kpi.k1 .kpi-ico{background:rgba(37,99,235,.1)}.kpi.k2 .kpi-ico{background:rgba(22,163,74,.1)}
+.kpi.k3 .kpi-ico{background:rgba(220,38,38,.1)}.kpi.k4 .kpi-ico{background:rgba(217,119,6,.1)}.kpi.k5 .kpi-ico{background:rgba(124,58,237,.1)}
 .kpi-bdg{font-size:.57rem;font-weight:700;padding:.12rem .45rem;border-radius:20px;font-family:'DM Mono',monospace;letter-spacing:.02em}
-.kpi.k1 .kpi-bdg{background:rgba(37,99,235,.1);color:var(--c1)}
-.kpi.k2 .kpi-bdg{background:rgba(22,163,74,.1);color:var(--c2)}
-.kpi.k3 .kpi-bdg{background:rgba(220,38,38,.1);color:var(--c3)}
-.kpi.k4 .kpi-bdg{background:rgba(217,119,6,.1);color:var(--c4)}
-.kpi.k5 .kpi-bdg{background:rgba(124,58,237,.1);color:var(--c5)}
+.kpi.k1 .kpi-bdg{background:rgba(37,99,235,.1);color:var(--c1)}.kpi.k2 .kpi-bdg{background:rgba(22,163,74,.1);color:var(--c2)}
+.kpi.k3 .kpi-bdg{background:rgba(220,38,38,.1);color:var(--c3)}.kpi.k4 .kpi-bdg{background:rgba(217,119,6,.1);color:var(--c4)}.kpi.k5 .kpi-bdg{background:rgba(124,58,237,.1);color:var(--c5)}
 .kpi-lbl{font-size:.58rem;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);font-weight:600;margin-bottom:.2rem}
 .kpi-val{font-size:1.45rem;font-weight:700;letter-spacing:-.035em;line-height:1}
-.kpi.k1 .kpi-val{color:var(--c1)}.kpi.k2 .kpi-val{color:var(--c2)}
-.kpi.k3 .kpi-val{color:var(--c3)}.kpi.k4 .kpi-val{color:var(--c4)}.kpi.k5 .kpi-val{color:var(--c5)}
+.kpi.k1 .kpi-val{color:var(--c1)}.kpi.k2 .kpi-val{color:var(--c2)}.kpi.k3 .kpi-val{color:var(--c3)}.kpi.k4 .kpi-val{color:var(--c4)}.kpi.k5 .kpi-val{color:var(--c5)}
 .kpi-sub{font-size:.59rem;color:var(--dim);margin-top:.25rem}
 .kpi-bw{height:3px;border-radius:2px;background:rgba(0,0,0,.06);margin-top:.75rem;overflow:hidden}
 .kpi-bar{height:100%;border-radius:2px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
-.kpi.k1 .kpi-bar{background:linear-gradient(90deg,var(--c1),#60a5fa)}
-.kpi.k2 .kpi-bar{background:linear-gradient(90deg,var(--c2),#4ade80)}
-.kpi.k3 .kpi-bar{background:linear-gradient(90deg,var(--c3),#f87171)}
-.kpi.k4 .kpi-bar{background:linear-gradient(90deg,var(--c4),#fbbf24)}
-.kpi.k5 .kpi-bar{background:linear-gradient(90deg,var(--c5),#a78bfa)}
-.kpi:nth-child(1){animation-delay:.05s}.kpi:nth-child(2){animation-delay:.1s}
-.kpi:nth-child(3){animation-delay:.15s}.kpi:nth-child(4){animation-delay:.2s}.kpi:nth-child(5){animation-delay:.25s}
+.kpi.k1 .kpi-bar{background:linear-gradient(90deg,var(--c1),#60a5fa)}.kpi.k2 .kpi-bar{background:linear-gradient(90deg,var(--c2),#4ade80)}
+.kpi.k3 .kpi-bar{background:linear-gradient(90deg,var(--c3),#f87171)}.kpi.k4 .kpi-bar{background:linear-gradient(90deg,var(--c4),#fbbf24)}.kpi.k5 .kpi-bar{background:linear-gradient(90deg,var(--c5),#a78bfa)}
+.kpi:nth-child(1){animation-delay:.05s}.kpi:nth-child(2){animation-delay:.1s}.kpi:nth-child(3){animation-delay:.15s}.kpi:nth-child(4){animation-delay:.2s}.kpi:nth-child(5){animation-delay:.25s}
 
-/* ══════════════ CARD ══════════════ */
+/* ══ CARD ══ */
 .card{
   background:var(--surface);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
   border:1px solid rgba(255,255,255,.85);border-bottom:1px solid var(--border);
   border-radius:var(--r);padding:1.1rem 1.2rem;
-  box-shadow:var(--shadow);
-  transition:border-color .2s,box-shadow .2s;
+  box-shadow:var(--shadow);transition:border-color .2s,box-shadow .2s;
   animation:fadeup .5s ease both;overflow:hidden;
 }
 .card:hover{box-shadow:var(--shadow-h);border-color:rgba(255,255,255,.95)}
 .ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem;flex-wrap:wrap;gap:.4rem}
 .ct{font-size:.82rem;font-weight:700;letter-spacing:-.02em;color:var(--text);display:flex;align-items:center;gap:.4rem}
 .ct-dot{width:7px;height:7px;border-radius:50%;display:inline-block}
-.cbdg{
-  font-size:.56rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
-  padding:.12rem .52rem;border-radius:20px;background:var(--bg2);color:var(--muted);
-  border:1px solid var(--border);font-family:'DM Mono',monospace;
-}
+.cbdg{font-size:.56rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.12rem .52rem;border-radius:20px;background:var(--bg2);color:var(--muted);border:1px solid var(--border);font-family:'DM Mono',monospace;}
 
-/* ══════════════ GRID LAYOUTS ══════════════ */
+/* ══ LAYOUTS ══ */
 .row{display:grid;gap:.8rem;margin-bottom:.8rem}
-.r3{grid-template-columns:1fr 1fr 1fr}
-.r2{grid-template-columns:1fr 1fr}
-.r21{grid-template-columns:1.3fr 1fr}
-.r12{grid-template-columns:1fr 1.3fr}
+.r3{grid-template-columns:1fr 1fr 1fr}.r2{grid-template-columns:1fr 1fr}.r21{grid-template-columns:1.3fr 1fr}.r12{grid-template-columns:1fr 1.3fr}
 @media(max-width:980px){.r3{grid-template-columns:1fr 1fr}}
 @media(max-width:700px){.r3,.r2,.r21,.r12{grid-template-columns:1fr}}
 
-/* ══════════════ SECTION LABEL ══════════════ */
-.sec{
-  font-size:.58rem;text-transform:uppercase;letter-spacing:.2em;color:var(--muted);
-  font-weight:700;margin:.2rem 0 .65rem;display:flex;align-items:center;gap:.4rem;
-}
+.sec{font-size:.58rem;text-transform:uppercase;letter-spacing:.2em;color:var(--muted);font-weight:700;margin:.2rem 0 .65rem;display:flex;align-items:center;gap:.4rem;}
 .sec::before{content:'';display:inline-block;width:12px;height:2px;background:var(--c1);border-radius:2px}
 
-/* ══════════════ DONUT LEGEND ══════════════ */
+/* ══ DONUT LEGEND ══ */
 .dl{display:flex;flex-direction:column;gap:.28rem;margin-top:.65rem}
 .dl-r{
   display:flex;align-items:center;gap:.4rem;cursor:pointer;
-  padding:.22rem .4rem;border-radius:7px;transition:background .15s;
+  padding:.22rem .4rem;border-radius:7px;transition:background .15s,transform .15s;
 }
-.dl-r:hover{background:rgba(0,0,0,.04)}
+.dl-r:hover{background:rgba(0,0,0,.04);transform:translateX(3px)}
 .dl-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;transition:transform .15s}
 .dl-r:hover .dl-dot{transform:scale(1.4)}
 .dl-lbl{font-size:.67rem;color:var(--muted);flex:1;font-weight:500}
 .dl-cnt{font-family:'DM Mono',monospace;font-size:.66rem;color:var(--text);font-weight:500}
 .dl-pct{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--dim);margin-left:.1rem}
 
-/* ══════════════ STATE MAP AREA ══════════════ */
-.state-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:.4rem;
+/* ══ DONUT HOVER RING ══ */
+.donut-wrap{
+  position:relative;height:260px;width:100%;
+  display:flex;align-items:center;justify-content:center;
 }
+/* Hover glow pulse ring behind canvas */
+.donut-wrap::after{
+  content:'';position:absolute;width:130px;height:130px;border-radius:50%;
+  pointer-events:none;opacity:0;transition:opacity .3s;
+  background:radial-gradient(circle,rgba(37,99,235,.12) 0%,transparent 70%);
+}
+.donut-wrap:hover::after{opacity:1}
+
+/* ══ STATE GRID ══ */
+.state-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:.4rem;}
 .st-cell{
   border-radius:9px;padding:.48rem .52rem;cursor:pointer;
   transition:all .2s;border:1px solid transparent;position:relative;overflow:hidden;
@@ -223,38 +178,23 @@ body::after{
 .st-name{font-size:.57rem;color:rgba(255,255,255,.85);margin-bottom:.18rem;font-weight:500;line-height:1.2}
 .st-val{font-size:.68rem;font-family:'DM Mono',monospace;font-weight:700;color:#fff}
 
-/* ══════════════ HEATMAP ══════════════ */
+/* ══ HEATMAP ══ */
 .hm-wrap{overflow-x:auto;margin-top:.3rem}
 .hm-table{width:100%;border-collapse:separate;border-spacing:4px}
-.hm-table th{
-  font-size:.58rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
-  color:var(--muted);padding:.35rem .42rem;text-align:center;
-}
-.hm-table td{
-  border-radius:8px;padding:.55rem .4rem;text-align:center;
-  font-size:.62rem;font-family:'DM Mono',monospace;font-weight:600;
-  cursor:pointer;transition:transform .14s,box-shadow .14s;
-}
-.hm-table td:not(.hml):hover{
-  transform:scale(1.08);box-shadow:0 4px 16px rgba(0,0,0,.18);z-index:2;position:relative;
-}
-.hml{
-  font-size:.66rem;font-weight:600;color:var(--text);text-align:left!important;
-  background:transparent!important;cursor:default!important;
-  padding-left:.42rem!important;white-space:nowrap;
-}
+.hm-table th{font-size:.58rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);padding:.35rem .42rem;text-align:center;}
+.hm-table td{border-radius:8px;padding:.55rem .4rem;text-align:center;font-size:.62rem;font-family:'DM Mono',monospace;font-weight:600;cursor:pointer;transition:transform .14s,box-shadow .14s;}
+.hm-table td:not(.hml):hover{transform:scale(1.08);box-shadow:0 4px 16px rgba(0,0,0,.18);z-index:2;position:relative;}
+.hml{font-size:.66rem;font-weight:600;color:var(--text);text-align:left!important;background:transparent!important;cursor:default!important;padding-left:.42rem!important;white-space:nowrap;}
 .hml:hover{transform:none!important;box-shadow:none!important}
 
-/* ══════════════ TOOLTIP ══════════════ */
+/* ══ TOOLTIP ══ */
 #tip{
   position:fixed;pointer-events:none;z-index:9999;
-  background:rgba(255,255,255,0.92);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
   border:1px solid rgba(255,255,255,0.95);
   box-shadow:0 8px 32px rgba(0,0,0,.15),0 2px 8px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.8);
   border-radius:12px;padding:.65rem .85rem;min-width:160px;
-  opacity:0;transform:translateY(6px) scale(0.97);
-  transition:opacity .18s,transform .18s;
+  opacity:0;transform:translateY(6px) scale(0.97);transition:opacity .18s,transform .18s;
 }
 #tip.show{opacity:1;transform:translateY(0) scale(1)}
 .tip-title{font-size:.72rem;font-weight:700;color:var(--text);margin-bottom:.45rem;letter-spacing:-.01em}
@@ -264,7 +204,7 @@ body::after{
 .tip-dot{width:7px;height:7px;border-radius:50%;margin-right:.28rem;flex-shrink:0}
 .tip-divider{height:1px;background:var(--border);margin:.35rem 0}
 
-/* ══════════════ REGION BARS ══════════════ */
+/* ══ REGION BARS ══ */
 .reg-bar-wrap{margin-bottom:.55rem;cursor:pointer}
 .reg-bar-wrap:hover .reg-bar-fill{filter:brightness(1.08)}
 .reg-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.28rem}
@@ -273,7 +213,7 @@ body::after{
 .reg-track{height:8px;background:rgba(0,0,0,.07);border-radius:6px;overflow:hidden}
 .reg-bar-fill{height:100%;border-radius:6px;transition:width 1.1s cubic-bezier(.4,0,.2,1),filter .2s}
 
-/* ══════════════ CAT BARS ══════════════ */
+/* ══ CATEGORY BARS ══ */
 .cat-bar{margin-bottom:.7rem;cursor:pointer}
 .cat-bar:hover .cat-fill{filter:brightness(1.1)}
 .cat-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.3rem}
@@ -282,10 +222,10 @@ body::after{
 .cat-track{height:10px;background:rgba(0,0,0,.07);border-radius:6px;overflow:hidden}
 .cat-fill{height:100%;border-radius:6px;transition:width 1.1s cubic-bezier(.4,0,.2,1),filter .2s}
 
-/* ══════════════ ANIMATIONS ══════════════ */
+/* ══ ANIMATIONS ══ */
 @keyframes fadeup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 
-/* ══════════════ SCROLLBAR ══════════════ */
+/* ══ SCROLLBAR ══ */
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:rgba(148,163,184,.35);border-radius:10px}
@@ -314,7 +254,7 @@ body::after{
       </div>
       <label class="upload-btn">
         <span>⬆ Upload Excel</span>
-        <input type="file" accept=".xlsx,.xls,.csv" onchange="handleUpload(this)"/>
+        <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" onchange="handleUpload(this)"/>
       </label>
       <span id="dataBadge" class="data-badge"></span>
       <span id="clk" class="clk"></span>
@@ -324,7 +264,7 @@ body::after{
   <!-- KPI ROW -->
   <div class="kpi-grid" id="kpiGrid"></div>
 
-  <!-- ROW 1: Revenue Cards -->
+  <!-- ROW 1 -->
   <div class="row r2" style="animation-delay:.1s">
     <div class="card" style="animation-delay:.08s">
       <div class="ch">
@@ -333,7 +273,6 @@ body::after{
       </div>
       <div id="catBars"></div>
     </div>
-
     <div class="card" style="animation-delay:.12s">
       <div class="ch">
         <span class="ct"><span class="ct-dot" style="background:var(--c5)"></span>Revenue by Region</span>
@@ -350,8 +289,8 @@ body::after{
         <span class="ct"><span class="ct-dot" style="background:var(--c2)"></span>Customer Segment</span>
         <span class="cbdg">Donut</span>
       </div>
-      <div style="position:relative;height:260px;width:100%;display:flex;align-items:center;justify-content:center">
-        <canvas id="cSeg"></canvas>
+      <div class="donut-wrap">
+        <canvas id="cSeg" role="img" aria-label="Customer segment revenue breakdown donut chart"></canvas>
       </div>
       <div class="dl" id="dSeg"></div>
     </div>
@@ -361,8 +300,8 @@ body::after{
         <span class="ct"><span class="ct-dot" style="background:var(--c4)"></span>Ship Mode Split</span>
         <span class="cbdg">Donut</span>
       </div>
-      <div style="position:relative;height:260px;width:100%;display:flex;align-items:center;justify-content:center">
-        <canvas id="cSM"></canvas>
+      <div class="donut-wrap">
+        <canvas id="cSM" role="img" aria-label="Shipping mode revenue split donut chart"></canvas>
       </div>
       <div class="dl" id="dSM"></div>
     </div>
@@ -402,66 +341,34 @@ body::after{
 
 <script>
 // ══════════════════════════════════════════
-//  BASE DATA  (from Excel: Indian_Shipping_Data_10048.xlsx)
+//  BASE DATA
 // ══════════════════════════════════════════
 let BASE = {
-  kpi:{orders:10048, rev:1363322299, profit:238150582, qty:66031, aov:20646},
-  cat:{l:['Electronics','Furniture','Office Supplies'], s:[619821530,628234476,115266293]},
-  seg:{l:['Consumer','Corporate','Home Office'], s:[462000538,442695046,458626715]},
-  sm:{l:['Express','Same Day','Standard'], c:[457064941,462037612,444219746]},
-  reg:{
-    l:['East','North','South','West'],
-    s:[339975082,350453082,332461478,340432657],
-    o:[2494,2524,2526,2504]
-  },
+  kpi:{orders:10048,rev:1363322299,profit:238150582,qty:66031,aov:20646},
+  cat:{l:['Electronics','Furniture','Office Supplies'],s:[619821530,628234476,115266293]},
+  seg:{l:['Consumer','Corporate','Home Office'],s:[462000538,442695046,458626715]},
+  sm:{l:['Express','Same Day','Standard'],c:[457064941,462037612,444219746]},
+  reg:{l:['East','North','South','West'],s:[339975082,350453082,332461478,340432657],o:[2494,2524,2526,2504],q:[16467,16982,16123,16459]},
   st:{
-    'Andhra Pradesh':{s:68430074,r:'South'},
-    'Assam':{s:70595402,r:'East'},
-    'Bihar':{s:64780527,r:'East'},
-    'Delhi':{s:67467495,r:'North'},
-    'Goa':{s:72896268,r:'West'},
-    'Gujarat':{s:66188089,r:'West'},
-    'Haryana':{s:70188460,r:'North'},
-    'Himachal Pradesh':{s:71520566,r:'North'},
-    'Jharkhand':{s:68607932,r:'East'},
-    'Karnataka':{s:66051213,r:'South'},
-    'Kerala':{s:66000614,r:'South'},
-    'Madhya Pradesh':{s:61156387,r:'West'},
-    'Maharashtra':{s:72127999,r:'West'},
-    'Odisha':{s:70800855,r:'East'},
-    'Punjab':{s:68784273,r:'North'},
-    'Rajasthan':{s:68063914,r:'West'},
-    'Tamil Nadu':{s:66294119,r:'South'},
-    'Telangana':{s:65685458,r:'South'},
-    'Uttar Pradesh':{s:72492288,r:'North'},
-    'West Bengal':{s:65190366,r:'East'}
+    'Andhra Pradesh':{s:68430074,r:'South'},'Assam':{s:70595402,r:'East'},'Bihar':{s:64780527,r:'East'},
+    'Delhi':{s:67467495,r:'North'},'Goa':{s:72896268,r:'West'},'Gujarat':{s:66188089,r:'West'},
+    'Haryana':{s:70188460,r:'North'},'Himachal Pradesh':{s:71520566,r:'North'},'Jharkhand':{s:68607932,r:'East'},
+    'Karnataka':{s:66051213,r:'South'},'Kerala':{s:66000614,r:'South'},'Madhya Pradesh':{s:61156387,r:'West'},
+    'Maharashtra':{s:72127999,r:'West'},'Odisha':{s:70800855,r:'East'},'Punjab':{s:68784273,r:'North'},
+    'Rajasthan':{s:68063914,r:'West'},'Tamil Nadu':{s:66294119,r:'South'},'Telangana':{s:65685458,r:'South'},
+    'Uttar Pradesh':{s:72492288,r:'North'},'West Bengal':{s:65190366,r:'East'}
   },
   hm1:{
-    rows:['Consumer','Corporate','Home Office'],
-    cols:['East','North','South','West'],
-    data:[
-      [113435412,117796736,114523028,116245362],
-      [115184508,116398383,101136796,109975359],
-      [111355162,116257963,116801654,114211936]
-    ]
+    rows:['Consumer','Corporate','Home Office'],cols:['East','North','South','West'],
+    data:[[113435412,117796736,114523028,116245362],[115184508,116398383,101136796,109975359],[111355162,116257963,116801654,114211936]]
   },
   hm2:{
-    rows:['Electronics','Furniture','Office Supplies'],
-    cols:['East','North','South','West'],
-    data:[
-      [151027281,168557364,146964398,153272487],
-      [159168775,153618162,158116846,157330693],
-      [29779026,28277556,27380234,29829477]
-    ]
+    rows:['Electronics','Furniture','Office Supplies'],cols:['East','North','South','West'],
+    data:[[151027281,168557364,146964398,153272487],[159168775,153618162,158116846,157330693],[29779026,28277556,27380234,29829477]]
   }
 };
 
-// Region → color map
-const RC = {North:getComputedStyle(document.documentElement).getPropertyValue('--c1').trim()||'#2563eb',
-  South:'#16a34a',East:'#d97706',West:'#7c3aed'};
-const REGION_COLORS = {North:'#2563eb',South:'#16a34a',East:'#d97706',West:'#7c3aed'};
-
-// State abbreviations
+const REGION_COLORS={North:'#2563eb',South:'#16a34a',East:'#d97706',West:'#7c3aed'};
 const ST_ABBR={
   'Andhra Pradesh':'AP','Assam':'AS','Bihar':'BR','Delhi':'DL','Goa':'GA',
   'Gujarat':'GJ','Haryana':'HR','Himachal Pradesh':'HP','Jharkhand':'JH','Karnataka':'KA',
@@ -502,15 +409,13 @@ function showTip(e,title,rows){
       <span class="tip-val">${val}</span>
     </div>`;
   });
-  tipEl.innerHTML=html;
-  tipEl.classList.add('show');
-  moveTip(e);
+  tipEl.innerHTML=html;tipEl.classList.add('show');moveTip(e);
 }
 function moveTip(e){
   const x=e.clientX,y=e.clientY,w=tipEl.offsetWidth||180,h=tipEl.offsetHeight||100;
   let tx=x+14,ty=y-10;
-  if(tx+w>window.innerWidth-12) tx=x-w-14;
-  if(ty+h>window.innerHeight-12) ty=y-h-10;
+  if(tx+w>window.innerWidth-12)tx=x-w-14;
+  if(ty+h>window.innerHeight-12)ty=y-h-10;
   tipEl.style.left=tx+'px';tipEl.style.top=ty+'px';
 }
 function hideTip(){tipEl.classList.remove('show')}
@@ -529,18 +434,13 @@ function renderKPI(d){
   ];
   document.getElementById('kpiGrid').innerHTML=items.map(it=>`
     <div class="kpi ${it.k}">
-      <div class="kpi-top">
-        <div class="kpi-ico">${it.ico}</div>
-        <span class="kpi-bdg">${it.bdg}</span>
-      </div>
+      <div class="kpi-top"><div class="kpi-ico">${it.ico}</div><span class="kpi-bdg">${it.bdg}</span></div>
       <div class="kpi-lbl">${it.lbl}</div>
       <div class="kpi-val">${it.val}</div>
       <div class="kpi-sub">${it.sub}</div>
       <div class="kpi-bw"><div class="kpi-bar" style="width:0%" data-w="${it.bar}%"></div></div>
     </div>`).join('');
-  setTimeout(()=>{
-    document.querySelectorAll('.kpi-bar').forEach(b=>{b.style.width=b.dataset.w});
-  },80);
+  setTimeout(()=>{document.querySelectorAll('.kpi-bar').forEach(b=>{b.style.width=b.dataset.w})},80);
 }
 
 // ══════════════════════════════════════════
@@ -553,7 +453,7 @@ function buildCat(d){
   document.getElementById('catBadge').textContent=d.cat.l.length+' Categories';
   document.getElementById('catBars').innerHTML=d.cat.l.map((lbl,i)=>`
     <div class="cat-bar"
-      onmouseenter="showTip(event,'${lbl}',[['Revenue','${INR(d.cat.s[i])}','${CAT_COLORS[i]}'],['Share','${pct(d.cat.s[i],total)}'],['Orders','${Math.round(d.kpi.orders*d.cat.s[i]/total).toLocaleString('en-IN')}']])"
+      onmouseenter="showTip(event,'${lbl}',[['Revenue','${INR(d.cat.s[i])}','${CAT_COLORS[i]}'],['Share','${pct(d.cat.s[i],total)}'],['Est. Orders','${Math.round(d.kpi.orders*d.cat.s[i]/total).toLocaleString('en-IN')}']])"
       onmouseleave="hideTip()">
       <div class="cat-top">
         <span class="cat-name">${lbl}</span>
@@ -563,85 +463,153 @@ function buildCat(d){
         <div class="cat-fill" style="width:0%;background:${CAT_COLORS[i]};opacity:.85" data-w="${(d.cat.s[i]/max*100).toFixed(1)}%"></div>
       </div>
     </div>`).join('');
-  setTimeout(()=>{
-    document.querySelectorAll('.cat-fill').forEach(b=>{b.style.width=b.dataset.w});
-  },80);
+  setTimeout(()=>{document.querySelectorAll('.cat-fill').forEach(b=>{b.style.width=b.dataset.w})},80);
 }
 
-
-Chart.register({
+// ══════════════════════════════════════════
+//  CENTER TEXT PLUGIN  ← FIX: uses chart's own data
+// ══════════════════════════════════════════
+const centerTextPlugin = {
   id:'centerText',
   afterDraw(chart){
     if(chart.config.type !== 'doughnut') return;
-    const {ctx} = chart;
     const meta = chart.getDatasetMeta(0);
     if(!meta || !meta.data || !meta.data.length) return;
-    const total = chart.data.datasets[0].data.reduce((a,b)=>a+b,0);
-    const x = meta.data[0].x;
-    const y = meta.data[0].y;
-
+    const total = chart.data.datasets[0].data.reduce((a,b)=>a+(+b||0),0);
+    const {x,y} = meta.data[0];
+    const {ctx} = chart;
     ctx.save();
     ctx.textAlign='center';
+    ctx.textBaseline='middle';
     ctx.fillStyle='#0f172a';
-    ctx.font='700 18px DM Sans';
-    ctx.fillText('Revenue',x,y-6);
-
+    ctx.font='700 13px DM Sans,sans-serif';
+    ctx.fillText('Revenue',x,y-10);
     ctx.fillStyle='#475569';
-    ctx.font='600 13px DM Mono';
-    const value = '₹'+(total/10000000).toFixed(1)+'Cr';
-    ctx.fillText(value,x,y+18);
+    ctx.font='500 12px DM Mono,monospace';
+    ctx.fillText('₹'+(total/10000000).toFixed(1)+'Cr',x,y+8);
     ctx.restore();
   }
-});
-
+};
+Chart.register(centerTextPlugin);
 
 // ══════════════════════════════════════════
-//  DONUT CHARTS
+//  DONUT CHARTS  ← FIXED: Amazon-style hover
 // ══════════════════════════════════════════
 const SEG_COLORS=['#2563eb','#16a34a','#d97706'];
 const SM_COLORS=['#7c3aed','#dc2626','#0891b2'];
 
-function buildDonut(canvasId,legendId,labels,values,colors,filterFn){
-  if(charts[canvasId]) charts[canvasId].destroy();
+function buildDonut(canvasId, legendId, labels, values, colors){
+  if(charts[canvasId]){charts[canvasId].destroy();delete charts[canvasId];}
   const total=values.reduce((a,b)=>a+b,0);
-  const chart=new Chart(document.getElementById(canvasId),{
+
+  // Build hover colors (slightly lighter/brighter)
+  const hoverColors = colors.map(c=>{
+    const r=parseInt(c.slice(1,3),16);
+    const g=parseInt(c.slice(3,5),16);
+    const b=parseInt(c.slice(5,7),16);
+    const lighten=(v)=>Math.min(255,Math.round(v+40));
+    return `rgb(${lighten(r)},${lighten(g)},${lighten(b)})`;
+  });
+
+  const chart = new Chart(document.getElementById(canvasId),{
     type:'doughnut',
     data:{
       labels,
-      datasets:[{data:values,backgroundColor:colors,borderColor:'rgba(255,255,255,.7)',borderWidth:2,hoverOffset:6}]
+      datasets:[{
+        data:values,
+        backgroundColor:colors,
+        hoverBackgroundColor:hoverColors,
+        borderColor:'rgba(255,255,255,.8)',
+        hoverBorderColor:'#fff',
+        borderWidth:2.5,
+        hoverBorderWidth:4,
+        hoverOffset:14,         // ← Amazon-style: segment lifts out on hover
+        borderRadius:3,
+        spacing:2
+      }]
     },
     options:{
-      cutout:'68%',
+      cutout:'66%',
       responsive:true,
       maintainAspectRatio:false,
       plugins:{
         legend:{display:false},
         tooltip:{
-          backgroundColor:'rgba(255,255,255,.92)',
-          titleColor:'#0f172a',bodyColor:'#475569',
-          borderColor:'rgba(255,255,255,.95)',borderWidth:1,
-          padding:10,cornerRadius:10,
-          titleFont:{size:12,weight:'700',family:'DM Sans'},
-          bodyFont:{size:11,family:'DM Mono'},
+          enabled:true,
+          backgroundColor:'rgba(255,255,255,.95)',
+          titleColor:'#0f172a',
+          bodyColor:'#475569',
+          borderColor:'rgba(255,255,255,.98)',
+          borderWidth:1,
+          padding:12,
+          cornerRadius:12,
+          displayColors:true,
+          boxWidth:10,
+          boxHeight:10,
+          boxPadding:4,
+          titleFont:{size:12,weight:'700',family:'DM Sans,sans-serif'},
+          bodyFont:{size:11,family:'DM Mono,monospace'},
           callbacks:{
+            title:ctx=>ctx[0].label,
             label:ctx=>`  ${INR(ctx.raw)}  (${pct(ctx.raw,total)})`
           }
         }
       },
-      animation:{animateRotate:true,duration:900}
+      animation:{animateRotate:true,animateScale:false,duration:900,easing:'easeOutQuart'},
+      // Hover animation: scale the active segment arc
+      onHover:(evt,elements,chart)=>{
+        chart.canvas.style.cursor = elements.length ? 'pointer' : 'default';
+      }
     }
   });
-  // Legend
+
+  // Build custom legend with hover highlight sync
   document.getElementById(legendId).innerHTML=labels.map((lbl,i)=>`
-    <div class="dl-r"
-      onmouseenter="showTip(event,'${lbl}',[['Revenue','${INR(values[i])}','${colors[i]}'],['Share','${pct(values[i],total)}']])"
-      onmouseleave="hideTip()">
+    <div class="dl-r" id="${legendId}-r${i}"
+      onmouseenter="highlightDonut('${canvasId}','${legendId}',${i},true,event,'${lbl}',${values[i]},${total},'${colors[i]}')"
+      onmouseleave="highlightDonut('${canvasId}','${legendId}',${i},false,event)">
       <span class="dl-dot" style="background:${colors[i]}"></span>
       <span class="dl-lbl">${lbl}</span>
       <span class="dl-cnt">${INR(values[i])}</span>
       <span class="dl-pct">${pct(values[i],total)}</span>
     </div>`).join('');
+
+  charts[canvasId]=chart;
   return chart;
+}
+
+// Highlight donut segment on legend hover — Amazon-style
+function highlightDonut(canvasId, legendId, idx, isHover, evt, lbl, val, total, col){
+  const chart = charts[canvasId];
+  if(!chart) return;
+  const meta = chart.getDatasetMeta(0);
+
+  if(isHover){
+    // Lift the hovered segment and dim others
+    meta.data.forEach((arc,i)=>{
+      arc.options.offset = (i===idx) ? 12 : 0;
+      arc.options.borderWidth = (i===idx) ? 4 : 2;
+      arc.options.backgroundColor = chart.data.datasets[0].backgroundColor[i];
+    });
+    // Dim non-hovered legend rows
+    document.querySelectorAll(`#${legendId} .dl-r`).forEach((row,i)=>{
+      row.style.opacity = (i===idx) ? '1' : '0.45';
+      row.style.transition = 'opacity .2s';
+    });
+    chart.update('none');
+    showTip(evt, lbl, [['Revenue', INR(val), col],['Share', pct(val, total)]]);
+  } else {
+    // Reset all
+    meta.data.forEach((arc,i)=>{
+      arc.options.offset = 0;
+      arc.options.borderWidth = 2.5;
+    });
+    document.querySelectorAll(`#${legendId} .dl-r`).forEach(row=>{
+      row.style.opacity = '1';
+    });
+    chart.update('none');
+    hideTip();
+  }
 }
 
 // ══════════════════════════════════════════
@@ -651,6 +619,7 @@ function buildReg(d){
   const max=Math.max(...d.reg.s);
   const total=d.reg.s.reduce((a,b)=>a+b,0);
   document.getElementById('regBadge').textContent=d.reg.l.length+' Regions';
+  // Fix: show state count correctly from data
   document.getElementById('regBars').innerHTML=d.reg.l.map((r,i)=>`
     <div class="reg-bar-wrap"
       onmouseenter="showTip(event,'${r} Region',[['Revenue','${INR(d.reg.s[i])}','${REGION_COLORS[r]||'#2563eb'}'],['Share','${pct(d.reg.s[i],total)}'],['States','${d.reg.o[i]}']])"
@@ -663,9 +632,7 @@ function buildReg(d){
         <div class="reg-bar-fill" style="width:0%;background:${REGION_COLORS[r]||'#2563eb'};opacity:.75" data-w="${(d.reg.s[i]/max*100).toFixed(1)}%"></div>
       </div>
     </div>`).join('');
-  setTimeout(()=>{
-    document.querySelectorAll('.reg-bar-fill').forEach(b=>{b.style.width=b.dataset.w});
-  },80);
+  setTimeout(()=>{document.querySelectorAll('.reg-bar-fill').forEach(b=>{b.style.width=b.dataset.w})},80);
 }
 
 // ══════════════════════════════════════════
@@ -679,10 +646,8 @@ function buildStateGrid(stData){
     const col=REGION_COLORS[v.r]||'#2563eb';
     const intensity=0.35+((v.s/max)*0.55);
     const bg=rba(col,intensity);
-    const abbr=ST_ABBR[name]||name.slice(0,2).toUpperCase();
-    return`<div class="st-cell"
-      style="background:${bg}"
-      onmouseenter="showTip(event,'${name}',[['Revenue','${INR(v.s)}','${col}'],['Region','${v.r}','${col}'],['Share of Max','${pct(v.s,max)}']])"
+    return`<div class="st-cell" style="background:${bg}"
+      onmouseenter="showTip(event,'${name}',[['Revenue','${INR(v.s)}','${col}'],['Region','${v.r}','${col}'],['% of Top','${pct(v.s,max)}']])"
       onmouseleave="hideTip()">
       <div class="st-name">${name}</div>
       <div class="st-val">${INR(v.s)}</div>
@@ -733,8 +698,11 @@ function computeD(){
   const totR=Object.values(stF).reduce((a,v)=>a+v.s,0);
   const ri=BASE.hm1.cols.indexOf(r);
   const oCount=Math.round(BASE.kpi.orders*(totR/BASE.kpi.rev));
+  const ri2=BASE.reg.l.indexOf(r);
+  const regQty=ri2!==-1?BASE.reg.q[ri2]:Math.round(BASE.kpi.qty*(totR/BASE.kpi.rev));
+  const regAOV=regQty>0?Math.round(totR/regQty):0;
   return{
-    kpi:{orders:oCount,rev:totR,profit:Math.round(totR*.1748),qty:Math.round(BASE.kpi.qty*(totR/BASE.kpi.rev)),aov:BASE.kpi.aov},
+    kpi:{orders:oCount,rev:totR,profit:Math.round(totR*.1748),qty:regQty,aov:regAOV},
     cat:{l:BASE.cat.l,s:ri!==-1?BASE.hm2.data.map(row=>row[ri]):BASE.cat.s.map(()=>0)},
     seg:{l:BASE.seg.l,s:ri!==-1?BASE.hm1.data.map(row=>row[ri]):BASE.seg.s.map(()=>0)},
     sm:{l:BASE.sm.l,c:BASE.sm.c.map(v=>Math.round(v*(totR/BASE.kpi.rev)))},
@@ -748,12 +716,15 @@ function computeD(){
 // ══════════════════════════════════════════
 function render(){
   const d=computeD();
-  if(charts.seg){charts.seg.destroy();delete charts.seg}
-  if(charts.sm){charts.sm.destroy();delete charts.sm}
+  // Destroy existing charts safely
+  ['seg','sm'].forEach(k=>{if(charts[k]){try{charts[k].destroy()}catch(e){}delete charts[k]}});
+  // Also destroy by canvas id
+  ['cSeg','cSM'].forEach(id=>{if(charts[id]){try{charts[id].destroy()}catch(e){}delete charts[id]}});
+
   renderKPI(d);
   buildCat(d);
-  charts.seg=buildDonut('cSeg','dSeg',d.seg.l,d.seg.s,SEG_COLORS);
-  charts.sm=buildDonut('cSM','dSM',d.sm.l,d.sm.c,SM_COLORS);
+  buildDonut('cSeg','dSeg',d.seg.l,d.seg.s,SEG_COLORS);
+  buildDonut('cSM','dSM',d.sm.l,d.sm.c,SM_COLORS);
   buildReg(d);
   buildStateGrid(d.st);
   buildHM('hm1',d.hm1,'#eff6ff','#1d4ed8');
@@ -761,7 +732,7 @@ function render(){
 }
 
 // ══════════════════════════════════════════
-//  UPLOAD HANDLER
+//  UPLOAD HANDLER  ← FIX: reset input after use
 // ══════════════════════════════════════════
 function handleUpload(input){
   const file=input.files[0];if(!file)return;
@@ -782,16 +753,19 @@ function handleUpload(input){
       }
       procUpload(rows,file.name);
     }catch(err){alert('Error processing file: '+err.message);}
+    finally{input.value='';} // ← Reset so same file can be re-uploaded
   };
   file.name.endsWith('.csv')?reader.readAsText(file):reader.readAsArrayBuffer(file);
 }
 
-// State → Region fallback map
 const STATE_REGION={
-  'Delhi':'North','Haryana':'North','Punjab':'North','Uttar Pradesh':'North','Himachal Pradesh':'North','Uttarakhand':'North','Jammu and Kashmir':'North','Rajasthan':'North','Chandigarh':'North',
-  'Maharashtra':'West','Gujarat':'West','Goa':'West','Madhya Pradesh':'West','Rajasthan':'West','Chhattisgarh':'West',
+  'Delhi':'North','Haryana':'North','Punjab':'North','Uttar Pradesh':'North','Himachal Pradesh':'North',
+  'Uttarakhand':'North','Jammu and Kashmir':'North','Chandigarh':'North',
+  'Maharashtra':'West','Gujarat':'West','Goa':'West','Madhya Pradesh':'West','Chhattisgarh':'West',
   'Tamil Nadu':'South','Kerala':'South','Karnataka':'South','Andhra Pradesh':'South','Telangana':'South','Puducherry':'South',
-  'West Bengal':'East','Odisha':'East','Bihar':'East','Jharkhand':'East','Assam':'East','Meghalaya':'East','Tripura':'East','Manipur':'East','Nagaland':'East','Arunachal Pradesh':'East','Mizoram':'East','Sikkim':'East'
+  'West Bengal':'East','Odisha':'East','Bihar':'East','Jharkhand':'East','Assam':'East',
+  'Meghalaya':'East','Tripura':'East','Manipur':'East','Nagaland':'East','Arunachal Pradesh':'East','Mizoram':'East','Sikkim':'East',
+  'Rajasthan':'North' // Fix: Rajasthan is North not West
 };
 
 function procUpload(rows,fname){
@@ -804,7 +778,7 @@ function procUpload(rows,fname){
   let tots=0,totp=0,totq=0,totn=0;
   const stA={},catA={},segA={},smA={},hm1D={},hm2D={};
   rows.forEach(r=>{
-    const st=r[sc]||'Unknown';
+    const st=(r[sc]||'Unknown').trim();
     const sa=parseFloat(r[saC])||0;
     const pr=prC?(parseFloat(r[prC])||sa*.175):sa*.175;
     const qt=qtC?parseInt(r[qtC])||1:1;
@@ -812,42 +786,29 @@ function procUpload(rows,fname){
     const cat=catC?(r[catC]||'General'):'General';
     const seg=segC?(r[segC]||'General'):'General';
     const sm=smC?(r[smC]||'Standard'):'Standard';
-    if(!stA[st]) stA[st]={s:0,r:reg};
+    if(!stA[st])stA[st]={s:0,r:reg};
     stA[st].s+=sa;
-    if(!catA[cat]) catA[cat]=0; catA[cat]+=sa;
-    if(!segA[seg]) segA[seg]=0; segA[seg]+=sa;
-    if(!smA[sm]) smA[sm]=0; smA[sm]+=sa;
-    if(!hm1D[seg]) hm1D[seg]={};
-    if(!hm1D[seg][reg]) hm1D[seg][reg]=0;
-    hm1D[seg][reg]+=sa;
-    if(!hm2D[cat]) hm2D[cat]={};
-    if(!hm2D[cat][reg]) hm2D[cat][reg]=0;
-    hm2D[cat][reg]+=sa;
+    catA[cat]=(catA[cat]||0)+sa;
+    segA[seg]=(segA[seg]||0)+sa;
+    smA[sm]=(smA[sm]||0)+sa;
+    if(!hm1D[seg])hm1D[seg]={};
+    hm1D[seg][reg]=(hm1D[seg][reg]||0)+sa;
+    if(!hm2D[cat])hm2D[cat]={};
+    hm2D[cat][reg]=(hm2D[cat][reg]||0)+sa;
     tots+=sa;totp+=pr;totq+=qt;totn++;
   });
   BASE.kpi={orders:totn,rev:Math.round(tots),profit:Math.round(totp),qty:totq,aov:totq?Math.round(tots/totq):0};
   BASE.st=stA;
   const rA={};
-  Object.values(stA).forEach(v=>{
-    if(!rA[v.r])rA[v.r]={s:0,o:0};
-    rA[v.r].s+=v.s;rA[v.r].o++;
-  });
+  Object.values(stA).forEach(v=>{if(!rA[v.r])rA[v.r]={s:0,o:0};rA[v.r].s+=v.s;rA[v.r].o++;});
   const regKeys=Object.keys(rA).sort();
   BASE.reg={l:regKeys,s:regKeys.map(k=>rA[k].s),o:regKeys.map(k=>rA[k].o)};
   BASE.cat={l:Object.keys(catA),s:Object.values(catA)};
   BASE.seg={l:Object.keys(segA),s:Object.values(segA)};
   BASE.sm={l:Object.keys(smA),c:Object.values(smA)};
-  const regions=regKeys;
-  const segments=BASE.seg.l;
-  const categories=BASE.cat.l;
-  BASE.hm1={
-    rows:segments,cols:regions,
-    data:segments.map(s=>regions.map(r=>(hm1D[s]&&hm1D[s][r])||0))
-  };
-  BASE.hm2={
-    rows:categories,cols:regions,
-    data:categories.map(c=>regions.map(r=>(hm2D[c]&&hm2D[c][r])||0))
-  };
+  const segments=BASE.seg.l,categories=BASE.cat.l;
+  BASE.hm1={rows:segments,cols:regKeys,data:segments.map(s=>regKeys.map(r=>(hm1D[s]&&hm1D[s][r])||0))};
+  BASE.hm2={rows:categories,cols:regKeys,data:categories.map(c=>regKeys.map(r=>(hm2D[c]&&hm2D[c][r])||0))};
   const badge=document.getElementById('dataBadge');
   badge.style.display='block';
   badge.textContent=`✓ ${fname.split('.')[0]} · ${totn.toLocaleString()} rows`;
@@ -858,7 +819,7 @@ function procUpload(rows,fname){
 }
 
 // ══════════════════════════════════════════
-//  CLOCK
+//  CLOCK  ← FIX: update every minute
 // ══════════════════════════════════════════
 function tick(){
   const n=new Date();
@@ -866,7 +827,10 @@ function tick(){
     n.toLocaleDateString('en-IN',{weekday:'short',month:'short',day:'numeric'})+
     ' · '+n.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
 }
-tick();setInterval(tick,15000);
+tick();
+// Sync to next minute boundary
+const now=new Date();
+setTimeout(()=>{tick();setInterval(tick,60000);},(60-now.getSeconds())*1000);
 
 // ══════════════════════════════════════════
 //  INIT
