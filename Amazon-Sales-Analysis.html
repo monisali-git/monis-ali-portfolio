@@ -3,435 +3,398 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Amazon India Seller Central Dashboard 2025 - Larger Text for Portfolio</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
-
 <style>
-:root {
-  --bg: #030712;
-  --card: #111827;
-  --accent: #00e5ff;
-  --accent2: #ff6b6b;
-  --accent3: #ffd166;
-  --accent4: #06d6a0;
-  --amz: #FF9900;
-  --text: #f3f4f6;
-  --muted: #9ca3af;
-  --border: rgba(0,229,255,0.2);
-  --trans: all 0.3s cubic-bezier(0.4,0,0.2,1);
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-body { background: var(--bg); color: var(--text); padding: 22px; }
-.dash {
-  font-family: 'DM Sans', sans-serif;
-  padding: 10px;
-  border-radius: 16px;
-}
-
-.header {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 18px;
-}
-.brand { font-family: 'Bebas Neue', sans-serif; font-size: 38px; letter-spacing: 1px; color: var(--text); }
-.brand span { color: var(--amz); }
-.live-tag {
-  background: rgba(6,214,160,0.1); color: var(--accent4);
-  padding: 6px 16px; border-radius: 20px; font-size: 15px; font-weight: 700;
-  border: 1px solid var(--accent4); text-transform: uppercase;
-}
-.header-right { text-align: right; }
-.header-right p:first-child { font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-.header-right p:last-child { font-family: 'Bebas Neue', sans-serif; font-size: 30px; color: var(--amz); line-height: 1; margin-top: 4px;}
-
-.filters {
-  display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; align-items: center;
-}
-.fl { font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-.fb {
-  padding: 6px 16px; border-radius: 20px;
-  border: 1px solid var(--border);
-  background: transparent; color: var(--muted);
-  font-size: 14px; font-weight: 700; cursor: pointer;
-  transition: var(--trans); letter-spacing: 0.5px;
-}
-.fb:hover:not(.active) { border-color: var(--amz); color: var(--amz); }
-.fb.active { background: var(--amz); color: #000; border-color: var(--amz); }
-
-#catFilter {margin-left:auto; font-size:14px; padding:6px 12px; border-radius:20px; border:1px solid var(--border); background:var(--card); color:var(--muted); cursor:pointer; font-weight:700; letter-spacing:0.5px;}
-
-.kpi-row { display: grid; grid-template-columns: repeat(6,1fr); gap: 14px; margin-bottom: 22px; }
-.kpi-card {
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: 12px; padding: 18px; position: relative;
-  transition: var(--trans); cursor: pointer; overflow: hidden; text-align: center;
-}
-.kpi-card::before {
-  content: ''; position: absolute; inset: 0; border-radius: 12px;
-  opacity: 0; transition: var(--trans);
-}
-.kpi-card:hover { transform: translateY(-5px); box-shadow: 0 10px 28px rgba(0,229,255,0.18); border-color: var(--accent); }
-.kpi-card:hover::before { opacity: 1; }
-.kpi-label { font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 6px; display: block; font-weight: 500;}
-.kpi-val { font-family: 'Bebas Neue', sans-serif; font-size: 34px; line-height: 1; margin-bottom: 4px;}
-.kpi-sub { font-size: 13px; font-weight: 700; text-transform: uppercase;}
-
-.main-grid { display: grid; grid-template-columns: 1fr 1.1fr 1fr; gap: 20px; margin-bottom: 20px; }
-.panel {
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: 16px; padding: 22px; display: flex; flex-direction: column;
-  transition: border-color 0.3s;
-}
-.panel:hover { border-color: rgba(255,153,0,0.4); }
-.panel-title {
-  font-family: 'Bebas Neue', sans-serif; font-size: 24px;
-  color: var(--amz); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
-  letter-spacing: 0.8px;
-}
-.panel-title i { font-size: 20px; color: var(--muted); }
-
-.data-row { position: relative; margin-bottom: 18px; cursor: pointer; }
-.label-group {
-  display: flex; justify-content: space-between;
-  font-size: 16px; margin-bottom: 8px; transition: var(--trans);
-}
-.label-group b { font-weight: 700; }
-.bar-bg { height: 10px; background: rgba(255,255,255,0.05); border-radius: 12px; overflow: visible; position: relative; }
-.bar-fill { height: 100%; border-radius: 12px; transition: width 1s ease, filter 0.3s; }
-.hover-bubble {
-  position: absolute; top: -36px; left: 50%;
-  transform: translateX(-50%) scale(0);
-  background: var(--amz); color: #000;
-  padding: 5px 12px; border-radius: 8px;
-  font-size: 13px; font-weight: 800;
-  transition: var(--trans); pointer-events: none; white-space: nowrap;
-  z-index: 10;
-}
-.data-row:hover .hover-bubble { transform: translateX(-50%) scale(1); }
-.data-row:hover .label-group { color: var(--amz); }
-.data-row:hover .bar-fill { filter: brightness(1.3) drop-shadow(0 0 6px currentColor); }
-
-.donut-wrap { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; min-height: 200px;}
-.donut-center {
-  position: absolute; text-align: center; pointer-events: none; transition: var(--trans);
-}
-.donut-center h2 { font-family: 'Bebas Neue', sans-serif; font-size: 34px; color: var(--text); transition: var(--trans); line-height: 1;}
-.donut-center p { font-size: 13px; color: #ffffff; text-transform: uppercase; letter-spacing: 1px; font-weight: 500;}
-#donutSvg path { transition: all 0.25s ease; cursor: pointer; }
-#donutSvg path:hover { filter: brightness(1.25) drop-shadow(0 0 8px currentColor); transform-origin: 110px 110px; transform: scale(1.04); }
-
-.donut-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 12px; margin-top: 18px; font-size: 14px; font-weight: 700; color: var(--muted); text-transform: uppercase;}
-.donut-legend span { cursor: default; }
-.donut-legend i { font-style: normal; margin-right: 4px;}
-
-.scroll-box { overflow-y: auto; flex: 1; padding-right: 8px; max-height: 350px; }
-.scroll-box::-webkit-scrollbar { width: 5px; }
-.scroll-box::-webkit-scrollbar-thumb { background: rgba(255,153,0,0.15); border-radius: 10px; }
-.scroll-box::-webkit-scrollbar-thumb:hover { background: var(--amz); }
-
-.list-item {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
-  transition: var(--trans); cursor: pointer; border-radius: 6px;
-}
-.list-item:hover { background: rgba(255,153,0,0.07); padding-left: 12px; padding-right: 8px; border-bottom-color: var(--amz); }
-.list-item:hover .list-val { color: var(--amz); }
-.list-item span { font-size: 16px; font-weight: 500;}
-.list-val { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--accent); transition: var(--trans); }
-
-.bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-
-.size-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 8px; margin-top: 10px; align-items: end;}
-.size-bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: default; }
-.size-bar-col {
-  width: 100%; border-radius: 5px 5px 0 0;
-  transition: var(--trans); position: relative; min-height: 5px;
-}
-.size-bar-wrap:hover .size-bar-col { filter: brightness(1.3) drop-shadow(0 0 6px var(--amz)); transform: scaleY(1.05); transform-origin: bottom; }
-.size-bar-wrap:hover .size-label { color: var(--amz); }
-.size-label { font-size: 14px; color: var(--muted); font-weight: 700; transition: var(--trans); }
-
-#monthlyChartCont { position:relative; height:200px; margin-top: 10px;}
+:root{--bg:#030712;--card:#111827;--accent:#00e5ff;--accent2:#ff6b6b;--accent3:#ffd166;--accent4:#06d6a0;--amz:#FF9900;--text:#f3f4f6;--muted:#9ca3af;--border:rgba(0,229,255,0.2);--trans:all 0.3s cubic-bezier(0.4,0,0.2,1);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);padding:22px;font-family:'DM Sans',sans-serif;}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;border-bottom:1px solid var(--border);padding-bottom:18px;flex-wrap:wrap;gap:12px;}
+.brand{font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:1px;color:var(--text);}
+.brand span{color:var(--amz);}
+.live-tag{background:rgba(6,214,160,0.1);color:var(--accent4);padding:6px 16px;border-radius:20px;font-size:15px;font-weight:700;border:1px solid var(--accent4);text-transform:uppercase;}
+.header-right{text-align:right;}
+.header-right p:first-child{font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.header-right p:last-child{font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--amz);line-height:1;margin-top:4px;}
+.filters{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
+.fl{font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.fb{padding:6px 16px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:14px;font-weight:700;cursor:pointer;transition:var(--trans);letter-spacing:0.5px;}
+.fb:hover:not(.active){border-color:var(--amz);color:var(--amz);}
+.fb.active{background:var(--amz);color:#000;border-color:var(--amz);}
+#catFilter{margin-left:auto;font-size:14px;padding:6px 12px;border-radius:20px;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;font-weight:700;letter-spacing:0.5px;}
+.kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-bottom:22px;}
+.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;position:relative;transition:var(--trans);cursor:pointer;overflow:hidden;text-align:center;}
+.kpi-card:hover{transform:translateY(-5px);box-shadow:0 10px 28px rgba(0,229,255,0.18);border-color:var(--accent);}
+.kpi-label{font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px;display:block;font-weight:500;}
+.kpi-val{font-family:'Bebas Neue',sans-serif;font-size:34px;line-height:1;margin-bottom:4px;}
+.kpi-sub{font-size:13px;font-weight:700;text-transform:uppercase;}
+.main-grid{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:20px;margin-bottom:20px;}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;display:flex;flex-direction:column;transition:border-color 0.3s;}
+.panel:hover{border-color:rgba(255,153,0,0.4);}
+.panel-title{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--amz);margin-bottom:20px;display:flex;align-items:center;gap:10px;letter-spacing:0.8px;}
+.panel-title i{font-size:20px;color:var(--muted);}
+.data-row{position:relative;margin-bottom:18px;cursor:pointer;}
+.label-group{display:flex;justify-content:space-between;font-size:16px;margin-bottom:8px;transition:var(--trans);}
+.label-group b{font-weight:700;}
+.bar-bg{height:10px;background:rgba(255,255,255,0.05);border-radius:12px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:12px;transition:width 0.8s ease;}
+.data-row:hover .label-group{color:var(--amz);}
+.donut-wrap{flex:1;display:flex;align-items:center;justify-content:center;position:relative;min-height:220px;}
+.donut-center{position:absolute;text-align:center;pointer-events:none;}
+.donut-center h2{font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--text);line-height:1;transition:color 0.2s;}
+.donut-center p{font-size:13px;color:#fff;text-transform:uppercase;letter-spacing:1px;font-weight:500;}
+.donut-legend{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 12px;margin-top:18px;font-size:14px;font-weight:700;color:var(--muted);text-transform:uppercase;}
+.scroll-box{overflow-y:auto;flex:1;padding-right:8px;max-height:340px;}
+.scroll-box::-webkit-scrollbar{width:5px;}
+.scroll-box::-webkit-scrollbar-thumb{background:rgba(255,153,0,0.15);border-radius:10px;}
+.scroll-box::-webkit-scrollbar-thumb:hover{background:var(--amz);}
+.list-item{display:flex;justify-content:space-between;align-items:center;padding:11px 4px;border-bottom:1px solid rgba(255,255,255,0.05);transition:var(--trans);cursor:pointer;border-radius:6px;gap:8px;}
+.list-item:hover{background:rgba(255,153,0,0.07);padding-left:12px;padding-right:8px;border-bottom-color:var(--amz);}
+.list-val{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--accent);transition:var(--trans);flex-shrink:0;}
+.list-item:hover .list-val{color:var(--amz);}
+.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.size-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:10px;align-items:end;}
+.size-bar-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:default;}
+.size-bar-col{width:100%;border-radius:5px 5px 0 0;transition:var(--trans);min-height:5px;}
+.size-bar-wrap:hover .size-bar-col{transform:scaleY(1.05);transform-origin:bottom;}
+.size-label{font-size:14px;color:var(--muted);font-weight:700;}
+#monthlyChartCont{position:relative;height:200px;margin-top:10px;}
+.sname{width:130px;font-size:15px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0;}
+.sbw{flex:1;background:rgba(255,255,255,0.06);border-radius:4px;height:10px;overflow:hidden;}
+.sb{height:100%;border-radius:4px;background:var(--amz);transition:width 0.8s ease;}
 </style>
 </head>
 <body>
 
-<div class="dash">
-
-  <div class="header">
-    <div class="brand">AMAZON<span>INDIA</span> 2025 Sales</div>
-    <div class="live-tag">● FULL YEAR PERFORMANCE DATA</div>
-    <div class="header-right">
-      <p>Total Orders Analyzed</p>
-      <p>1,28,970</p>
-    </div>
+<div class="header">
+  <div class="brand">AMAZON<span>INDIA</span> 2025 Sales</div>
+  <div class="live-tag">● Full Year Performance Data</div>
+  <div class="header-right">
+    <p>Total Orders Analyzed</p>
+    <p id="hdr-total">1,28,970</p>
   </div>
+</div>
 
-  <div class="filters">
-    <span class="fl">Time Period:</span>
-    <button class="fb active" data-period="all">Full Year 2025</button>
-    <select id="catFilter">
-      <option value="all">All Product Categories</option>
-      <option value="Saree">Saree</option>
-      <option value="kurta">Kurta</option>
-      <option value="Western Dress">Western Dress</option>
-      <option value="Top">Top</option>
-      <option value="Ethnic Dress">Ethnic Dress</option>
-    </select>
-  </div>
+<div class="filters">
+  <span class="fl">Time Period:</span>
+  <button class="fb active" data-period="all">Full Year 2025</button>
+  <button class="fb" data-period="q1">Q1</button>
+  <button class="fb" data-period="q2">Q2</button>
+  <button class="fb" data-period="q3">Q3</button>
+  <button class="fb" data-period="q4">Q4</button>
+  <select id="catFilter">
+    <option value="all">All Product Categories</option>
+    <option value="saree">Saree</option>
+    <option value="kurta">Kurta</option>
+    <option value="western">Western Dress</option>
+    <option value="top">Top</option>
+    <option value="ethnic">Ethnic Dress</option>
+  </select>
+</div>
 
-  <div class="kpi-row">
-    <div class="kpi-card"><span class="kpi-label">Total Orders</span><div class="kpi-val" style="color:var(--text)">1,28,970</div><div class="kpi-sub" style="color:var(--muted)">Processed in 2025</div></div>
-    <div class="kpi-card"><span class="kpi-label">Delivered</span><div class="kpi-val" style="color:var(--accent4)">28,803</div><div class="kpi-sub" style="color:var(--accent4)">22.3% Successful</div></div>
-    <div class="kpi-card"><span class="kpi-label">Out for Delivery</span><div class="kpi-val" style="color:var(--amz)">79,726</div><div class="kpi-sub" style="color:var(--amz)">61.8% In Transit</div></div>
-    <div class="kpi-card"><span class="kpi-label">Cancelled</span><div class="kpi-val" style="color:var(--accent2)">18,332</div><div class="kpi-sub" style="color:var(--accent2)">14.2% Cancel Rate</div></div>
-    <div class="kpi-card"><span class="kpi-label">Returned</span><div class="kpi-val" style="color:var(--accent3)">2,109</div><div class="kpi-sub" style="color:var(--accent3)">1.6% Return Rate</div></div>
-    <div class="kpi-card"><span class="kpi-label">Amazon FBA Share</span><div class="kpi-val" style="color:var(--accent)">89,698</div><div class="kpi-sub" style="color:var(--accent)">69.6% FBA Orders</div></div>
-  </div>
+<div class="kpi-row">
+  <div class="kpi-card"><span class="kpi-label">Total Orders</span><div class="kpi-val" id="kpi-total" style="color:var(--text)">1,28,970</div><div class="kpi-sub" id="kpi-total-sub" style="color:var(--muted)">Processed in 2025</div></div>
+  <div class="kpi-card"><span class="kpi-label">Delivered</span><div class="kpi-val" id="kpi-del" style="color:var(--accent4)">28,803</div><div class="kpi-sub" id="kpi-del-sub" style="color:var(--accent4)">22.3% Successful</div></div>
+  <div class="kpi-card"><span class="kpi-label">Out for Delivery</span><div class="kpi-val" id="kpi-ofd" style="color:var(--amz)">79,726</div><div class="kpi-sub" id="kpi-ofd-sub" style="color:var(--amz)">61.8% In Transit</div></div>
+  <div class="kpi-card"><span class="kpi-label">Cancelled</span><div class="kpi-val" id="kpi-can" style="color:var(--accent2)">18,332</div><div class="kpi-sub" id="kpi-can-sub" style="color:var(--accent2)">14.2% Cancel Rate</div></div>
+  <div class="kpi-card"><span class="kpi-label">Returned</span><div class="kpi-val" id="kpi-ret" style="color:var(--accent3)">2,109</div><div class="kpi-sub" id="kpi-ret-sub" style="color:var(--accent3)">1.6% Return Rate</div></div>
+  <div class="kpi-card"><span class="kpi-label">Amazon FBA Share</span><div class="kpi-val" id="kpi-fba" style="color:var(--accent)">89,698</div><div class="kpi-sub" id="kpi-fba-sub" style="color:var(--accent)">69.6% FBA Orders</div></div>
+</div>
 
-  <div class="main-grid">
-
-    <div class="panel">
-      <div class="panel-title"><i class="ti ti-gift" aria-hidden="true"></i> Top Performing Categories</div>
-
-      <div class="data-row">
-        <div class="hover-bubble">50,445 ORDERS</div>
-        <div class="label-group"><span>Saree <span style="color:var(--muted);font-size:13px;font-weight:600;">(50,445)</span></span><b>39.1%</b></div>
-        <div class="bar-bg"><div class="bar-fill" style="width:39.1%; background:#1e6fcc;"></div></div>
+<div class="main-grid">
+  <div class="panel">
+    <div class="panel-title"><i class="ti ti-gift" aria-hidden="true"></i> Top Performing Categories</div>
+    <div id="catBars"></div>
+    <div class="panel-title" style="margin-top:16px;font-size:18px;">Fulfilment Method Split</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="kpi-card" style="padding:14px;text-align:center;border-radius:12px;">
+        <span class="kpi-label" style="font-size:12px;">Amazon FBA</span>
+        <div id="fba-val" style="font-family:'Bebas Neue';font-size:26px;color:var(--accent);line-height:1;">89,698</div>
       </div>
-      <div class="data-row">
-        <div class="hover-bubble">49,876 ORDERS</div>
-        <div class="label-group"><span>Kurta <span style="color:var(--muted);font-size:13px;font-weight:600;">(49,876)</span></span><b>38.7%</b></div>
-        <div class="bar-bg"><div class="bar-fill" style="width:38.7%; background:var(--amz);"></div></div>
-      </div>
-      <div class="data-row">
-        <div class="hover-bubble">15,939 ORDERS</div>
-        <div class="label-group"><span>Western Dress <span style="color:var(--muted);font-size:13px;font-weight:600;">(15,939)</span></span><b>12.4%</b></div>
-        <div class="bar-bg"><div class="bar-fill" style="width:12.4%; background:var(--accent4);"></div></div>
-      </div>
-      <div class="data-row">
-        <div class="hover-bubble">11,548 ORDERS</div>
-        <div class="label-group"><span>Top <span style="color:var(--muted);font-size:13px;font-weight:600;">(11,548)</span></span><b>8.9%</b></div>
-        <div class="bar-bg"><div class="bar-fill" style="width:8.9%; background:var(--accent2);"></div></div>
-      </div>
-      <div class="data-row">
-        <div class="hover-bubble">1,162 ORDERS</div>
-        <div class="label-group"><span>Ethnic Dress <span style="color:var(--muted);font-size:13px;font-weight:600;">(1,162)</span></span><b>0.9%</b></div>
-        <div class="bar-bg"><div class="bar-fill" style="width:0.9%; background:var(--accent3);"></div></div>
-      </div>
-
-      <div class="panel-title" style="margin-top:16px; font-size:18px;">Fulfilment Method Split</div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-        <div class="kpi-card" style="padding:14px; text-align:center; border-radius:12px;">
-          <span class="kpi-label" style="font-size:12px;">Amazon FBA</span>
-          <span style="font-family:'Bebas Neue'; font-size:26px; color:var(--accent); line-height:1;">89,698</span>
-        </div>
-        <div class="kpi-card" style="padding:14px; text-align:center; border-radius:12px;">
-          <span class="kpi-label" style="font-size:12px;">Merchant MFN</span>
-          <span style="font-family:'Bebas Neue'; font-size:26px; color:var(--accent4); line-height:1;">39,272</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-title"><i class="ti ti-chart-donut" aria-hidden="true"></i> Current Order Status Distribution</div>
-      <div class="donut-wrap">
-        <div class="donut-center" id="donut-center">
-          <h2 id="donut-val">1,28,970</h2>
-          <p id="donut-txt">Grand Total</p>
-        </div>
-        <svg id="donutSvg" width="220" height="220" viewBox="0 0 220 220" style="overflow:visible;"></svg>
-      </div>
-      <div class="donut-legend">
-        <span><i style="color:var(--amz)">●</i> OFD</span>
-        <span><i style="color:var(--accent4)">●</i> DELIVERED</span>
-        <span><i style="color:var(--accent2)">●</i> CANCELLED</span>
-        <span><i style="color:var(--accent3)">●</i> RETURNED</span>
-      </div>
-
-      <div class="panel-title" style="margin-top:22px; font-size:18px;">Shipping Service Level</div>
-      <div class="data-row" style="margin-bottom:14px;">
-        <div class="hover-bubble">88,615 ORDERS</div>
-        <div class="label-group"><span>Expedited Shipping</span><b>68.7%</b></div>
-        <div class="bar-bg"><div class="bar-fill" style="width:68.7%; background:var(--amz);"></div></div>
-      </div>
-      <div class="data-row" style="margin-bottom:0;">
-        <div class="hover-bubble">40,355 ORDERS</div>
-        <div class="label-group"><span>Standard Shipping</span><b>31.3%</b></div>
-        <div class="bar-bg"><div class="bar-fill" style="width:31.3%; background:#1e6fcc;"></div></div>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-title"><i class="ti ti-map-2" aria-hidden="true"></i> Orders by Top States</div>
-      <div class="scroll-box" id="stateList"></div>
-    </div>
-
-  </div>
-
-  <div class="bottom-grid">
-    <div class="panel">
-      <div class="panel-title"><i class="ti ti-ruler-2" aria-hidden="true"></i> Order Volume by Size Class</div>
-      <div class="size-grid" id="sizeGrid"></div>
-    </div>
-    <div class="panel">
-      <div class="panel-title"><i class="ti ti-chart-bar" aria-hidden="true"></i> Monthly Order Trend 2025</div>
-      <div id="monthlyChartCont">
-        <canvas id="monthlyChart" role="img" aria-label="Monthly orders bar chart 2025">Monthly orders 2025 Trend.</canvas>
+      <div class="kpi-card" style="padding:14px;text-align:center;border-radius:12px;">
+        <span class="kpi-label" style="font-size:12px;">Merchant MFN</span>
+        <div id="mfn-val" style="font-family:'Bebas Neue';font-size:26px;color:var(--accent4);line-height:1;">39,272</div>
       </div>
     </div>
   </div>
 
+  <div class="panel">
+    <div class="panel-title"><i class="ti ti-chart-donut" aria-hidden="true"></i> Order Status Distribution</div>
+    <div class="donut-wrap">
+      <div class="donut-center">
+        <h2 id="donut-val" style="color:var(--text)">1,28,970</h2>
+        <p id="donut-txt">Grand Total</p>
+      </div>
+      <svg id="donutSvg" width="220" height="220" viewBox="0 0 220 220" style="overflow:visible;" role="img" aria-label="Order status donut chart"></svg>
+    </div>
+    <div class="donut-legend">
+      <span><i style="color:var(--amz);font-style:normal;">●</i> OFD</span>
+      <span><i style="color:var(--accent4);font-style:normal;">●</i> Delivered</span>
+      <span><i style="color:var(--accent2);font-style:normal;">●</i> Cancelled</span>
+      <span><i style="color:var(--accent3);font-style:normal;">●</i> Returned</span>
+    </div>
+    <div class="panel-title" style="margin-top:22px;font-size:18px;">Shipping Service Level</div>
+    <div class="data-row" style="margin-bottom:14px;">
+      <div class="label-group"><span>Expedited Shipping</span><b id="exp-pct">68.7%</b></div>
+      <div class="bar-bg"><div class="bar-fill" id="exp-bar" style="width:68.7%;background:var(--amz);"></div></div>
+    </div>
+    <div class="data-row" style="margin-bottom:0;">
+      <div class="label-group"><span>Standard Shipping</span><b id="std-pct">31.3%</b></div>
+      <div class="bar-bg"><div class="bar-fill" id="std-bar" style="width:31.3%;background:#1e6fcc;"></div></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title"><i class="ti ti-map-2" aria-hidden="true"></i> Orders by Top States</div>
+    <div class="scroll-box" id="stateList"></div>
+  </div>
+</div>
+
+<div class="bottom-grid">
+  <div class="panel">
+    <div class="panel-title"><i class="ti ti-ruler-2" aria-hidden="true"></i> Order Volume by Size Class</div>
+    <div class="size-grid" id="sizeGrid"></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><i class="ti ti-chart-bar" aria-hidden="true"></i> Monthly Order Trend 2025</div>
+    <div id="monthlyChartCont"><canvas id="monthlyChart"></canvas></div>
+  </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-const STATES = [
-  {name:'Maharashtra',val:22264},{name:'Karnataka',val:17325},{name:'Tamil Nadu',val:11490},
-  {name:'Telangana',val:11333},{name:'Uttar Pradesh',val:10643},{name:'Delhi',val:6784},
-  {name:'Kerala',val:6587},{name:'West Bengal',val:5964},{name:'Andhra Pradesh',val:5432},{name:'Gujarat',val:4489}
-];
-const SIZES = ['L','M','S','XL','XXL','3XL','XS'];
-const SIZEVALS = [47525,22712,17089,13302,11928,9020,5655];
-const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const RAW = {
-  saree:   [195,1129,2283,9319,5674,7255,8350,7321,5125,2734,925,135],
-  kurta:   [200,1205,2258,9101,5535,7166,8222,7236,4961,2838,1024,130],
-  western: [45,270,595,2799,1809,2329,2589,2283,1854,941,373,52],
-  top:     [47,245,517,2239,1258,1692,1845,1615,1313,549,200,28],
-  ethnic:  [3,16,43,208,124,168,189,182,124,66,34,5]
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const periods={all:[0,11],q1:[0,2],q2:[3,5],q3:[6,8],q4:[9,11]};
+
+const CAT_DATA={
+  saree: {orders:50445,delivered:11249,ofd:31175,cancelled:7162,returned:859,fba:35812,mfn:14633,exp:34656,std:15789,
+    monthly:[195,1129,2283,9319,5674,7255,8350,7321,5125,2734,925,135],
+    states:{Maharashtra:8707,Karnataka:6745,TamilNadu:4476,Telangana:4411,UttarPradesh:4141,Delhi:2641,Kerala:2565,WestBengal:2322,AndhraPradesh:2115,Gujarat:1748}},
+  kurta: {orders:49876,delivered:11126,ofd:30842,cancelled:7082,returned:826,fba:35412,mfn:14464,exp:34280,std:15596,
+    monthly:[200,1205,2258,9101,5535,7166,8222,7236,4961,2838,1024,130],
+    states:{Maharashtra:8610,Karnataka:6671,TamilNadu:4430,Telangana:4369,UttarPradesh:4101,Delhi:2614,Kerala:2540,WestBengal:2298,AndhraPradesh:2093,Gujarat:1731}},
+  western:{orders:15939,delivered:3554,ofd:9851,cancelled:2264,returned:270,fba:11317,mfn:4622,exp:10950,std:4989,
+    monthly:[45,270,595,2799,1809,2329,2589,2283,1854,941,373,52],
+    states:{Maharashtra:2751,Karnataka:2132,TamilNadu:1413,Telangana:1394,UttarPradesh:1309,Delhi:835,Kerala:810,WestBengal:733,AndhraPradesh:668,Gujarat:552}},
+  top:   {orders:11548,delivered:2576,ofd:7139,cancelled:1640,returned:193,fba:8199,mfn:3349,exp:7933,std:3615,
+    monthly:[47,245,517,2239,1258,1692,1845,1615,1313,549,200,28],
+    states:{Maharashtra:1994,Karnataka:1545,TamilNadu:1023,Telangana:1010,UttarPradesh:948,Delhi:605,Kerala:587,WestBengal:531,AndhraPradesh:484,Gujarat:400}},
+  ethnic:{orders:1162,delivered:298,ofd:719,cancelled:130,returned:15,fba:958,mfn:204,exp:796,std:366,
+    monthly:[3,16,43,208,124,168,189,182,124,66,34,5],
+    states:{Maharashtra:202,Karnataka:157,TamilNadu:104,Telangana:102,UttarPradesh:96,Delhi:61,Kerala:60,WestBengal:54,AndhraPradesh:49,Gujarat:41}}
 };
-const periods = { all:[0,11], q1:[0,2], q2:[3,5], q3:[6,8], q4:[9,11] };
-let activePeriod = 'all', activeCat = 'all';
+
+const ALL={orders:128970,delivered:28803,ofd:79726,cancelled:18332,returned:2109,fba:89698,mfn:39272,exp:88615,std:40355,
+  states:{Maharashtra:22264,Karnataka:17325,TamilNadu:11490,Telangana:11333,UttarPradesh:10643,Delhi:6784,Kerala:6587,WestBengal:5964,AndhraPradesh:5432,Gujarat:4489}};
+
+const STATE_NAMES={Maharashtra:'Maharashtra',Karnataka:'Karnataka',TamilNadu:'Tamil Nadu',Telangana:'Telangana',UttarPradesh:'Uttar Pradesh',Delhi:'Delhi',Kerala:'Kerala',WestBengal:'West Bengal',AndhraPradesh:'Andhra Pradesh',Gujarat:'Gujarat'};
+
+const CAT_COLORS={saree:'#1e6fcc',kurta:'#FF9900',western:'#06d6a0',top:'#ff6b6b',ethnic:'#ffd166'};
+const CAT_LABELS={saree:'Saree',kurta:'Kurta',western:'Western Dress',top:'Top',ethnic:'Ethnic Dress'};
+const SIZES=['L','M','S','XL','XXL','3XL','XS'];
+const SIZEVALS=[47525,22712,17089,13302,11928,9020,5655];
+
+let activePeriod='all',activeCat='all';
 let monthlyChart;
 
-function updateDonut(label, val, color) {
-  document.getElementById('donut-val').innerText = val;
-  document.getElementById('donut-txt').innerText = label;
-  document.getElementById('donut-val').style.color = color;
-}
-function resetDonut() {
-  document.getElementById('donut-val').innerText = '1,28,970';
-  document.getElementById('donut-txt').innerText = 'Grand Total';
-  document.getElementById('donut-val').style.color = 'var(--text)';
+function fmt(n){return Math.round(n).toLocaleString('en-IN');}
+function pct(a,b){return b===0?'0.0':(a/b*100).toFixed(1);}
+
+function getPeriodRatio(cat,period){
+  if(period==='all') return 1;
+  const [s,e]=periods[period];
+  const arr=cat==='all'
+    ? Object.values(CAT_DATA).reduce((acc,c)=>acc.map((v,i)=>v+c.monthly[i]),new Array(12).fill(0))
+    : CAT_DATA[cat].monthly;
+  const full=arr.reduce((a,b)=>a+b,0);
+  const part=arr.slice(s,e+1).reduce((a,b)=>a+b,0);
+  return full>0?part/full:0;
 }
 
-function buildDonut() {
-  const cx = 110, cy = 110, R = 80, r = 52;
-  const segments = [
-    { pct: 61.8, color: '#FF9900',  label: 'Out For Delivery',   val: '79,726' },
-    { pct: 22.3, color: '#06d6a0',  label: 'Delivered Success',  val: '28,803' },
-    { pct: 14.2, color: '#ff6b6b',  label: 'Customer Cancel',    val: '18,332' },
-    { pct:  1.7, color: '#ffd166',  label: 'Returned Items',     val: '2,109'  }
-  ];
-  const svg = document.getElementById('donutSvg');
-  let startAngle = -Math.PI / 2;
-  const TAU = 2 * Math.PI;
-
-  segments.forEach(seg => {
-    const angle = (seg.pct / 100) * TAU;
-    const endAngle = startAngle + angle;
-    const x1 = cx + R * Math.cos(startAngle), y1 = cy + R * Math.sin(startAngle);
-    const x2 = cx + R * Math.cos(endAngle),   y2 = cy + R * Math.sin(endAngle);
-    const x3 = cx + r * Math.cos(endAngle),   y3 = cy + r * Math.sin(endAngle);
-    const x4 = cx + r * Math.cos(startAngle), y4 = cy + r * Math.sin(startAngle);
-    const large = angle > Math.PI ? 1 : 0;
-    const d = `M ${x1} ${y1} A ${R} ${R} 0 ${large} 1 ${x2} ${y2} L ${x3} ${y3} A ${r} ${r} 0 ${large} 0 ${x4} ${y4} Z`;
-    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    path.setAttribute('d', d);
-    path.setAttribute('fill', seg.color);
-    path.addEventListener('mouseover', () => updateDonut(seg.label, seg.val, seg.color));
-    path.addEventListener('mouseout', resetDonut);
-    svg.appendChild(path);
-    startAngle = endAngle;
+function getStats(cat,period){
+  const base=cat==='all'?ALL:CAT_DATA[cat];
+  const ratio=getPeriodRatio(cat,period);
+  if(ratio===1) return base;
+  const scaled={};
+  Object.keys(base).forEach(k=>{
+    if(k==='states'){
+      scaled.states={};
+      Object.keys(base.states).forEach(s=>{ scaled.states[s]=base.states[s]*ratio; });
+    } else if(typeof base[k]==='number'){
+      scaled[k]=base[k]*ratio;
+    }
   });
+  return scaled;
 }
 
-function buildStates() {
-  const max = STATES[0].val;
-  document.getElementById('stateList').innerHTML = STATES.map(s =>
-    `<div class="srow list-item" style="padding: 10px 4px; margin-bottom: 0px; border-radius: 4px;">
-      <span class="sname" style="width: 130px; font-size: 15px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${s.name}</span>
-      <div class="sbw" style="flex: 1; background: rgba(255,255,255,0.06); border-radius: 4px; height: 10px; overflow: hidden; margin: 0 12px;"><div class="sb" style="width:${Math.round(s.val/max*100)}%; height: 100%; border-radius: 4px; background: var(--amz);"></div></div>
-      <span class="list-val" style="font-size: 22px;">${(s.val/1000).toFixed(1)}k</span>
+function updateKPIs(){
+  const s=getStats(activeCat,activePeriod);
+  document.getElementById('hdr-total').textContent=fmt(s.orders);
+  document.getElementById('kpi-total').textContent=fmt(s.orders);
+  document.getElementById('kpi-total-sub').textContent=activePeriod==='all'?'Processed in 2025':'Period Total';
+  document.getElementById('kpi-del').textContent=fmt(s.delivered);
+  document.getElementById('kpi-del-sub').textContent=pct(s.delivered,s.orders)+'% Successful';
+  document.getElementById('kpi-ofd').textContent=fmt(s.ofd);
+  document.getElementById('kpi-ofd-sub').textContent=pct(s.ofd,s.orders)+'% In Transit';
+  document.getElementById('kpi-can').textContent=fmt(s.cancelled);
+  document.getElementById('kpi-can-sub').textContent=pct(s.cancelled,s.orders)+'% Cancel Rate';
+  document.getElementById('kpi-ret').textContent=fmt(s.returned);
+  document.getElementById('kpi-ret-sub').textContent=pct(s.returned,s.orders)+'% Return Rate';
+  document.getElementById('kpi-fba').textContent=fmt(s.fba);
+  document.getElementById('kpi-fba-sub').textContent=pct(s.fba,s.orders)+'% FBA Orders';
+  document.getElementById('fba-val').textContent=fmt(s.fba);
+  document.getElementById('mfn-val').textContent=fmt(s.mfn);
+  const expP=pct(s.exp,s.orders);
+  const stdP=pct(s.std,s.orders);
+  document.getElementById('exp-pct').textContent=expP+'%';
+  document.getElementById('exp-bar').style.width=expP+'%';
+  document.getElementById('std-pct').textContent=stdP+'%';
+  document.getElementById('std-bar').style.width=stdP+'%';
+  updateDonutChart(s);
+}
+
+function updateDonutChart(s){
+  const segs=[
+    {val:s.ofd,      color:'#FF9900',label:'Out For Delivery'},
+    {val:s.delivered,color:'#06d6a0',label:'Delivered'},
+    {val:s.cancelled,color:'#ff6b6b',label:'Cancelled'},
+    {val:s.returned, color:'#ffd166',label:'Returned'}
+  ];
+  const total=segs.reduce((a,b)=>a+b.val,0);
+  const cx=110,cy=110,R=88,r=56;
+  const svg=document.getElementById('donutSvg');
+  svg.innerHTML='';
+  let startAngle=-Math.PI/2;
+  const TAU=2*Math.PI;
+  segs.forEach(seg=>{
+    if(seg.val<1) return;
+    const angle=(seg.val/total)*TAU;
+    const endAngle=startAngle+angle;
+    const x1=cx+R*Math.cos(startAngle),y1=cy+R*Math.sin(startAngle);
+    const x2=cx+R*Math.cos(endAngle),  y2=cy+R*Math.sin(endAngle);
+    const x3=cx+r*Math.cos(endAngle),  y3=cy+r*Math.sin(endAngle);
+    const x4=cx+r*Math.cos(startAngle),y4=cy+r*Math.sin(startAngle);
+    const large=angle>Math.PI?1:0;
+    const d=`M ${x1.toFixed(2)} ${y1.toFixed(2)} A ${R} ${R} 0 ${large} 1 ${x2.toFixed(2)} ${y2.toFixed(2)} L ${x3.toFixed(2)} ${y3.toFixed(2)} A ${r} ${r} 0 ${large} 0 ${x4.toFixed(2)} ${y4.toFixed(2)} Z`;
+    const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d',d);path.setAttribute('fill',seg.color);
+    path.setAttribute('stroke','#111827');path.setAttribute('stroke-width','2');
+    path.style.cursor='pointer';
+    path.addEventListener('mouseover',()=>{path.style.opacity='0.8';document.getElementById('donut-val').textContent=fmt(seg.val);document.getElementById('donut-txt').textContent=seg.label;document.getElementById('donut-val').style.color=seg.color;});
+    path.addEventListener('mouseout', ()=>{path.style.opacity='1';document.getElementById('donut-val').textContent=fmt(total);document.getElementById('donut-txt').textContent='Grand Total';document.getElementById('donut-val').style.color='var(--text)';});
+    svg.appendChild(path);
+    startAngle=endAngle;
+  });
+  document.getElementById('donut-val').textContent=fmt(total);
+  document.getElementById('donut-val').style.color='var(--text)';
+  document.getElementById('donut-txt').textContent='Grand Total';
+}
+
+function updateCatBars(){
+  const cats=['saree','kurta','western','top','ethnic'];
+  const [s,e]=periods[activePeriod];
+  const catTotals=cats.map(c=>CAT_DATA[c].monthly.slice(s,e+1).reduce((a,b)=>a+b,0));
+  const grandTotal=catTotals.reduce((a,b)=>a+b,0);
+  const maxVal=Math.max(...catTotals);
+  document.getElementById('catBars').innerHTML=cats.map((c,i)=>{
+    const isActive=activeCat==='all'||activeCat===c;
+    const barPct=maxVal>0?(catTotals[i]/maxVal*100).toFixed(1):0;
+    const sharePct=grandTotal>0?(catTotals[i]/grandTotal*100).toFixed(1):0;
+    return `<div class="data-row" style="opacity:${isActive?'1':'0.25'}">
+      <div class="label-group"><span>${CAT_LABELS[c]} <span style="color:var(--muted);font-size:13px;font-weight:600;">(${fmt(catTotals[i])})</span></span><b>${sharePct}%</b></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:${barPct}%;background:${CAT_COLORS[c]};"></div></div>
+    </div>`;
+  }).join('');
+}
+
+// States: filter by both category and period
+function updateStates(){
+  const s=getStats(activeCat,activePeriod);
+  const stateData=Object.keys(STATE_NAMES).map(k=>({name:STATE_NAMES[k],val:s.states[k]||0}));
+  stateData.sort((a,b)=>b.val-a.val);
+  const max=stateData[0].val||1;
+  document.getElementById('stateList').innerHTML=stateData.map(st=>
+    `<div class="list-item">
+      <span class="sname">${st.name}</span>
+      <div class="sbw"><div class="sb" style="width:${Math.round(st.val/max*100)}%;"></div></div>
+      <span class="list-val">${st.val>=1000?(st.val/1000).toFixed(1)+'k':fmt(st.val)}</span>
     </div>`
   ).join('');
 }
 
-function buildSizes() {
-  const max = Math.max(...SIZEVALS);
-  const colors = ['#1e6fcc','#FF9900','#06d6a0','#d0521b','#8855cc','#9ca3af','#1e6fcc'];
-  document.getElementById('sizeGrid').innerHTML = SIZES.map((s,i) =>
+function buildSizes(){
+  const max=Math.max(...SIZEVALS);
+  const colors=['#1e6fcc','#FF9900','#06d6a0','#d0521b','#8855cc','#9ca3af','#00e5ff'];
+  document.getElementById('sizeGrid').innerHTML=SIZES.map((s,i)=>
     `<div class="size-bar-wrap">
-      <div style="font-size:12px; color:#9ca3af; font-weight:700; margin-bottom:2px;">${SIZEVALS[i]>=1000?(SIZEVALS[i]/1000).toFixed(0)+'k':SIZEVALS[i]}</div>
-      <div class="size-bar-col" style="height:${Math.round(SIZEVALS[i]/max*100)}px; background:${colors[i]};"></div>
+      <div style="font-size:12px;color:#9ca3af;font-weight:700;margin-bottom:2px;">${SIZEVALS[i]>=1000?(SIZEVALS[i]/1000).toFixed(0)+'k':SIZEVALS[i]}</div>
+      <div class="size-bar-col" style="height:${Math.round(SIZEVALS[i]/max*100)}px;background:${colors[i]};"></div>
       <div class="size-label">${s}</div>
     </div>`
   ).join('');
 }
 
-function slice(arr, p) { const [s,e]=periods[p]; return arr.slice(s,e+1); }
-function getLabels(p) { const [s,e]=periods[p]; return MONTHS.slice(s,e+1); }
-
-const CAT_MAP = { saree:'Saree', kurta:'kurta', western:'Western Dress', top:'Top', ethnic:'Ethnic Dress' };
-
-function buildCatData(p) {
-  const cats = ['saree','kurta','western','top','ethnic'];
-  const colors = ['#1e6fcc','#FF9900','#06d6a0','#d0521b','#8855cc'];
-  return cats.map((c,i) => ({
-    label: c,
-    data: slice(RAW[c], p),
-    backgroundColor: (activeCat !== 'all' && CAT_MAP[c] !== activeCat) ? 'rgba(255,255,255,0.06)' : colors[i],
-    borderWidth: 0, borderRadius: 3,
+function getMonthlyDatasets(){
+  const cats=['saree','kurta','western','top','ethnic'];
+  const [s,e]=periods[activePeriod];
+  return cats.map(c=>({
+    label:CAT_LABELS[c],
+    data:CAT_DATA[c].monthly.slice(s,e+1),
+    backgroundColor:(activeCat!=='all'&&activeCat!==c)?'rgba(255,255,255,0.06)':CAT_COLORS[c],
+    borderWidth:0,borderRadius:3
   }));
 }
 
-function updateMonthly() {
-  const labels = getLabels(activePeriod);
-  monthlyChart.data.labels = labels;
-  monthlyChart.data.datasets = buildCatData(activePeriod);
+function updateMonthly(){
+  const [s,e]=periods[activePeriod];
+  monthlyChart.data.labels=MONTHS.slice(s,e+1);
+  monthlyChart.data.datasets=getMonthlyDatasets();
   monthlyChart.update();
 }
 
-function initMonthly() {
-  monthlyChart = new Chart(document.getElementById('monthlyChart'), {
-    type: 'bar',
-    data: { labels: MONTHS, datasets: buildCatData('all') },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: 'rgba(17,24,39,0.97)', titleColor: '#FF9900', bodyColor: '#f3f4f6', borderColor: 'rgba(0,229,255,0.3)', borderWidth: 1, padding: 12, cornerRadius: 8, titleFont: {size: 14}, bodyFont: {size: 13}, callbacks: { label: ctx => ` ${ctx.dataset.label.toUpperCase()}: ${ctx.parsed.y.toLocaleString('en-IN')}` }
-        }
+function initMonthly(){
+  monthlyChart=new Chart(document.getElementById('monthlyChart'),{
+    type:'bar',
+    data:{labels:MONTHS,datasets:getMonthlyDatasets()},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{backgroundColor:'rgba(17,24,39,0.97)',titleColor:'#FF9900',bodyColor:'#f3f4f6',borderColor:'rgba(0,229,255,0.3)',borderWidth:1,padding:12,cornerRadius:8,titleFont:{size:14},bodyFont:{size:13},
+          callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString('en-IN')}`}}
       },
-      scales: {
-        x: { stacked: true, ticks: { font:{size:13, weight: 500}, color:'#9ca3af', padding: 6 }, grid: { display:false }, border: { display:false } },
-        y: { stacked: true, ticks: { font:{size:12}, color:'#9ca3af', padding: 8, callback: v => v>=1000?(v/1000).toFixed(0)+'k':v }, grid: { color:'rgba(255,255,255,0.05)' }, border: { display:false } }
+      scales:{
+        x:{stacked:true,ticks:{font:{size:13,weight:500},color:'#9ca3af',padding:6},grid:{display:false},border:{display:false}},
+        y:{stacked:true,ticks:{font:{size:12},color:'#9ca3af',padding:8,callback:v=>v>=1000?(v/1000).toFixed(0)+'k':v},grid:{color:'rgba(255,255,255,0.05)'},border:{display:false}}
       }
     }
   });
 }
 
-document.querySelectorAll('.fb[data-period]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.fb[data-period]').forEach(b => b.classList.remove('active'));
+function updateAll(){
+  updateKPIs();
+  updateCatBars();
+  updateStates();
+  updateMonthly();
+}
+
+document.querySelectorAll('.fb[data-period]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.fb[data-period]').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
-    activePeriod = btn.dataset.period;
-    updateMonthly();
+    activePeriod=btn.dataset.period;
+    updateAll();
   });
 });
 
-document.getElementById('catFilter').addEventListener('change', e => {
-  activeCat = e.target.value;
-  updateMonthly();
+document.getElementById('catFilter').addEventListener('change',e=>{
+  activeCat=e.target.value;
+  updateAll();
 });
 
-buildStates();
 buildSizes();
-buildDonut();
 initMonthly();
+updateAll();
 </script>
 </body>
 </html>
