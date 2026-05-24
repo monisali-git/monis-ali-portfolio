@@ -125,7 +125,26 @@ body{background:var(--bg);color:var(--text);padding:22px;font-family:'DM Sans',s
         <h2 id="donut-val" style="color:var(--text)">1,28,970</h2>
         <p id="donut-txt">Grand Total</p>
       </div>
-      <svg id="donutSvg" width="220" height="220" viewBox="0 0 220 220" style="overflow:visible;" role="img" aria-label="Order status donut chart"></svg>
+      <svg id="donutSvg" width="220" height="220" viewBox="0 0 220 220" style="overflow:visible;" role="img" aria-label="Order status donut chart">
+        <defs>
+          <filter id="glow-ofd" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="glow-del" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="glow-can" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="glow-ret" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+      </svg>
     </div>
     <div class="donut-legend">
       <span><i style="color:var(--amz);font-style:normal;">●</i> OFD</span>
@@ -255,38 +274,72 @@ function updateKPIs(){
 
 function updateDonutChart(s){
   const segs=[
-    {val:s.ofd,      color:'#FF9900',label:'Out For Delivery'},
-    {val:s.delivered,color:'#06d6a0',label:'Delivered'},
-    {val:s.cancelled,color:'#ff6b6b',label:'Cancelled'},
-    {val:s.returned, color:'#ffd166',label:'Returned'}
+    {val:s.ofd,      color:'#FF9900', filterId:'glow-ofd', label:'Out For Delivery'},
+    {val:s.delivered,color:'#06d6a0', filterId:'glow-del', label:'Delivered'},
+    {val:s.cancelled,color:'#ff6b6b', filterId:'glow-can', label:'Cancelled'},
+    {val:s.returned, color:'#ffd166', filterId:'glow-ret', label:'Returned'}
   ];
   const total=segs.reduce((a,b)=>a+b.val,0);
   const cx=110,cy=110,R=88,r=56;
   const svg=document.getElementById('donutSvg');
-  svg.innerHTML='';
+
+  // Keep the defs, remove only paths
+  const oldPaths=svg.querySelectorAll('path');
+  oldPaths.forEach(p=>p.remove());
+
   let startAngle=-Math.PI/2;
   const TAU=2*Math.PI;
+
   segs.forEach(seg=>{
     if(seg.val<1) return;
     const angle=(seg.val/total)*TAU;
     const endAngle=startAngle+angle;
+
     const x1=cx+R*Math.cos(startAngle),y1=cy+R*Math.sin(startAngle);
     const x2=cx+R*Math.cos(endAngle),  y2=cy+R*Math.sin(endAngle);
     const x3=cx+r*Math.cos(endAngle),  y3=cy+r*Math.sin(endAngle);
     const x4=cx+r*Math.cos(startAngle),y4=cy+r*Math.sin(startAngle);
     const large=angle>Math.PI?1:0;
+
     const d=`M ${x1.toFixed(2)} ${y1.toFixed(2)} A ${R} ${R} 0 ${large} 1 ${x2.toFixed(2)} ${y2.toFixed(2)} L ${x3.toFixed(2)} ${y3.toFixed(2)} A ${r} ${r} 0 ${large} 0 ${x4.toFixed(2)} ${y4.toFixed(2)} Z`;
     const path=document.createElementNS('http://www.w3.org/2000/svg','path');
-    path.setAttribute('d',d);path.setAttribute('fill',seg.color);
-    path.setAttribute('stroke','#111827');path.setAttribute('stroke-width','2');
+    path.setAttribute('d',d);
+    path.setAttribute('fill',seg.color);
+    // NO stroke — black line removed
     path.style.cursor='pointer';
-    path.addEventListener('mouseover',()=>{path.style.opacity='0.8';document.getElementById('donut-val').textContent=fmt(seg.val);document.getElementById('donut-txt').textContent=seg.label;document.getElementById('donut-val').style.color=seg.color;});
-    path.addEventListener('mouseout', ()=>{path.style.opacity='1';document.getElementById('donut-val').textContent=fmt(total);document.getElementById('donut-txt').textContent='Grand Total';document.getElementById('donut-val').style.color='var(--text)';});
+    path.style.transition='opacity 0.25s, transform 0.25s';
+    path.style.transformOrigin=`${cx}px ${cy}px`;
+
+    path.addEventListener('mouseover',()=>{
+      // Glow effect via filter + scale
+      path.setAttribute('filter',`url(#${seg.filterId})`);
+      path.style.transform='scale(1.04)';
+      path.style.opacity='1';
+      // Dim other segments
+      svg.querySelectorAll('path').forEach(p=>{ if(p!==path) p.style.opacity='0.35'; });
+      document.getElementById('donut-val').textContent=fmt(seg.val);
+      document.getElementById('donut-txt').textContent=seg.label;
+      document.getElementById('donut-val').style.color=seg.color;
+      document.getElementById('donut-val').style.textShadow=`0 0 18px ${seg.color}`;
+    });
+
+    path.addEventListener('mouseout',()=>{
+      path.removeAttribute('filter');
+      path.style.transform='scale(1)';
+      svg.querySelectorAll('path').forEach(p=>{ p.style.opacity='1'; });
+      document.getElementById('donut-val').textContent=fmt(total);
+      document.getElementById('donut-txt').textContent='Grand Total';
+      document.getElementById('donut-val').style.color='var(--text)';
+      document.getElementById('donut-val').style.textShadow='none';
+    });
+
     svg.appendChild(path);
     startAngle=endAngle;
   });
+
   document.getElementById('donut-val').textContent=fmt(total);
   document.getElementById('donut-val').style.color='var(--text)';
+  document.getElementById('donut-val').style.textShadow='none';
   document.getElementById('donut-txt').textContent='Grand Total';
 }
 
@@ -307,7 +360,6 @@ function updateCatBars(){
   }).join('');
 }
 
-// States: filter by both category and period
 function updateStates(){
   const s=getStats(activeCat,activePeriod);
   const stateData=Object.keys(STATE_NAMES).map(k=>({name:STATE_NAMES[k],val:s.states[k]||0}));
