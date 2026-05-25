@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monis Ali | Data Analyst (ATS Optimized)</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --ink:     #0b0f1a;
+  --navy:    #0f1d3a;
+  --blue:    #1a56db;
+  --sky:     #60a5fa;
+  --red:     #e8572a;
+  --soft:    #f0f4ff;
+  --card:    #f8f9fc;
+  --muted:   #64748b;
+  --line:    #e2e8f0;
+  --white:   #ffffff;
+}
+
+body {
+  background: #d6dce8;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--ink);
+  padding: 40px 16px;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.resume {
+  max-width: 850px; /* Thoda narrow kiya single column ke liye */
+  margin: auto;
+  background: var(--white);
+  box-shadow: 0 20px 80px rgba(0,0,50,0.18);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+/* ─── HEADER ─── */
+.header {
+  background: linear-gradient(135deg, #090e1c 0%, #0f1d3a 55%, #0d2060 100%);
+  color: #fff;
+  padding: 40px 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  right: -80px; top: -80px;
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(26,86,219,0.22) 0%, transparent 70%);
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%; height: 3px;
+  background: linear-gradient(90deg, var(--red) 0%, var(--blue) 50%, transparent 100%);
+}
+
+.name-block { position: relative; z-index: 1; }
+
+.header h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.header h1 em {
+  font-style: normal;
+  color: var(--sky);
+}
+
+.tagline {
+  font-size: 13px;
+  color: #93c5fd;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.contact-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  font-size: 13px;
+  color: #cbd5e1;
+  position: relative; z-index: 1;
+}
+
+.contact-bar a {
+  color: #93c5fd;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.2s;
+}
+.contact-bar a:hover { color: #fff; }
+.contact-bar .sep { color: rgba(255,255,255,0.2); }
+
+/* ─── LAYOUT (Single Column ATS) ─── */
+.body {
+  display: flex;
+  flex-direction: column;
+  padding: 38px 48px;
+}
+
+/* ─── SECTION TITLE ─── */
+.st {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--soft);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.st::before {
+  content: '';
+  display: inline-block;
+  width: 18px; height: 3px;
+  background: var(--red);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.section { margin-bottom: 28px; }
+
+/* ─── SUMMARY ─── */
+.summary {
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: #374151;
+  text-align: justify;
+}
+
+/* ─── EXPERIENCE CARD ─── */
+.card { margin-bottom: 20px; }
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.card-top h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.badge {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.role {
+  font-size: 13px;
+  color: var(--red);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+ul { padding-left: 18px; }
+ul li {
+  font-size: 13.5px;
+  color: #374151;
+  line-height: 1.7;
+  margin-bottom: 5px;
+}
+ul li::marker { color: var(--blue); }
+ul li strong { color: var(--ink); }
+
+/* ─── PROJECT CARD ─── */
+.proj-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.proj-title:hover { color: var(--blue); }
+
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px; }
+.tag {
+  font-size: 11px;
+  background: var(--soft);
+  color: var(--blue);
+  border: 1px solid #c7d7fb;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+/* ─── SKILLS (Grid Layout for Single Column) ─── */
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
+}
+
+.skill-group h4 {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+  border-bottom: 1px dashed var(--line);
+  padding-bottom: 4px;
+}
+
+.skill-group p {
+  font-size: 13px;
+  color: #374151;
+  line-height: 1.6;
+}
+
+/* ─── EDUCATION & CERTS ─── */
+.edu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.edu-item h3 { font-size: 14px; font-weight: 700; color: var(--ink); }
+.edu-item p { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.edu-item strong { color: var(--blue); }
+
+.cert-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.cert {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.cert-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--red);
+  margin-top: 8px;
+  flex-shrink: 0;
+}
+.cert p { font-size: 13px; line-height: 1.4; color: var(--ink); font-weight: 600; }
+.cert small { color: var(--muted); font-size: 12px; }
+
+/* ─── RESPONSIVE ─── */
+@media(max-width: 768px) {
+  .header { padding: 30px 24px; }
+  .header h1 { font-size: 36px; }
+  .body { padding: 24px; }
+  .skills-grid, .edu-grid, .cert-list { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="resume">
+
+<div class="header">
+  <div class="name-block">
+    <h1>Monis <em>Ali</em></h1>
+    <div class="tagline">Data Analyst &nbsp;·&nbsp; Power BI &nbsp;·&nbsp; Advanced Excel &nbsp;·&nbsp; SQL &nbsp;·&nbsp; Python</div>
+    <div class="contact-bar">
+      <a href="mailto:monis.analyst@gmail.com">✉ monis.analyst@gmail.com</a>
+      <span class="sep">|</span>
+      <span>📞 +91 9556896260</span>
+      <span class="sep">|</span>
+      <span>📍 Bhubaneswar, India</span>
+      <span class="sep">|</span>
+      <a href="https://linkedin.com/in/monis-ali" target="_blank">🔗 linkedin.com/in/monis-ali</a>
+      <span class="sep">|</span>
+      <a href="https://github.com/monisali-git" target="_blank">🐙 github.com/monisali-git</a>
+      <span class="sep">|</span>
+      <a href="https://monisali-git.github.io" target="_blank">🌐 Portfolio</a>
+    </div>
+  </div>
+</div>
+
+<div class="body">
+
+  <div class="section">
+    <div class="st">Professional Summary</div>
+    <div class="summary">
+      Results-driven Data Analyst with <strong>4+ years of experience</strong> in Excel-based MIS reporting, Power BI dashboard development, and business data analysis. Skilled in Power Query, DAX, SQL, and Python (Pandas, Scikit-learn). Delivered interactive dashboards on <strong>1.28L+ row datasets</strong> and automated MIS reports supporting management decisions. Proficient in AI-assisted workflow optimization using <strong>Claude AI</strong> and <strong>ChatGPT</strong>. Certified in Master Data Management (TCS iON), Supply Chain Analytics, and Data Analytics. Seeking a full-time Data Analyst role to deliver actionable insights and scalable reporting solutions.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="st">Technical Skills</div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h4>Excel &amp; Formulas</h4>
+        <p>Pivot Tables, Power Query, Data Validation, Macros, XLOOKUP, INDEX-MATCH, SUMIFS, COUNTIFS, OFFSET</p>
+      </div>
+      <div class="skill-group">
+        <h4>Power BI &amp; DAX</h4>
+        <p>KPI Dashboards, Data Modeling, Slicers, CALCULATE, SUMX, RANKX, FILTER, RELATED, DATEADD</p>
+      </div>
+      <div class="skill-group">
+        <h4>Programming &amp; Query</h4>
+        <p>SQL, Python, Pandas, Scikit-learn, Matplotlib</p>
+      </div>
+      <div class="skill-group">
+        <h4>Domain &amp; AI Tools</h4>
+        <p>MIS Reporting, Supply Chain Analytics, Master Data Mgmt, Claude AI, ChatGPT (Workflow Automation)</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="st">Work Experience</div>
+    
+    <div class="card">
+      <div class="card-top">
+        <h3>Angel One Sub-Brokership</h3>
+        <span class="badge">Jan 2022 – Sep 2023</span>
+      </div>
+      <div class="role">Account Executive</div>
+      <ul>
+        <li>Maintained and validated customer onboarding datasets for <strong>1,000+ accounts</strong> using Excel — zero reporting errors over 6 months.</li>
+        <li>Generated daily/monthly operational reports using Pivot Tables and VLOOKUP, reducing manual reporting time by <strong>35%</strong>.</li>
+        <li>Streamlined KYC verification and record management workflows, improving team turnaround speed.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <h3>Hamwood Commerce</h3>
+        <span class="badge">Mar 2020 – Aug 2022</span>
+      </div>
+      <div class="role">MIS &amp; Operations Analyst (Part-Time)</div>
+      <ul>
+        <li>Built weekly MIS reports for sales, payments, and inventory — used by management every Monday for decision-making.</li>
+        <li>Applied XLOOKUP, INDEX-MATCH, and nested IF formulas to automate data reconciliation, cutting manual effort by <strong>~40%</strong>.</li>
+        <li>Maintained clean business databases through structured data validation and quality checks.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="st">Projects</div>
+
+    <div class="card">
+      <div class="card-top">
+        <a href="https://monisali-git.github.io/Amazon-Sales-Analysis.html" target="_blank" class="proj-title">
+          Amazon India Sales Dashboard ↗
+        </a>
+      </div>
+      <div class="tags">
+        <span class="tag">Power BI</span><span class="tag">Power Query</span><span class="tag">DAX</span><span class="tag">Excel</span>
+      </div>
+      <ul>
+        <li>Cleaned and modeled <strong>1.28 lakh+ rows</strong> — handled nulls, duplicates, and data-type errors using Power Query.</li>
+        <li>Built revenue trend, cancellation rate, and product-level KPI dashboards using DAX measures.</li>
+        <li>Designed a dark-themed interactive prototype reducing stakeholder reporting time by 60%.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <a href="https://monisali-git.github.io/Mobile-Sales-Dashboard.html" target="_blank" class="proj-title">
+          Mobile Sales Performance Dashboard ↗
+        </a>
+      </div>
+      <div class="tags">
+        <span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">KPI Tracking</span>
+      </div>
+      <ul>
+        <li>Created city-wise and brand-wise sales KPI dashboards with dynamic slicers and cross-filtering.</li>
+        <li>Used RANKX and time-intelligence DAX functions for YoY and MoM trend analysis.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <a href="https://monisali-git.github.io/India_Shipping_Dashboard_v5.html" target="_blank" class="proj-title">
+          India Shipping Analytics Dashboard ↗
+        </a>
+      </div>
+      <div class="tags">
+        <span class="tag">Claude AI</span><span class="tag">HTML/CSS/JS</span><span class="tag">Data Viz</span>
+      </div>
+      <ul>
+        <li>Built fully interactive web dashboard with KPI cards, regional heatmaps, and live CSV upload using AI assistance.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="st">Certifications &amp; Courses</div>
+    <div class="cert-list">
+      <div class="cert"><div class="cert-dot"></div><div><p>Data Analytics Projects</p><small>Simplilearn × Microsoft</small></div></div>
+      <div class="cert"><div class="cert-dot"></div><div><p>Master Data Mgmt for Beginners</p><small>TCS iON</small></div></div>
+      <div class="cert"><div class="cert-dot"></div><div><p>Supply Chain Analytics</p><small>TCS iON</small></div></div>
+      <div class="cert"><div class="cert-dot"></div><div><p>Data Analyst 101</p><small>Simplilearn × Microsoft</small></div></div>
+      <div class="cert"><div class="cert-dot"></div><div><p>MS Excel for Data Analysis</p><small>Udemy</small></div></div>
+      <div class="cert"><div class="cert-dot"></div><div><p>Python Data Analysis</p><small>Udemy</small></div></div>
+    </div>
+  </div>
+
+  <div class="section" style="margin-bottom:0;">
+    <div class="st">Education</div>
+    <div class="edu-grid">
+      <div class="edu-item">
+        <h3>Bachelor of Arts</h3>
+        <p>Utkal University &nbsp;·&nbsp; <strong>2020–2023</strong></p>
+      </div>
+      <div class="edu-item">
+        <h3>Higher Secondary (PCMB)</h3>
+        <p>CHSE Odisha &nbsp;·&nbsp; <strong>2018–2020</strong></p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+</body>
+</html>
