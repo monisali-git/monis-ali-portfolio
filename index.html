@@ -324,80 +324,183 @@
       background: linear-gradient(90deg, var(--border), transparent);
     }
 
-    /* ── ABOUT ── */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
+   /* ───────── ABOUT ADVANCED ───────── */
 
-    .about-card {
-      background: var(--surface);
-      border: 1px solid var(--border2);
-      border-radius: 14px; padding: 24px;
-      transition: border-color .3s, transform .3s;
-    }
+.about-wrapper{
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+}
 
-    .about-card:hover {
-      border-color: rgba(0,229,255,0.25);
-      transform: translateY(-3px);
-    }
+.about-main{
+  position:relative;
+  overflow:hidden;
+  background: linear-gradient(135deg,#0d1421,#101a2c);
+  border:1px solid rgba(0,229,255,0.12);
+  border-radius:20px;
+  padding:38px;
+}
 
-    .about-card:first-child {
-      grid-column: span 2;
-    }
+.about-glow{
+  position:absolute;
+  width:320px;
+  height:320px;
+  right:-100px;
+  top:-100px;
+  background:radial-gradient(circle,
+  rgba(0,229,255,0.12) 0%,
+  transparent 70%);
+  pointer-events:none;
+}
 
-    .about-card p {
-      color: var(--muted); font-size: 14px; line-height: 1.8;
-    }
+.about-badge{
+  display:inline-block;
+  padding:6px 14px;
+  border-radius:40px;
+  background:rgba(0,229,255,0.08);
+  border:1px solid rgba(0,229,255,0.15);
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:2px;
+  font-family:'Space Mono', monospace;
+  margin-bottom:18px;
+}
 
-    .about-card p strong { color: var(--text); }
+.about-top h3{
+  font-size:34px;
+  line-height:1.2;
+  margin-bottom:18px;
+  max-width:700px;
+}
 
-    .about-icon {
-      width: 36px; height: 36px; border-radius: 8px;
-      background: rgba(0,229,255,0.08);
-      border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 16px; margin-bottom: 12px;
-    }
+.about-top h3 span{
+  color:var(--accent);
+  text-shadow:0 0 18px rgba(0,229,255,0.3);
+}
 
-    .about-card h4 {
-      font-size: 14px; font-weight: 600;
-      color: var(--text); margin-bottom: 6px;
-    }
+.about-top p{
+  color:var(--muted);
+  line-height:1.9;
+  font-size:15px;
+  max-width:900px;
+  margin-bottom:16px;
+}
 
-    /* ── SKILLS ── */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(130px,1fr));
-      gap: 10px;
-    }
+.about-stats{
+  margin-top:28px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:14px;
+}
 
-    .skill-chip {
-      background: var(--surface);
-      border: 1px solid var(--border2);
-      border-radius: 8px; padding: 12px 14px;
-      font-family: 'Space Mono', monospace;
-      font-size: 11px; font-weight: 700;
-      color: var(--muted); letter-spacing: 0.5px;
-      transition: all .25s; text-align: center;
-      cursor: default;
-    }
+.about-stat{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;
+  padding:18px;
+  transition:.3s;
+}
 
-    .skill-chip:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: rgba(0,229,255,0.05);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 16px rgba(0,229,255,0.1);
-    }
+.about-stat:hover{
+  transform:translateY(-4px);
+  border-color:rgba(0,229,255,0.2);
+}
 
-    .skill-chip.hot {
-      border-color: rgba(0,229,255,0.2);
-      color: var(--accent);
-      background: rgba(0,229,255,0.04);
-    }
+.about-stat h4{
+  font-size:24px;
+  color:var(--accent);
+  margin-bottom:6px;
+  font-family:'Space Mono', monospace;
+}
 
+.about-stat span{
+  font-size:12px;
+  color:var(--muted);
+  letter-spacing:.5px;
+}
+
+.about-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
+}
+
+.about-card{
+  background:linear-gradient(180deg,#0d1421,#0b1220);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:16px;
+  padding:24px;
+  transition:.3s;
+  position:relative;
+  overflow:hidden;
+}
+
+.about-card::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:1px;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    var(--accent),
+    transparent
+  );
+  opacity:0;
+  transition:.3s;
+}
+
+.about-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(0,229,255,0.18);
+}
+
+.about-card:hover::before{
+  opacity:1;
+}
+
+.about-icon{
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  margin-bottom:16px;
+  background:rgba(0,229,255,0.08);
+  border:1px solid rgba(0,229,255,0.12);
+}
+
+.about-card h4{
+  font-size:16px;
+  margin-bottom:10px;
+}
+
+.about-card p{
+  color:var(--muted);
+  line-height:1.8;
+  font-size:14px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+  .about-main{
+    padding:26px;
+  }
+
+  .about-top h3{
+    font-size:26px;
+  }
+
+  .about-top p{
+    font-size:14px;
+  }
+
+}
     /* ── PROJECTS ── */
     .project-grid {
       display: grid;
@@ -684,45 +787,165 @@
     <div class="section-line"></div>
   </div>
 
-  <div class="about-grid">
-    <div class="about-card fade-in">
-      <p>
-        I am a <strong>Data Analyst</strong> with practical experience in dashboard development, business intelligence, KPI reporting, and data visualization. I work with <strong>Power BI, Excel, SQL, Tableau, Python, and Jupyter Notebook</strong> to create clean, professional, and insightful dashboards that help businesses make data-driven decisions.
-      </p>
-    </div>
+  <div class="about-wrapper">
 
-    <div class="about-card fade-in">
-      <div class="terminal-box">
-        <div class="terminal-bar">
-          <div class="t-dot t-red"></div>
-          <div class="t-dot t-yellow"></div>
-          <div class="t-dot t-green"></div>
+    <!-- MAIN INTRO CARD -->
+    <div class="about-main fade-in">
+      <div class="about-glow"></div>
+
+      <div class="about-top">
+        <div class="about-badge">DATA • ANALYTICS • BI</div>
+
+        <h3>
+          Turning Raw Data Into
+          <span>Business Intelligence</span>
+        </h3>
+
+        <p>
+          I’m <strong>Monis Ali</strong>, a Data Analyst focused on 
+          <strong>Dashboard Development, KPI Reporting, Business Intelligence, 
+          Data Visualization, and Analytics Automation.</strong>
+
+          I create clean and interactive dashboards using 
+          <strong>Power BI, Excel, SQL, Tableau, Python, and DAX</strong> 
+          to transform complex datasets into meaningful insights that support 
+          smarter business decisions.
+        </p>
+
+        <p>
+          My work combines <strong>data storytelling</strong>, 
+          <strong>modern dashboard UI design</strong>, and 
+          <strong>business-focused analytics</strong> to build reports that are 
+          visually engaging, easy to understand, and impactful.
+        </p>
+      </div>
+
+      <!-- MINI STATS -->
+      <div class="about-stats">
+        <div class="about-stat">
+          <h4>4+</h4>
+          <span>Analytics Projects</span>
         </div>
-        <div class="terminal-line"><span class="prompt">$ </span><span class="cmd">role</span></div>
-        <div class="terminal-line"><span class="out">→ </span>Data Analyst</div>
-        <div class="terminal-line"><span class="prompt">$ </span><span class="cmd">focus</span></div>
-        <div class="terminal-line"><span class="out">→ </span>BI & Dashboard Dev</div>
-        <div class="terminal-line"><span class="prompt">$ </span><span class="cmd">location</span></div>
-        <div class="terminal-line"><span class="out">→ </span>India 🇮🇳</div>
-        <div class="terminal-line"><span class="prompt">$ </span><span class="cmd">status</span></div>
-        <div class="terminal-line"><span class="out">→ </span><span style="color:#28c840">● Open to Work</span></div>
+
+        <div class="about-stat">
+          <h4>5+</h4>
+          <span>BI Tools</span>
+        </div>
+
+        <div class="about-stat">
+          <h4>100%</h4>
+          <span>Interactive Dashboards</span>
+        </div>
+
+        <div class="about-stat">
+          <h4>SQL</h4>
+          <span>Data Querying</span>
+        </div>
       </div>
     </div>
 
-    <div class="about-card fade-in">
-      <div class="about-icon">📊</div>
-      <h4>Business Intelligence</h4>
-      <p>MIS reporting, KPI tracking, and executive-level dashboards that drive decisions.</p>
-    </div>
+    <!-- GRID -->
+    <div class="about-grid">
 
-    <div class="about-card fade-in">
-      <div class="about-icon">⚡</div>
-      <h4>Data Visualization</h4>
-      <p>Interactive, clean visuals using Power BI, Tableau, and Python libraries.</p>
+      <!-- TERMINAL CARD -->
+      <div class="about-card fade-in">
+        <div class="terminal-box">
+          <div class="terminal-bar">
+            <div class="t-dot t-red"></div>
+            <div class="t-dot t-yellow"></div>
+            <div class="t-dot t-green"></div>
+          </div>
+
+          <div class="terminal-line">
+            <span class="prompt">$ </span>
+            <span class="cmd">whoami</span>
+          </div>
+
+          <div class="terminal-line">
+            <span class="out">→ </span>Data Analyst
+          </div>
+
+          <div class="terminal-line">
+            <span class="prompt">$ </span>
+            <span class="cmd">specialization</span>
+          </div>
+
+          <div class="terminal-line">
+            <span class="out">→ </span>BI & Dashboard Development
+          </div>
+
+          <div class="terminal-line">
+            <span class="prompt">$ </span>
+            <span class="cmd">skills</span>
+          </div>
+
+          <div class="terminal-line">
+            <span class="out">→ </span>Power BI • SQL • Excel • Python
+          </div>
+
+          <div class="terminal-line">
+            <span class="prompt">$ </span>
+            <span class="cmd">status</span>
+          </div>
+
+          <div class="terminal-line">
+            <span class="out">→ </span>
+            <span style="color:#28c840">● Open To Work</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BI CARD -->
+      <div class="about-card fade-in">
+        <div class="about-icon">📊</div>
+        <h4>Business Intelligence</h4>
+
+        <p>
+          Building executive dashboards, KPI reports, 
+          MIS reporting systems, and analytics solutions 
+          that help businesses monitor performance and growth.
+        </p>
+      </div>
+
+      <!-- VISUALIZATION -->
+      <div class="about-card fade-in">
+        <div class="about-icon">⚡</div>
+        <h4>Data Visualization</h4>
+
+        <p>
+          Designing interactive dashboards with clean UI, 
+          filters, drill-through analysis, charts, and 
+          storytelling-focused visuals.
+        </p>
+      </div>
+
+      <!-- AUTOMATION -->
+      <div class="about-card fade-in">
+        <div class="about-icon">🤖</div>
+        <h4>Analytics Automation</h4>
+
+        <p>
+          Automating reporting workflows using 
+          Excel, Power Query, SQL, and Python 
+          to improve efficiency and reduce manual work.
+        </p>
+      </div>
+
+      <!-- DESIGN -->
+      <div class="about-card fade-in">
+        <div class="about-icon">🎨</div>
+        <h4>Dashboard UI Design</h4>
+
+        <p>
+          Creating modern, responsive, and premium-looking 
+          dashboard interfaces inspired by real-world 
+          business intelligence platforms.
+        </p>
+      </div>
+
     </div>
   </div>
 </section>
-
 <section id="skills">
   <div class="section-header fade-in">
     <span class="section-num">02.</span>
